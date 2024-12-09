@@ -1,0 +1,24 @@
+# pull node base image from beta segmint ecr
+ARG BASE_IMAGE
+FROM $BASE_IMAGE
+# set working directory
+WORKDIR /app
+  
+ENV PATH /app/node_modules/.bin:$PATH 
+# add NODE_OPTIONS for Mem Limit
+
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+#temp
+# COPY .env.example .env
+# COPY newrelic.js ./
+RUN npm install
+RUN npm install pm2
+
+# add app
+COPY . ./
+
+
+# start app
+CMD ["npm", "run","prod"]
