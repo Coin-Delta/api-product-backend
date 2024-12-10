@@ -8,31 +8,13 @@ const apiVendorSchema = new mongoose.Schema(
       unique: true,
       trim: true
     },
-    code: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true
-    },
     baseUrl: {
       type: String,
       required: true
     },
-    apiKey: {
-      type: String,
-      required: true
-    },
-    supportedApis: [
-      {
-        type: String
-      }
-    ],
     isActive: {
       type: Boolean,
       default: true
-    },
-    metadata: {
-      type: mongoose.Schema.Types.Mixed
     },
     createdAt: {
       type: Date,

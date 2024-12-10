@@ -1,6 +1,6 @@
 // controllers/api.controller.js
-const API = require('../models/api.model')
-const ResponseUtil = require('../utils/response.util')
+const API = require('../../models/api')
+const ResponseUtil = require('../../utils/reponse')
 
 class APIController {
   static async create(req, res, next) {
