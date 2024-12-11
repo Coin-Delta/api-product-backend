@@ -5,6 +5,8 @@ const trimRequest = require('trim-request')
 const AadhaarController = require('../controllers/apiProduct/aadhaarValidationController')
 const { verifyJWT } = require('../middleware/auth')
 const DrivingLicenseController = require('../controllers/apiProduct/drivingLicenseController')
+const RCTextController = require('../controllers/apiProduct/rctextController')
+const VoteridController = require('../controllers/apiProduct/voterIdController')
 
 /*
  * API Product route
@@ -21,6 +23,14 @@ router.post(
   trimRequest.all,
   verifyJWT,
   DrivingLicenseController.verifyLicense
+)
+router.post('/verify-rc', trimRequest.all, verifyJWT, RCTextController.verifyRC)
+
+router.post(
+  '/verify-voterid',
+  trimRequest.all,
+  verifyJWT,
+  VoteridController.verifyVoterId
 )
 
 module.exports = router

@@ -5,8 +5,9 @@ class SurepassProvider extends BaseProvider {
     return {
       aadhaar: '/aadhaar-validation/aadhaar-validation',
       pan: '/pan/verify',
-      voter: '/voter/verify',
-      driving_license: '/driving-license/driving-license'
+      voter_id: '/voter-id/voter-id',
+      driving_license: '/driving-license/driving-license',
+      rc_text: '/rc/rc-full'
     }
   }
 
