@@ -8,7 +8,7 @@ const requireAuth = passport.authenticate('jwt', {
 const trimRequest = require('trim-request')
 // const { roleAuthorization } = require('../controllers/auth/roleAuthorization')
 
-const AadhaarController = require('../controllers/apiProduct/aadhaarController')
+const AadhaarController = require('../controllers/apiProduct/aadhaarValidationController')
 
 /*
  * discreteCalls route

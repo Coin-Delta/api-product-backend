@@ -1,4 +1,3 @@
-// controllers/aadhaar.controller.js
 const API = require('../../models/api')
 const WalletService = require('../../services/walletService')
 const ResponseHelper = require('../../utils/responseHelper')
