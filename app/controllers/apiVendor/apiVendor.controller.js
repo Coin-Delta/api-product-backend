@@ -10,7 +10,7 @@ class APIVendorController {
       await vendor.save()
       return ResponseUtil.send(res, 201, { data: vendor })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -26,7 +26,7 @@ class APIVendorController {
       }
       return ResponseUtil.send(res, 200, { data: vendor })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -35,7 +35,7 @@ class APIVendorController {
       const vendors = await APIVendor.find()
       return ResponseUtil.send(res, 200, { data: vendors })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -48,7 +48,7 @@ class APIVendorController {
       }
       return ResponseUtil.send(res, 200, { data: vendor })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 }

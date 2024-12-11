@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { TRANSACTION_TYPES } = require('../constants/transactionTypes.js')
 
 const apiTransactionSchema = new mongoose.Schema(
   {
@@ -17,6 +18,7 @@ const apiTransactionSchema = new mongoose.Schema(
       required: true
     },
     responseData: {
+      // responseData
       type: mongoose.Schema.Types.Mixed
     },
     status: {
@@ -36,6 +38,19 @@ const apiTransactionSchema = new mongoose.Schema(
     },
     completedAt: {
       type: Date
+    },
+    clientId: {
+      type: String,
+      required: true
+    },
+    transactionType: {
+      type: String,
+      enum: [TRANSACTION_TYPES.CREDIT, TRANSACTION_TYPES.DEBIT],
+      require: true
+    },
+    price: {
+      type: Number,
+      required: true
     }
   },
   {

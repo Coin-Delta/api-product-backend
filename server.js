@@ -15,6 +15,9 @@ const {
   invalidateToken,
   isTokenInvalidated
 } = require('./app/services/TokenServices')
+const ApiService = require('./app/services/apiService.js')
+const { API_TYPES } = require('./app/constants/apiTypes.js')
+const { ObjectId } = require('mongodb') // Import ObjectId
 
 const app = express()
 
@@ -125,5 +128,15 @@ app.listen(app.get('port'))
 
 // Init MongoDB
 initMongo()
+
+// testing code
+ApiService.processDocumentAndUpdateBalance({
+  apiType: API_TYPES.AADHAAR,
+  price: 2.5,
+  documentData: { id_number: '978079091700' },
+  apiId: new ObjectId('6757fbef7d92daaeb840777d'),
+  vendorId: new ObjectId('6757fad87d92daaeb840777b'),
+  clientId: new ObjectId('674c8479f48dc9215a5087f2')
+})
 
 module.exports = app // for testing
