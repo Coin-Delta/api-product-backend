@@ -16,6 +16,10 @@ class TransactionService {
     transaction.responseData = result.data
     transaction.httpStatus = result.status
     transaction.errorMessage = result.error
+      ? typeof result.error === 'object'
+        ? JSON.stringify(result.error)
+        : String(result.error)
+      : null
     transaction.completedAt = new Date()
     return transaction.save()
   }

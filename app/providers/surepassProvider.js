@@ -6,7 +6,7 @@ class SurepassProvider extends BaseProvider {
       aadhaar: '/aadhaar-validation/aadhaar-validation',
       pan: '/pan/verify',
       voter: '/voter/verify',
-      driving_license: '/dl/verify'
+      driving_license: '/driving-license/driving-license'
     }
   }
 
