@@ -7,6 +7,8 @@ const { verifyJWT } = require('../middleware/auth')
 const DrivingLicenseController = require('../controllers/apiProduct/drivingLicenseController')
 const RCTextController = require('../controllers/apiProduct/rctextController')
 const VoteridController = require('../controllers/apiProduct/voterIdController')
+const PANLiteController = require('../controllers/apiProduct/panLiteController')
+const PANComprehensiveController = require('../controllers/apiProduct/panComprehensiveController')
 
 /*
  * API Product route
@@ -31,6 +33,18 @@ router.post(
   trimRequest.all,
   verifyJWT,
   VoteridController.verifyVoterId
+)
+router.post(
+  '/verify-pan-lite',
+  trimRequest.all,
+  verifyJWT,
+  PANLiteController.verifyPANLite
+)
+router.post(
+  '/verify-pan-comprehensive',
+  trimRequest.all,
+  verifyJWT,
+  PANComprehensiveController.verifyPanCard
 )
 
 module.exports = router

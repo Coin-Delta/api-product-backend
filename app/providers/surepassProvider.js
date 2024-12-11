@@ -7,7 +7,9 @@ class SurepassProvider extends BaseProvider {
       pan: '/pan/verify',
       voter_id: '/voter-id/voter-id',
       driving_license: '/driving-license/driving-license',
-      rc_text: '/rc/rc-full'
+      rc_text: '/rc/rc-full',
+      pan_lite: '/pan/pan',
+      pan_comprehensive: '/pan/pan-comprehensive'
     }
   }
 
