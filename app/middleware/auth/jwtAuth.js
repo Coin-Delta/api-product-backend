@@ -1,5 +1,4 @@
 // middleware/jwtAuth.js
-
 const jwt = require('jsonwebtoken')
 const BCA = require('../../models/BCA')
 
@@ -39,7 +38,7 @@ const verifyJWT = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
     // Find user in BCA collection
-    const user = await BCA.findById(decoded.userId)
+    const user = await BCA.findById(decoded.bcaId)
 
     if (!user) {
       return res.status(404).json({
