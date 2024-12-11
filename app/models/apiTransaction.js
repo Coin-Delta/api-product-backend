@@ -13,8 +13,7 @@ const apiTransactionSchema = new mongoose.Schema(
       required: true
     },
     requestData: {
-      type: mongoose.Schema.Types.Mixed,
-      required: true
+      type: mongoose.Schema.Types.Mixed
     },
     responseData: {
       type: mongoose.Schema.Types.Mixed
@@ -23,6 +22,9 @@ const apiTransactionSchema = new mongoose.Schema(
       type: String,
       enum: ['PENDING', 'SUCCESS', 'FAILED'],
       default: 'PENDING'
+    },
+    price: {
+      type: Number
     },
     httpStatus: {
       type: Number

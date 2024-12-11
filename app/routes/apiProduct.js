@@ -8,19 +8,17 @@ const requireAuth = passport.authenticate('jwt', {
 const trimRequest = require('trim-request')
 // const { roleAuthorization } = require('../controllers/auth/roleAuthorization')
 
-const {
-  aadhaarValidation
-} = require('../controllers/apiProduct/Aadhar/AadharValidation')
-const {
-  aadhaarComprehensive,
-  verifyAadhaarOTP,
-  drivingLicenseValidation,
-  rcValidation,
-  voterIdValidation
-} = require('../controllers/apiProduct')
+const AadhaarController = require('../controllers/apiProduct/aadhaarController')
 
 /*
  * discreteCalls route
  */
+
+router.post(
+  '/aadhaar-validation',
+  trimRequest.all,
+  requireAuth,
+  AadhaarController.verifyAadhaar
+)
 
 module.exports = router

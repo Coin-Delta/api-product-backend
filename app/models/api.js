@@ -21,20 +21,7 @@ const apiSchema = new mongoose.Schema(
       enum: ['GET', 'POST', 'PUT', 'DELETE'],
       default: 'POST'
     },
-    documentType: {
-      type: String,
-      required: true,
-      enum: [
-        'AADHAAR',
-        'PAN',
-        'DRIVING_LICENSE',
-        'VOTER_ID',
-        'PASSPORT',
-        'GST',
-        'VEHICLE_RC'
-        // Add more document types as needed
-      ]
-    },
+
     inputSchema: {
       type: mongoose.Schema.Types.Mixed
     },

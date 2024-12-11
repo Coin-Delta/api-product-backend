@@ -1,54 +1,81 @@
 // controllers/aadhaar.controller.js
-const AadhaarService = require('../../services/apiBaseService')
 const API = require('../../models/api')
-const APITransaction = require('../../models/apiTransaction')
-const ResponseUtil = require('../../utils/reponse')
+const WalletService = require('../../services/walletService')
+const ResponseHelper = require('../../utils/responseHelper')
+const TransactionService = require('../../services/transactionService')
+const DocumentService = require('../../services/documentService')
 
 class AadhaarController {
-  static async verifyAadhaar(req, res, next) {
+  static async verifyAadhaar(req, res) {
     try {
       const { apiId, documentData } = req.body
+      const clientId = req.user._id
 
-      // Find the API configuration
+      // Find API configuration
       const api = await API.findById(apiId).populate('vendorId')
       if (!api) {
-        return ResponseUtil.send(res, 404, { message: 'API not found' })
+        return ResponseHelper.notFound(res, 'API not found')
+      }
+
+      // Check wallet balance
+      let wallet
+      try {
+        wallet = await WalletService.checkAndDeductBalance(clientId, api.price)
+      } catch (error) {
+        return ResponseHelper.error(res, error.message, 400)
       }
 
       // Create transaction record
-      const transaction = new APITransaction({
-        apiId: api._id,
-        vendorId: api.vendorId._id,
-        requestData: documentData,
-        status: 'PENDING'
-      })
-      await transaction.save()
+      const transaction = await TransactionService.createTransaction(
+        api._id,
+        api.vendorId._id,
+        documentData,
+        api.price
+      )
 
       try {
-        // Initialize service with vendor details
-        const aadhaarService = new AadhaarService(api.vendorId.code, api._id)
+        // Initialize document service with vendor
+        // const documentService = new DocumentService(api.vendorId.code)
+        const documentService = new DocumentService('surepass')
 
-        // Process verification
-        const result = await aadhaarService.verifyAadhaar(documentData)
+        // Process verification using the provider system
+        const result = await documentService.verifyDocument(
+          'aadhaar',
+          documentData
+        )
 
         // Update transaction
-        transaction.status = result.success ? 'SUCCESS' : 'FAILED'
-        transaction.responseData = result.data
-        transaction.httpStatus = result.status
-        transaction.errorMessage = result.error = new Date()
-        await transaction.save()
+        await TransactionService.updateTransaction(transaction, result)
 
-        return ResponseUtil.send(res, result.success ? 200 : 400, result)
+        // Deduct balance only on success
+        if (result.success && [200, 204].includes(result.status)) {
+          await WalletService.deductBalance(wallet, api.price)
+        }
+
+        return result.success
+          ? ResponseHelper.success(
+              res,
+              result.data,
+              'Aadhaar verification successful'
+            )
+          : ResponseHelper.error(
+              res,
+              'Aadhaar verification failed',
+              400,
+              result.error
+            )
       } catch (error) {
         // Update transaction with error
-        transaction.status = 'FAILED'
-        transaction.errorMessage = error.message
-        transaction.completedAt = new Date()
-        await transaction.save()
-        throw error
+        await TransactionService.updateTransaction(transaction, {
+          success: false,
+          error: error.message,
+          status: 500
+        })
+
+        return ResponseHelper.serverError(res, error)
       }
     } catch (error) {
-      next(error)
+      return ResponseHelper.serverError(res, error)
     }
   }
 }

@@ -1,7 +1,5 @@
 const passport = require('passport')
-const User = require('../app/models/user')
 const BCA = require('../app/models/BCA')
-const Company = require('../app/models/company')
 const auth = require('../app/middleware/auth')
 const JwtStrategy = require('passport-jwt').Strategy
 
@@ -42,7 +40,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
     let user
 
     // Define an array of collection models to search
-    const collectionsToSearch = [User, BCA, Company]
+    const collectionsToSearch = [BCA]
 
     // Loop through the collections and search for the user
     for (const collection of collectionsToSearch) {
