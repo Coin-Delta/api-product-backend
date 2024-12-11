@@ -8,7 +8,7 @@ class AadhaarController {
   static async verifyAadhaar(req, res) {
     try {
       const { apiId, documentData } = req.body
-      const clientId = req.user._id
+      const { bcaId: clientId } = req.user
 
       // Find API configuration
       const api = await API.findById(apiId).populate('vendorId')

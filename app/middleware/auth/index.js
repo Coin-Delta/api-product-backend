@@ -8,6 +8,7 @@ const { encryptFields } = require('./encryptFields')
 const { decryptFields } = require('./decryptFields')
 const decryptApiKey = require('./decryptApiKey')
 const { encryptApiKey } = require('./encryptApiKey')
+const verifyJWT = require('./jwtAuth')
 // const customAuthMiddleware = require('./customAuthMiddleware')
 
 module.exports = {
@@ -20,6 +21,7 @@ module.exports = {
   encrypt,
   encryptApiKey,
   encryptFields,
-  decryptFields
+  decryptFields,
+  verifyJWT
   // customAuthMiddleware
 }
