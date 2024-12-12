@@ -5,8 +5,8 @@ const TransactionService = require('../../services/transactionService')
 const DocumentService = require('../../services/documentService')
 const MOCK_RESPONSES = require('../../utils/mockData')
 
-class VoteridController {
-  static async verifyVoterId(req, res) {
+class CorporateCINController {
+  static async verifyCIN(req, res) {
     try {
       const { apiId, documentData } = req.body
       const { bcaId: clientId } = req.user
@@ -40,10 +40,9 @@ class VoteridController {
 
         // Process verification using the provider system
         const result = await documentService.verifyDocument(
-          'voter_id',
+          'corporate_cin',
           documentData
         )
-        console.log(result, '{RESUL}')
         // Update transaction
         await TransactionService.updateTransaction(transaction, result)
 
@@ -56,17 +55,16 @@ class VoteridController {
           ? ResponseHelper.success(
               res,
               result.data,
-              'RC verification successful'
+              'Corporate CIN verification successful'
             )
           : ResponseHelper.error(
               res,
-              'RC verification failed',
+              'Corporate CIN verification failed',
               400,
               result.error
             )
       } catch (error) {
         // Update transaction with error
-        console.log(error, 'ERR++++')
         await TransactionService.updateTransaction(transaction, {
           success: false,
           error: error.message,
@@ -79,14 +77,14 @@ class VoteridController {
       return ResponseHelper.serverError(res, error)
     }
   }
-  static async verifyVoterIdTest(req, res) {
+  static async verifyCINTest(req, res) {
     try {
       const { documentData } = req.body
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
-        ? MOCK_RESPONSES.voter_id.success.data
-        : MOCK_RESPONSES.voter_id.failure.data
+        ? MOCK_RESPONSES.corporate_cin.success.data
+        : MOCK_RESPONSES.corporate_cin.failure.data
 
       return mockResponse.success
         ? ResponseHelper.success(
@@ -108,4 +106,4 @@ class VoteridController {
   }
 }
 
-module.exports = VoteridController
+module.exports = CorporateCINController

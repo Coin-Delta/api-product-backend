@@ -5,7 +5,6 @@ class BaseProvider {
     if (!config.baseUrl) {
       throw new Error('Invalid provider configuration: baseUrl is required')
     }
-    console.log('{{base}}', config.baseUrl)
     this.baseUrl = config.baseUrl
     this.token = config.token // for Surepass
     this.apiKey = config.apiKey // for Signzy
@@ -29,8 +28,6 @@ class BaseProvider {
 
     const baseUrl = this.baseUrl
     const endpoint = this.endpoints[documentType]
-    console.log(baseUrl, endpoint, '{{+++++++}}')
-    console.log(data, '{DATA}')
     try {
       const response = await axios({
         method: 'POST',
@@ -41,11 +38,10 @@ class BaseProvider {
         headers: this.getHeaders(),
         timeout: this.timeout
       })
-      console.log(response)
       return {
-        success: true,
+        success: response.data.success,
         data: response.data,
-        status: response.status
+        status: response.data.status
       }
     } catch (error) {
       return {

@@ -3,7 +3,7 @@ const WalletService = require('../../services/walletService')
 const ResponseHelper = require('../../utils/responseHelper')
 const TransactionService = require('../../services/transactionService')
 const DocumentService = require('../../services/documentService')
-
+const MOCK_RESPONSES = require('../../utils/mockData')
 class AadhaarController {
   static async verifyAadhaar(req, res) {
     try {
@@ -74,6 +74,33 @@ class AadhaarController {
         return ResponseHelper.serverError(res, error)
       }
     } catch (error) {
+      return ResponseHelper.serverError(res, error)
+    }
+  }
+  static async verifyAadhaarTest(req, res) {
+    try {
+      const { documentData } = req.body
+
+      // Return success or failure mock response based on whether documentData is provided
+      const mockResponse = documentData
+        ? MOCK_RESPONSES.aadhaar_validation.success.data
+        : MOCK_RESPONSES.aadhaar_validation.failure.data
+
+      return mockResponse.success
+        ? ResponseHelper.success(
+            res,
+            mockResponse.data,
+            mockResponse.message,
+            mockResponse.status_code
+          )
+        : ResponseHelper.error(
+            res,
+            mockResponse.message,
+            mockResponse.status_code,
+            mockResponse.data
+          )
+    } catch (error) {
+      console.log(error)
       return ResponseHelper.serverError(res, error)
     }
   }

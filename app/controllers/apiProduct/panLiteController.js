@@ -3,6 +3,7 @@ const WalletService = require('../../services/walletService')
 const ResponseHelper = require('../../utils/responseHelper')
 const TransactionService = require('../../services/transactionService')
 const DocumentService = require('../../services/documentService')
+const MOCK_RESPONSES = require('../../utils/mockData')
 
 class PANLiteController {
   static async verifyPANLite(req, res) {
@@ -75,6 +76,33 @@ class PANLiteController {
         return ResponseHelper.serverError(res, error)
       }
     } catch (error) {
+      return ResponseHelper.serverError(res, error)
+    }
+  }
+  static async verifyPanLiteTest(req, res) {
+    try {
+      const { documentData } = req.body
+
+      // Return success or failure mock response based on whether documentData is provided
+      const mockResponse = documentData
+        ? MOCK_RESPONSES.pan_lite.success.data
+        : MOCK_RESPONSES.pan_lite.failure.data
+
+      return mockResponse.success
+        ? ResponseHelper.success(
+            res,
+            mockResponse.data,
+            mockResponse.message,
+            mockResponse.status_code
+          )
+        : ResponseHelper.error(
+            res,
+            mockResponse.message,
+            mockResponse.status_code,
+            mockResponse.data
+          )
+    } catch (error) {
+      console.log(error)
       return ResponseHelper.serverError(res, error)
     }
   }
