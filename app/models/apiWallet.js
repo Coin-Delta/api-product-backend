@@ -20,6 +20,6 @@ const apiWallet = new mongoose.Schema(
 )
 
 // Add index for performance
-apiWallet.index({ _id: 1 })
+// apiWallet.index({ _id: 1 })
 
 module.exports = mongoose.model('APIWallet', apiWallet)

@@ -8,7 +8,8 @@ class DocumentService {
   }
 
   async verifyDocument(documentType, data) {
-    console.log(data, '{documentType}')
+    console.log('endpoints map:', this.provider.getEndpoints())
+    console.log(data, 'doc type', `${documentType}`)
     try {
       return await this.provider.verify(documentType, data)
     } catch (error) {
