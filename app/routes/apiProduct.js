@@ -26,6 +26,7 @@ const VerifyRCWithMobileController = require('../controllers/apiProduct/mobileNu
 const VerifyBankWithMobileController = require('../controllers/apiProduct/mobileToBankDetailsController')
 const PANToUANController = require('../controllers/apiProduct/panToUANController')
 const verifyPassportController = require('../controllers/apiProduct/passportVerificationController')
+const VerifyMobileWithRCController = require('../controllers/apiProduct/rcToMobileVerificationController')
 
 /*
  * API Product route
@@ -220,6 +221,14 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? verifyPassportController.verifyPassportTest
     : verifyPassportController.verifPassport
+)
+router.post(
+  '/rc-to-mobile',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? VerifyMobileWithRCController.verifyMobileTest
+    : VerifyMobileWithRCController.verifyMobile
 )
 
 module.exports = router

@@ -1539,6 +1539,34 @@ const MOCK_RESPONSES = {
         success: false
       }
     }
+  },
+  rc_number_mobile: {
+    success: {
+      data: {
+        data: {
+          client_id: 'rc_to_mobile_number_WmrcRThlcmadfhblXtvQ',
+          rc_number: 'RJ14XJ1234',
+          mobile_number: '8890856565'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'rc_to_mobile_number_QjCgmrETvYbHqPLvcZjv',
+          rc_number: 'RJ14XJ1234',
+          mobile_number: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 
