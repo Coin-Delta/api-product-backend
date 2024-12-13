@@ -1240,6 +1240,125 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  electricity_bill: {
+    success: {
+      data: {
+        data: {
+          client_id: 'electricity_jBxiqjAGXuymlqlbrOOb',
+          customer_id: '17000346322745',
+          operator_code: 'MH',
+          state: 'maharashtra',
+          full_name: 'SUKHWANI',
+          address: 'COLONY SOLAPUR ROAD NR LAD GIRNI SHEWALWADI 412307',
+          mobile: null,
+          user_email: null,
+          bill_amount: '1,280.00',
+          bill_number: null,
+          document_link: null
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: null,
+          customer_id: '17000346322745',
+          operator_code: 'MH',
+          state: 'maharashtra',
+          full_name: null,
+          address: null,
+          mobile: null,
+          user_email: null,
+          bill_amount: null,
+          bill_number: null,
+          document_link: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  employment_history_uan: {
+    success: {
+      data: {
+        data: {
+          client_id: 'employment_history_uan_aueTsCLbIqUDULtEFwZU',
+          uan: '111779821234',
+          employment_history: [
+            {
+              name: 'Munna Bhbaiya',
+              guardian_name: 'Kaleen Bhaiya',
+              establishment_name: 'I PROCESS SERVICES (INDIA) PVT. LTD.',
+              member_id: 'KDMAL004123654000313079',
+              date_of_joining: '2021-03-15',
+              date_of_exit: null,
+              last_pf_submitted: '2022-06-14',
+              wage_month: 'May-2022'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'employment_history_uan_owsYxXfJqptbCdfxxjxw',
+          uan: '101669821230',
+          employment_history: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'No Employment Record Found.',
+        message_code: null
+      }
+    }
+  },
+  fastag_rc: {
+    success: {
+      data: {
+        data: {
+          client_id: 'fastag_to_rc_OPartnFuEJMAwiUTWbsA',
+          fastag_id: '34161FA123456EE81E41EAE0',
+          rc_number: 'GJ05XX1234',
+          tag_status: 'ACTIVE',
+          vehicle_class: 'VC4',
+          issue_date: '2022-10-20',
+          issuer_bank: 'IDFC Bank'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'fastag_to_rc_CWBFxWWjVtHZZdjMmwnk',
+          fastag_id: '34161FA123456EE81E41EAE0',
+          rc_number: null,
+          tag_status: null,
+          vehicle_class: null,
+          issue_date: null,
+          issuer_bank: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

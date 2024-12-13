@@ -17,6 +17,9 @@ const CreditReportController = require('../controllers/apiProduct/creditReportCo
 const CreditReportPDFController = require('../controllers/apiProduct/creditReportPdfController')
 const DirectorPhoneNumberController = require('../controllers/apiProduct/DirectorPhoneController')
 const EcourtByCNRController = require('../controllers/apiProduct/ecourtByCNRController')
+const ElectricityBillController = require('../controllers/apiProduct/electricityBillController')
+const EmploymentHistoryController = require('../controllers/apiProduct/employmentHistroyController')
+const FastagRCController = require('../controllers/apiProduct/fastagRCController')
 
 /*
  * API Product route
@@ -139,6 +142,30 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? EcourtByCNRController.verifyEcourtCNRTest
     : EcourtByCNRController.verifyEcourtCNR
+)
+router.post(
+  '/electricity-bill-details',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? ElectricityBillController.verifyElectricityDetailsTest
+    : ElectricityBillController.verifyElectricityDetails
+)
+router.post(
+  '/employment-history-uan',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? EmploymentHistoryController.verifyEmploymentHistoryTest
+    : EmploymentHistoryController.verifyEmploymentHistory
+)
+router.post(
+  '/fastag-rc',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? FastagRCController.verifyFastagRCDetailsTest
+    : FastagRCController.verifyFastagRCDetails
 )
 
 module.exports = router

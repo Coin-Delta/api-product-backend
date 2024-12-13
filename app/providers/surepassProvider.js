@@ -16,7 +16,10 @@ class SurepassProvider extends BaseProvider {
       corporate_gstin: '/corporate/gstin',
       credit_report: '/credit-report-v2/fetch-report',
       director_phone: '/corporate/director-phone',
-      ecourt_cnr: '/ecourts/ecourt-cnr-search'
+      ecourt_cnr: '/ecourts/ecourt-cnr-search',
+      electricity_bill: '/utility/electricity/',
+      employment_history_uan: '/income/employment-history-uan',
+      fastag_rc: '/fastag/fastag-to-rc'
     }
   }
 
