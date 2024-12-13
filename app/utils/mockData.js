@@ -1705,6 +1705,38 @@ const MOCK_RESPONSES = {
         message_code: null
       }
     }
+  },
+  telecom_verification: {
+    success: {
+      data: {
+        data: {
+          client_id: 'telecom_verification_TEMsLgQPzcOnripjzkph',
+          mobile_number: '910000000',
+          is_valid: true,
+          operator: 'jio',
+          circle: 'Rajasthan'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'telecom_verification_srJxnpvabOjxTYgJSwdQ',
+          mobile_number: '1234567897',
+          is_valid: false,
+          operator: null,
+          circle: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Mobile Number',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

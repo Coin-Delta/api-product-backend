@@ -30,6 +30,7 @@ const VerifyMobileWithRCController = require('../controllers/apiProduct/rcToMobi
 const rationCardVerificationController = require('../controllers/apiProduct/rationCardController')
 const TanVerifcationController = require('../controllers/apiProduct/tanVerificationController')
 const TanCompanySearchController = require('../controllers/apiProduct/tanCompanySearchController')
+const TelecomVerifcationController = require('../controllers/apiProduct/telecomVerificationController')
 
 /*
  * API Product route
@@ -256,6 +257,14 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? TanCompanySearchController.searchCompanyTanTest
     : TanCompanySearchController.searchCompanyTan
+)
+router.post(
+  '/telecom-verification',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? TelecomVerifcationController.verifyTelecomDetailsTest
+    : TelecomVerifcationController.verifyTelecomDetails
 )
 
 module.exports = router

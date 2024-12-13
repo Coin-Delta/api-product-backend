@@ -29,7 +29,8 @@ class SurepassProvider extends BaseProvider {
       rc_number_mobile: '/rc/rc-to-mobile-number',
       ration_card: '/ration-card/verify',
       tan: '/tan/',
-      tan_search: '/tan/company-search'
+      tan_search: '/tan/company-search',
+      telecom_verification: '/telecom/telecom-verification'
     }
   }
 
