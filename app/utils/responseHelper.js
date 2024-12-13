@@ -20,6 +20,7 @@ class ResponseHelper {
       success: false,
       message,
       errors,
+      errMsg: errors.message,
       timestamp: new Date().toISOString()
     })
   }

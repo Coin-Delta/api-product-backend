@@ -11,6 +11,7 @@ class BaseProvider {
     this.apiSecret = config.apiSecret // for Signzy
     this.timeout = config.timeout || 30000
     this.endpoints = this.getEndpoints()
+    console.log('endpoints:', this.endpoints)
   }
 
   getEndpoints() {
@@ -28,6 +29,7 @@ class BaseProvider {
 
     const baseUrl = this.baseUrl
     const endpoint = this.endpoints[documentType]
+    console.log('current endpoint:', endpoint)
     try {
       const response = await axios({
         method: 'POST',
@@ -44,10 +46,16 @@ class BaseProvider {
         status: response.data.status
       }
     } catch (error) {
+      console.log('base provider err:', error)
+      console.log('error.status:', error.status)
+      console.log('val status:', error.response?.status || error.status)
+
+      // NOTE: need to handle error diff based on provider error format in future may be
+      // below is according to surepass
       return {
         success: false,
-        error: error.response?.data || error.message,
-        status: error.response?.status || 500
+        error: error.response?.data?.message || error.message,
+        status: error.response?.status || error.status || 500
       }
     }
   }

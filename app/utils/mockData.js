@@ -37,7 +37,7 @@ const MOCK_RESPONSES = {
         },
         status_code: 422,
         success: false,
-        message: 'Verification Failed.',
+        message: 'Verification Failed !!!',
         message_code: 'verification_failed'
       }
     }
