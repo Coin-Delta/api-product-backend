@@ -1664,6 +1664,47 @@ const MOCK_RESPONSES = {
         message_code: null
       }
     }
+  },
+  tan_search: {
+    success: {
+      data: {
+        data: {
+          client_id: 'tan_company_search_MrZzXqGKYgZoewbEymGS',
+          search_company_name: 'ABC PRIVATE LIMITED',
+          search_size: 10,
+          search_state: 'DELHI',
+          exact_match: true,
+          hits: 1,
+          search_data: [
+            {
+              tan: 'DELS71234E',
+              company_name: 'ABC PRIVATE LIMITED'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'null',
+          search_company_name: 'ABC PRIVATE LIMITED',
+          search_size: 10,
+          search_state: 'DELHI',
+          exact_match: true,
+          hits: 1,
+          search_data: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'No Macth Found',
+        message_code: null
+      }
+    }
   }
 }
 

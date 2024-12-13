@@ -29,6 +29,7 @@ const verifyPassportController = require('../controllers/apiProduct/passportVeri
 const VerifyMobileWithRCController = require('../controllers/apiProduct/rcToMobileVerificationController')
 const rationCardVerificationController = require('../controllers/apiProduct/rationCardController')
 const TanVerifcationController = require('../controllers/apiProduct/tanVerificationController')
+const TanCompanySearchController = require('../controllers/apiProduct/tanCompanySearchController')
 
 /*
  * API Product route
@@ -247,6 +248,14 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? TanVerifcationController.verifyTANDetailsTest
     : TanVerifcationController.verifyTANDetails
+)
+router.post(
+  '/tan-company-search',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? TanCompanySearchController.searchCompanyTanTest
+    : TanCompanySearchController.searchCompanyTan
 )
 
 module.exports = router
