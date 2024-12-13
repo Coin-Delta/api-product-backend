@@ -22,7 +22,9 @@ class SurepassProvider extends BaseProvider {
       fastag_rc: '/fastag/fastag-to-rc',
       fastag_verification: '/fastag/verification',
       find_upi_id: '/bank-verification/find-upi-id',
-      mobile_numer_rc: '/rc/mobile-number-to-rc'
+      mobile_numer_rc: '/rc/mobile-number-to-rc',
+      mobile_to_bank: '/mobile-to-bank-details/verification',
+      pan_to_uan: '/pan/pan-to-uan'
     }
   }
 

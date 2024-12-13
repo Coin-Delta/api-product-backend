@@ -22,6 +22,9 @@ const EmploymentHistoryController = require('../controllers/apiProduct/employmen
 const FastagRCController = require('../controllers/apiProduct/fastagRCController')
 const FastagVerificationController = require('../controllers/apiProduct/fastagVerificationController')
 const FetchUPIDetailsController = require('../controllers/apiProduct/fecthUPIDetailsControlller')
+const VerifyRCWithMobileController = require('../controllers/apiProduct/mobileNumberToRCController')
+const VerifyBankWithMobileController = require('../controllers/apiProduct/mobileToBankDetailsController')
+const PANToUANController = require('../controllers/apiProduct/panToUANController')
 
 /*
  * API Product route
@@ -184,6 +187,30 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? FetchUPIDetailsController.verifyUPIDetailsTest
     : FetchUPIDetailsController.verifyUPIDetails
+)
+router.post(
+  '/mobile-to-rc',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? VerifyRCWithMobileController.verifyRCTest
+    : VerifyRCWithMobileController.verifyRC
+)
+router.post(
+  '/mobile-to-bank',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? VerifyBankWithMobileController.verifyBankDetailsTest
+    : VerifyBankWithMobileController.verifyBankDetails
+)
+router.post(
+  '/pan-to-uan',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? PANToUANController.verifyUANWithPANTest
+    : PANToUANController.verifyUANWithPAN
 )
 
 module.exports = router

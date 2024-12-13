@@ -1447,6 +1447,64 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  mobile_to_bank: {
+    success: {
+      data: {
+        data: {
+          client_id: 'mobile_to_bank_details_NkSxYeGblpzYhwMBbirH',
+          bank_ifsc: 'UTIB0001234',
+          bank_account_no: '92001006123456789',
+          bank_details: 'AXIS BANK, JAIPUR',
+          name: 'VISHAL RATHORE'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'mobile_to_bank_details_votfuQkijjwnuYepgebj',
+          bank_ifsc: null,
+          bank_account_no: null,
+          bank_details: null,
+          name: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  pan_to_uan: {
+    success: {
+      data: {
+        data: {
+          client_id: 'pan_to_uan_hoadKOGjFSjwnS',
+          pan_number: 'XXXXX1234X',
+          uan_number: '123456789'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'pan_to_uan_rkmoXxozWLIhomgKBpqu',
+          pan_number: 'XXXX1234XXXX',
+          uan_number: ''
+        },
+        status_code: 422,
+        success: false
+      }
+    }
   }
 }
 
