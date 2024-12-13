@@ -1636,6 +1636,34 @@ const MOCK_RESPONSES = {
         message_code: 'verification_error'
       }
     }
+  },
+  tan: {
+    success: {
+      data: {
+        data: {
+          client_id: 'tan_kjYdJwRvRJQszuvgdruK',
+          tan: 'RTKT06731E',
+          name: 'TAXREX SOLUTIONS PRIVATE LIMITED'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'tan_aVnCmDGrVzzickktvtyO',
+          tan: 'RTKT06731Z',
+          name: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: null
+      }
+    }
   }
 }
 

@@ -5,8 +5,8 @@ const TransactionService = require('../../services/transactionService')
 const DocumentService = require('../../services/documentService')
 const MOCK_RESPONSES = require('../../utils/mockData')
 
-class VoteridController {
-  static async verifyVoterId(req, res) {
+class TanVerifcationController {
+  static async verifyTANDetails(req, res) {
     try {
       const { apiId, documentData } = req.body
       const { bcaId: clientId } = req.user
@@ -39,10 +39,7 @@ class VoteridController {
         const documentService = new DocumentService('surepass')
 
         // Process verification using the provider system
-        const result = await documentService.verifyDocument(
-          'voter_id',
-          documentData
-        )
+        const result = await documentService.verifyDocument('tan', documentData)
         console.log(result, '{RESUL}')
         // Update transaction
         await TransactionService.updateTransaction(transaction, result)
@@ -56,11 +53,11 @@ class VoteridController {
           ? ResponseHelper.success(
               res,
               result.data,
-              'Voter Id verification successful'
+              'TAN Verification successful'
             )
           : ResponseHelper.error(
               res,
-              'Voter Id verification failed',
+              'TAN verification failed',
               400,
               result.error
             )
@@ -79,14 +76,14 @@ class VoteridController {
       return ResponseHelper.serverError(res, error)
     }
   }
-  static async verifyVoterIdTest(req, res) {
+  static async verifyTANDetailsTest(req, res) {
     try {
       const { documentData } = req.body
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
-        ? MOCK_RESPONSES.voter_id.success.data
-        : MOCK_RESPONSES.voter_id.failure.data
+        ? MOCK_RESPONSES.tan.success.data
+        : MOCK_RESPONSES.tan.failure.data
 
       return mockResponse.success
         ? ResponseHelper.success(
@@ -108,4 +105,4 @@ class VoteridController {
   }
 }
 
-module.exports = VoteridController
+module.exports = TanVerifcationController
