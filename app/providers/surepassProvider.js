@@ -24,7 +24,8 @@ class SurepassProvider extends BaseProvider {
       find_upi_id: '/bank-verification/find-upi-id',
       mobile_numer_rc: '/rc/mobile-number-to-rc',
       mobile_to_bank: '/mobile-to-bank-details/verification',
-      pan_to_uan: '/pan/pan-to-uan'
+      pan_to_uan: '/pan/pan-to-uan',
+      passport: '/passport/passport/passport-details'
     }
   }
 

@@ -1488,6 +1488,37 @@ const MOCK_RESPONSES = {
           pan_number: 'XXXXX1234X',
           uan_number: '123456789'
         },
+        message_code: 'success',
+        success: true,
+        message: null,
+        status: 200
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'pan_to_uan_rkmoXxozWLIhomgKBpqu',
+          pan_number: 'XXXX1234XXXX',
+          uan_number: ''
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid PAN Number provided',
+        message_code: 'invalid_pan'
+      }
+    }
+  },
+  passport: {
+    success: {
+      data: {
+        data: {
+          date_of_application: '2017-07-24',
+          file_number: 'DL1061291XXXXXX',
+          client_id: 'passport_rfqevMkcqenNPushfhfM',
+          full_name: 'MUNNA BHAIYA',
+          passport_number: 'S2420000',
+          dob: '1990-01-01'
+        },
         status_code: 200,
         success: true,
         message: 'Success',
@@ -1497,9 +1528,12 @@ const MOCK_RESPONSES = {
     failure: {
       data: {
         data: {
-          client_id: 'pan_to_uan_rkmoXxozWLIhomgKBpqu',
-          pan_number: 'XXXX1234XXXX',
-          uan_number: ''
+          date_of_application: null,
+          file_number: 'DL1061291XXXXXX',
+          client_id: null,
+          full_name: null,
+          passport_number: null,
+          dob: '1990-01-01'
         },
         status_code: 422,
         success: false

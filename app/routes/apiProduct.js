@@ -25,6 +25,7 @@ const FetchUPIDetailsController = require('../controllers/apiProduct/fecthUPIDet
 const VerifyRCWithMobileController = require('../controllers/apiProduct/mobileNumberToRCController')
 const VerifyBankWithMobileController = require('../controllers/apiProduct/mobileToBankDetailsController')
 const PANToUANController = require('../controllers/apiProduct/panToUANController')
+const verifyPassportController = require('../controllers/apiProduct/passportVerificationController')
 
 /*
  * API Product route
@@ -211,6 +212,14 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? PANToUANController.verifyUANWithPANTest
     : PANToUANController.verifyUANWithPAN
+)
+router.post(
+  '/passport',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? verifyPassportController.verifyPassportTest
+    : verifyPassportController.verifPassport
 )
 
 module.exports = router
