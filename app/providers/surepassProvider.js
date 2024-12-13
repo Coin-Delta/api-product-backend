@@ -30,7 +30,8 @@ class SurepassProvider extends BaseProvider {
       ration_card: '/ration-card/verify',
       tan: '/tan/',
       tan_search: '/tan/company-search',
-      telecom_verification: '/telecom/telecom-verification'
+      telecom_verification: '/telecom/telecom-verification',
+      tin_verification: '/tin/tin-verification'
     }
   }
 

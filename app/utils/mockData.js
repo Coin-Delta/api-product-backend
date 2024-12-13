@@ -1737,6 +1737,48 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  tin_verification: {
+    success: {
+      data: {
+        data: {
+          client_id: 'tin_verification_bZNrBkyzCMfOfkqteenz',
+          tin_number: '12345678915',
+          cst_number: '12345678915',
+          dealer_name: 'RAM PERFURMERWORKS',
+          dealer_address: 'PLOT NO-XX-21',
+          state_name: 'Odisha',
+          pan_number: 'NOT AVAILABLE',
+          registration_date: '1992-12-16',
+          valid_upto: '2013-07-20',
+          registration_status: 'Cancelled'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'tin_verification_ciAiGJyyprlyusskNpzq',
+          tin_number: '12345678915',
+          cst_number: null,
+          dealer_name: null,
+          dealer_address: null,
+          state_name: null,
+          pan_number: null,
+          registration_date: null,
+          valid_upto: null,
+          registration_status: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

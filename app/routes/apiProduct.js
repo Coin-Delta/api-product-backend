@@ -31,6 +31,7 @@ const rationCardVerificationController = require('../controllers/apiProduct/rati
 const TanVerifcationController = require('../controllers/apiProduct/tanVerificationController')
 const TanCompanySearchController = require('../controllers/apiProduct/tanCompanySearchController')
 const TelecomVerifcationController = require('../controllers/apiProduct/telecomVerificationController')
+const TINVerifcationController = require('../controllers/apiProduct/tinVerificationController')
 
 /*
  * API Product route
@@ -265,6 +266,14 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? TelecomVerifcationController.verifyTelecomDetailsTest
     : TelecomVerifcationController.verifyTelecomDetails
+)
+router.post(
+  '/tin-verification',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? TINVerifcationController.verifyTINDetailsTest
+    : TINVerifcationController.verifyTINDetails
 )
 
 module.exports = router
