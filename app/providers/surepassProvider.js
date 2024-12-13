@@ -21,7 +21,8 @@ class SurepassProvider extends BaseProvider {
       employment_history_uan: '/income/employment-history-uan',
       fastag_rc: '/fastag/fastag-to-rc',
       fastag_verification: '/fastag/verification',
-      find_upi_id: '/bank-verification/find-upi-id'
+      find_upi_id: '/bank-verification/find-upi-id',
+      mobile_numer_rc: '/rc/mobile-number-to-rc'
     }
   }
 
