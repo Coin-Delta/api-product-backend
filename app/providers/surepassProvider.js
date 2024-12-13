@@ -26,7 +26,8 @@ class SurepassProvider extends BaseProvider {
       mobile_to_bank: '/mobile-to-bank-details/verification',
       pan_to_uan: '/pan/pan-to-uan',
       passport: '/passport/passport/passport-details',
-      rc_number_mobile: '/rc/rc-to-mobile-number'
+      rc_number_mobile: '/rc/rc-to-mobile-number',
+      ration_card: '/ration-card/verify'
     }
   }
 

@@ -1567,6 +1567,75 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  ration_card: {
+    success: {
+      data: {
+        data: {
+          client_id: 'ration_card_LqcwSxyPrnrKsnJjRwaD',
+          id_number: '10140100006004000005',
+          state_portal: 'central',
+          state_name: 'BIHAR',
+          district_name: 'MUZAFFARPUR',
+          fps_id: '121600100663',
+          scheme_name: 'PHH',
+          dup_uid_status: 'No',
+          member_details_list: [
+            {
+              member_id: '1014010000600400000501',
+              member_name: 'JAVANTI DEVI',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'SELF'
+            },
+            {
+              member_id: '1014010000600400000502',
+              member_name: 'RAMLAKSHAN RAI',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'NOT AVAILABLE'
+            },
+            {
+              member_id: '1014010000600400000504',
+              member_name: 'SAJAN KUMAR',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'SON'
+            },
+            {
+              member_id: '1014010000600400000505',
+              member_name: 'VIRSAN KUMAR',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'SON'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'ration_card_uxzWHzSaOtxwqqvNbDlJ',
+          id_number: '10140100006004000000',
+          state_portal: 'central',
+          state_name: null,
+          district_name: null,
+          fps_id: null,
+          scheme_name: null,
+          dup_uid_status: null,
+          member_details_list: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Ration Card Number',
+        message_code: 'verification_error'
+      }
+    }
   }
 }
 
