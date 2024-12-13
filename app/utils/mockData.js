@@ -1359,6 +1359,66 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  fastag_verification: {
+    success: {
+      data: {
+        data: {
+          client_id: 'fastag_verification_dRKBysWbCksWhLlUpdrx',
+          rc_number: 'GJ05CN0000',
+          bank_name: 'IDFC First Bank',
+          tag_id: '0000FA00008EE81FCA123',
+          status: 'Active'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'fastag_verification_YcAxegLbwcnndbpXnCow',
+          rc_number: 'GJ05CN0000',
+          bank_name: null,
+          tag_id: null,
+          status: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  find_upi_id: {
+    success: {
+      data: {
+        data: {
+          client_id: 'find_upi_btYgGDVllvsuKxccKofh',
+          mobile_number: '1234567890',
+          upi_id: 'xyz123@ybl'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'find_upi_aRwaCnnibJvbBespVmVz',
+          mobile_number: '1234567890',
+          upi_id: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

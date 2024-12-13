@@ -20,6 +20,8 @@ const EcourtByCNRController = require('../controllers/apiProduct/ecourtByCNRCont
 const ElectricityBillController = require('../controllers/apiProduct/electricityBillController')
 const EmploymentHistoryController = require('../controllers/apiProduct/employmentHistroyController')
 const FastagRCController = require('../controllers/apiProduct/fastagRCController')
+const FastagVerificationController = require('../controllers/apiProduct/fastagVerificationController')
+const FetchUPIDetailsController = require('../controllers/apiProduct/fecthUPIDetailsControlller')
 
 /*
  * API Product route
@@ -166,6 +168,22 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? FastagRCController.verifyFastagRCDetailsTest
     : FastagRCController.verifyFastagRCDetails
+)
+router.post(
+  '/fastag-details',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? FastagVerificationController.verifyFastagDetailsTest
+    : FastagVerificationController.verifyFastagDetails
+)
+router.post(
+  '/fetch-upi-details',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? FetchUPIDetailsController.verifyUPIDetailsTest
+    : FetchUPIDetailsController.verifyUPIDetails
 )
 
 module.exports = router

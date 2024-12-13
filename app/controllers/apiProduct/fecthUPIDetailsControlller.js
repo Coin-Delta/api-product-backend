@@ -5,8 +5,8 @@ const TransactionService = require('../../services/transactionService')
 const DocumentService = require('../../services/documentService')
 const MOCK_RESPONSES = require('../../utils/mockData')
 
-class FastagRCController {
-  static async verifyFastagRCDetails(req, res) {
+class FetchUPIDetailsController {
+  static async verifyUPIDetails(req, res) {
     try {
       const { apiId, documentData } = req.body
       const { bcaId: clientId } = req.user
@@ -39,7 +39,7 @@ class FastagRCController {
 
         // Process verification using the provider system
         const result = await documentService.verifyDocument(
-          'fastag_rc',
+          'find_upi_id',
           documentData
         )
         // Update transaction
@@ -51,14 +51,10 @@ class FastagRCController {
         }
 
         return result.success
-          ? ResponseHelper.success(
-              res,
-              result.data,
-              'Fastag RC verification successful'
-            )
+          ? ResponseHelper.success(res, result.data, 'Fecthed UPI Details')
           : ResponseHelper.error(
               res,
-              'Fastag RC verification failed',
+              'Fetching UPI Details failed',
               400,
               result.error
             )
@@ -76,14 +72,14 @@ class FastagRCController {
       return ResponseHelper.serverError(res, error)
     }
   }
-  static async verifyFastagRCDetailsTest(req, res) {
+  static async verifyUPIDetailsTest(req, res) {
     try {
       const { documentData } = req.body
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
-        ? MOCK_RESPONSES.fastag_rc.success.data
-        : MOCK_RESPONSES.fastag_rc.failure.data
+        ? MOCK_RESPONSES.find_upi_id.success.data
+        : MOCK_RESPONSES.find_upi_id.failure.data
 
       return mockResponse.success
         ? ResponseHelper.success(
@@ -105,4 +101,4 @@ class FastagRCController {
   }
 }
 
-module.exports = FastagRCController
+module.exports = FetchUPIDetailsController

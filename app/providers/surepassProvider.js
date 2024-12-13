@@ -19,7 +19,9 @@ class SurepassProvider extends BaseProvider {
       ecourt_cnr: '/ecourts/ecourt-cnr-search',
       electricity_bill: '/utility/electricity/',
       employment_history_uan: '/income/employment-history-uan',
-      fastag_rc: '/fastag/fastag-to-rc'
+      fastag_rc: '/fastag/fastag-to-rc',
+      fastag_verification: '/fastag/verification',
+      find_upi_id: '/bank-verification/find-upi-id'
     }
   }
 
