@@ -1779,6 +1779,120 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  udyog_aadhaar: {
+    success: {
+      data: {
+        data: {
+          client_id: 'uan_ANxqiNhrnwBbYwysUEvh',
+          uan: 'UDYAM-GJ-25-000000',
+          certificate_url: '',
+          main_details: {
+            enterprise_type_list: [
+              {
+                classification_year: '2023-24',
+                enterprise_type: 'Micro',
+                classification_date: '2023-05-09'
+              },
+              {
+                classification_year: '2022-23',
+                enterprise_type: 'Micro',
+                classification_date: '2022-06-26'
+              },
+              {
+                classification_year: '2021-22',
+                enterprise_type: 'Micro',
+                classification_date: '2022-04-16'
+              }
+            ],
+            name_of_enterprise: ' INDUSTRIES',
+            major_activity: 'Manufacturing',
+            social_category: 'General',
+            date_of_commencement: '2012-10-17',
+            dic_name: 'XXXXXX',
+            state: 'AAAAAA',
+            applied_date: '2022-04-16',
+            flat: '106/9',
+            name_of_building: '3RD PHASE',
+            road: 'XXXXX',
+            village: 'XXXXX',
+            block: 'NA',
+            city: 'VAPI',
+            pin: 'XXXXX',
+            mobile_number: 'XX*****XXX',
+            email: 'XXXXXXXXX@GMAIL.COM',
+            organization_type: 'Proprietary',
+            gender: 'Male',
+            date_of_incorporation: '0000-10-17',
+            msme_dfo: 'XXXXXXX',
+            registration_date: '00000-04-16'
+          },
+          location_of_plant_details: [
+            {
+              unit_name: 'XX*************XX',
+              line_1: 'C-104, 14/3',
+              building: 'XXXXXXXXXX SOCIETY',
+              village: 'XXX',
+              street: '',
+              road: 'BEHIND AAAAA COLLEGE',
+              city: 'AAAAA',
+              pin: '000000',
+              state: 'AAAAAA',
+              district: 'AAAAA'
+            },
+            {
+              unit_name: 'ABCD INDUSTRIES',
+              line_1: '106/9',
+              building: '3RD ',
+              village: 'MILLS LTD',
+              street: '',
+              road: 'ABCD',
+              city: 'ABCd',
+              pin: '000000',
+              state: 'ABCD',
+              district: 'YYYYYY'
+            }
+          ],
+          nic_code: [
+            {
+              nic_2_digit: ' 0; management consultancy activities',
+              nic_4_digit: 'Management consultancy activities',
+              nic_5_digit: 'Management consultancy activities',
+              activity_type: 'Services',
+              added_on: '0000-04-16'
+            },
+            {
+              nic_2_digit: '0: machinery and equipment',
+              nic_4_digit: '2599 -  of other fabricate n.e.c.',
+              nic_5_digit:
+                '25999 - Manufacture of other fabricated metal products n.e.c.',
+              activity_type: 'Manufacturing',
+              added_on: '0000-04-16'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'uan_FplbWroiZmroDfRWcblY',
+          uan: 'UDYAM-GJ-25-00000000',
+          certificate_url: '',
+          main_details: {},
+          location_of_plant_details: [],
+          nic_code: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid UAN.',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

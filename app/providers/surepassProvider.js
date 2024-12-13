@@ -31,7 +31,8 @@ class SurepassProvider extends BaseProvider {
       tan: '/tan/',
       tan_search: '/tan/company-search',
       telecom_verification: '/telecom/telecom-verification',
-      tin_verification: '/tin/tin-verification'
+      tin_verification: '/tin/tin-verification',
+      udyog_aadhaar: '/corporate/udyog-aadhaar'
     }
   }
 
