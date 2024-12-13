@@ -14,7 +14,9 @@ class SurepassProvider extends BaseProvider {
       bank_verification_pennyless: '/bank-verification/pennyless',
       corporate_cin: '/corporate/company-details',
       corporate_gstin: '/corporate/gstin',
-      credit_report: '/credit-report-v2/fetch-report'
+      credit_report: '/credit-report-v2/fetch-report',
+      director_phone: '/corporate/director-phone',
+      ecourt_cnr: '/ecourts/ecourt-cnr-search'
     }
   }
 

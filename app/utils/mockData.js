@@ -1093,6 +1093,153 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  director_phone: {
+    success: {
+      data: {
+        data: {
+          client_id: 'director_phone_oxjmjVHbVouynMCmjptC',
+          din_number: '00000000',
+          phone_number: '+91900000000000'
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'director_phone_VCnqlwaZLcNhydxgsWio',
+          din_number: '00000000',
+          phone_number: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'invalid_or_inactive',
+        message_code: null
+      }
+    }
+  },
+  ecourt_cnr: {
+    success: {
+      data: {
+        data: {
+          client_id: 'ecourt_cnr_search_hRguiuMgammwvWcqpuom',
+          cnr_number: 'CHCH0100123456789',
+          cnr_details: {
+            case_details: {
+              case_type: 'CRA',
+              filing_number: '192/2000',
+              filing_date: '2000-00-06',
+              registration_number: '3000/2000',
+              registration_date: '2000-00-07'
+            },
+            case_status: {
+              first_hearing_date: '2000-00-07',
+              next_hearing_date: '2000-11-02',
+              case_stage: 'Defence evidence ',
+              court_number_and_judge: 'District Judge',
+              decision_date: null,
+              nature_of_disposal: ''
+            },
+            petitioner_and_advocate_details: {
+              petitioner: 'K AGGARWAL',
+              advocate: 'V Jain'
+            },
+            respondent_and_advocate_details: [
+              'INCOME  OFFICER',
+              'UNION TERRITORY',
+              'CORPORATION ITD',
+              'N AGGARWAL',
+              'P AGGARWAL',
+              'P SINGH'
+            ],
+            act_details: [
+              {
+                under_act: 'Cr. P.C.',
+                under_section: '374'
+              }
+            ],
+            subordinate_court_information_details: {
+              case_number_and_year: '0001000 -  2019',
+              case_decision_date: '2000-00-08'
+            },
+            case_history_details: [
+              {
+                judge: 'District Judge',
+                business_on_date: '2000-00-07',
+                hearing_date: '2000-00-02',
+                purpose_of_hearing: 'Defence evidence'
+              }
+            ],
+            interim_orders_details: [
+              {
+                order_number: '1',
+                order_date: '2000-00-07'
+              }
+            ],
+            final_orders_and_judgements_details: [],
+            case_transfer_and_establishment_details: [],
+            process_details: [
+              {
+                process_id: 'PCHCH01000987654000_1_1',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_2',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_3',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_4',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_5',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_6',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_2_1',
+                process_data: '2000-07-00',
+                process_title: 'Docket Calling.'
+              }
+            ]
+          }
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'ecourt_cnr_search_HxMPvyByitraxVlkkjoD',
+          cnr_number: 'APAS020001080000',
+          cnr_details: {}
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 
