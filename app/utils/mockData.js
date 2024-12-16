@@ -1983,6 +1983,38 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  aadhaar_pan_link: {
+    success: {
+      data: {
+        data: {
+          client_id: 'aadhaar_pan_link_check_ozWwDzcLVvotLwjyuiwq',
+          masked_pan: 'EKXXXXXX6F',
+          linking_status: true,
+          reason: 'linked',
+          detailed_reason: null
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'aadhaar_pan_link_check_pqbhhlAHfoWwfdbZdqkT',
+          masked_pan: '',
+          linking_status: false,
+          reason: 'invalid_aadhaar',
+          detailed_reason: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Aadhaar Number',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

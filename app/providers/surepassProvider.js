@@ -33,7 +33,8 @@ class SurepassProvider extends BaseProvider {
       telecom_verification: '/telecom/telecom-verification',
       tin_verification: '/tin/tin-verification',
       udyog_aadhaar: '/corporate/udyog-aadhaar',
-      echallan: '/rc/rc-related/challan-details'
+      echallan: '/rc/rc-related/challan-details',
+      aadhaar_pan_link: '/pan/aadhaar-pan-link-check'
     }
   }
 
