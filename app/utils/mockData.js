@@ -1893,6 +1893,96 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  echallan: {
+    success: {
+      data: {
+        data: {
+          client_id: 'rc_related_UgaxohwEraUGgovAugEF',
+          challan_details: {
+            challans: [
+              {
+                number: 1,
+                challan_number: 'DL112345678978',
+                offense_details: 'Disobeying Lawful Directions',
+                challan_place: null,
+                challan_date: '2024-01-25',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'CENTRAL',
+                accused_name: 'MUNNA BHAIYA',
+                amount: 19500,
+                challan_status: 'Pending',
+                court_challan: true
+              },
+              {
+                number: 2,
+                challan_number: 'DL12345698789',
+                offense_details: 'Allowing Unauthorised Person To Drive',
+                challan_place: null,
+                challan_date: '2023-11-25',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'CENTRAL',
+                accused_name: 'KALEEN BHAIYA',
+                amount: 15000,
+                challan_status: 'Pending',
+                court_challan: true
+              },
+              {
+                number: 1,
+                challan_number: '12345678',
+                offense_details: 'OVER SPEED (Light Motor Vehicle)',
+                challan_place: 'MIRZAPUR',
+                challan_date: '2023-11-26',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'DL1',
+                accused_name: 'GUDDU BHAIYA',
+                amount: 2000,
+                challan_status: null,
+                court_challan: null
+              },
+              {
+                number: 2,
+                challan_number: '123456',
+                offense_details: 'Violating stop line',
+                challan_place: 'LODHI ROAD',
+                challan_date: '2022-08-03',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'DL1',
+                accused_name: 'RATI SHANKAR SHUKLA',
+                amount: 500,
+                challan_status: null,
+                court_challan: null
+              }
+            ],
+            blacklist: []
+          }
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'uan_FplbWroiZmroDfRWcblY',
+          uan: 'UDYAM-GJ-25-00000000',
+          certificate_url: '',
+          main_details: {},
+          location_of_plant_details: [],
+          nic_code: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid UAN.',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

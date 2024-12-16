@@ -33,6 +33,7 @@ const TanCompanySearchController = require('../controllers/apiProduct/tanCompany
 const TelecomVerifcationController = require('../controllers/apiProduct/telecomVerificationController')
 const TINVerifcationController = require('../controllers/apiProduct/tinVerificationController')
 const UdyogAadhaarVerifcationController = require('../controllers/apiProduct/udyogAadhaarController')
+const EchallanController = require('../controllers/apiProduct/echallanVerificationController')
 
 /*
  * API Product route
@@ -283,6 +284,14 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? UdyogAadhaarVerifcationController.verifyUdyogAadhaarTest
     : UdyogAadhaarVerifcationController.verifyUdyogAadhaar
+)
+router.post(
+  '/echallan',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? EchallanController.verifyEchallanTest
+    : EchallanController.verifyEchallan
 )
 
 module.exports = router
