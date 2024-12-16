@@ -2015,6 +2015,34 @@ const MOCK_RESPONSES = {
         message_code: 'verification_failed'
       }
     }
+  },
+  aadhaar_uan_link: {
+    success: {
+      data: {
+        data: {
+          aadhaar_number: '445905879514',
+          client_id: 'aadhaar_to_uan_pvwoRJHGqcfpihFgrppF',
+          pf_uan: '101667814011'
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          aadhaar_number: '445905879514',
+          client_id: null,
+          pf_uan: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Aadhaar Number',
+        message_code: 'verification_failed'
+      }
+    }
   }
 }
 

@@ -35,6 +35,7 @@ const TINVerifcationController = require('../controllers/apiProduct/tinVerificat
 const UdyogAadhaarVerifcationController = require('../controllers/apiProduct/udyogAadhaarController')
 const EchallanController = require('../controllers/apiProduct/echallanVerificationController')
 const VerifyPanWithAadhaarController = require('../controllers/apiProduct/aadhaarToPanController')
+const VerifyUANWithAadhaarController = require('../controllers/apiProduct/aadhaarToUanController')
 
 /*
  * API Product route
@@ -295,12 +296,12 @@ router.post(
     : EchallanController.verifyEchallan
 )
 router.post(
-  '/aadhaar-pan-link',
+  '/aadhaar-uan-link',
   trimRequest.all,
   verifyJWT,
   process.env.TEST_MODE === 'true'
-    ? VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest
-    : VerifyPanWithAadhaarController.VerifyPanWithAadhaar
+    ? VerifyUANWithAadhaarController.VerifyUANWithAadhaarTest
+    : VerifyUANWithAadhaarController.VerifyUANWithAadhaar
 )
 
 module.exports = router

@@ -34,7 +34,8 @@ class SurepassProvider extends BaseProvider {
       tin_verification: '/tin/tin-verification',
       udyog_aadhaar: '/corporate/udyog-aadhaar',
       echallan: '/rc/rc-related/challan-details',
-      aadhaar_pan_link: '/pan/aadhaar-pan-link-check'
+      aadhaar_pan_link: '/pan/aadhaar-pan-link-check',
+      aadhaar_uan_link: '/income/epfo/aadhaar-to-uan'
     }
   }
 
