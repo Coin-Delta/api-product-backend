@@ -36,6 +36,7 @@ const UdyogAadhaarVerifcationController = require('../controllers/apiProduct/udy
 const EchallanController = require('../controllers/apiProduct/echallanVerificationController')
 const VerifyPanWithAadhaarController = require('../controllers/apiProduct/aadhaarToPanController')
 const VerifyUANWithAadhaarController = require('../controllers/apiProduct/aadhaarToUanController')
+const DynamicController = require('../controllers/apiProduct/dynamicValidationController.js')
 
 /*
  * API Product route
@@ -109,6 +110,7 @@ router.post(
     ? BankVerificationPennylessController.verifyBankDetailsTest
     : BankVerificationPennylessController.verifyBankDetails
 )
+
 
 router.post(
   '/coporate-cin',
@@ -302,6 +304,15 @@ router.post(
   process.env.TEST_MODE === 'true'
     ? VerifyUANWithAadhaarController.VerifyUANWithAadhaarTest
     : VerifyUANWithAadhaarController.VerifyUANWithAadhaar
+)
+
+router.post(
+  '/dynamic',
+  trimRequest.all,
+  verifyJWT,
+  process.env.TEST_MODE === 'true'
+    ? DynamicController.verifyDocumentTest
+    : DynamicController.verifyDocument
 )
 
 module.exports = router

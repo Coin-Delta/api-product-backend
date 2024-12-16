@@ -49,7 +49,7 @@
     "no-magic-numbers": ["off"],
     "max-params": ["off"],
     "max-len": ["off"],
-    "max-statements" : [2, 40],
+    "max-statements" : [2, 80],
     "max-depth": ["error", 5],
     "no-nested-ternary": "off",
     "max-nested-callbacks": ["off"],

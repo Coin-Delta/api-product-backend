@@ -38,6 +38,11 @@ const apiSchema = new mongoose.Schema(
     },
     metadata: {
       type: mongoose.Schema.Types.Mixed
+    },
+    documentType: {
+      type: String,
+      required: true,
+      trim: true
     }
   },
   {

@@ -1,10 +1,13 @@
 const ResponseHelper = require('../../utils/responseHelper')
 const APIService = require('../../services/apiService.js')
 const BaseError = require('../../utils/error/baseError.js')
-const MOCK_RESPONSES = require('../../utils/mockData')
+// const MOCK_RESPONSES = require('../../utils/mockData')
+const NEW_MOCK_RESPONSES = require('../../utils/newMockData.js')
 
-class DrivingLicenseController {
-  static async verifyLicense(req, res) {
+// const { STATUS_CODES } = require('../../constants/statusCodes.js')
+
+class DynamicController {
+  static async verifyDocument(req, res) {
     let documentType
     try {
       const { apiId, documentData } = req.body
@@ -48,14 +51,19 @@ class DrivingLicenseController {
       return ResponseHelper.serverError(res, error)
     }
   }
-  static async verifyLicenseTest(req, res) {
+
+  static async verifyDocumentTest(req, res) {
+    let documentType
     try {
-      const { documentData } = req.body
+      const { apiId, documentData } = req.body
+      const apiDetails = await APIService.getAPIDetails(apiId)
+      console.log('api details:', apiDetails)
+      documentType = apiDetails.documentType
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
-        ? MOCK_RESPONSES.driving_license.success.data
-        : MOCK_RESPONSES.driving_license.failure.data
+        ? NEW_MOCK_RESPONSES[documentType]?.success.data
+        : NEW_MOCK_RESPONSES[documentType]?.failure.data
 
       return mockResponse.success
         ? ResponseHelper.success(
@@ -77,4 +85,4 @@ class DrivingLicenseController {
   }
 }
 
-module.exports = DrivingLicenseController
+module.exports = DynamicController
