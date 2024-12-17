@@ -53,29 +53,29 @@ class BaseProvider {
 
       // NOTE: need to handle error diff based on provider error format in future may be
       // below is according to surepass
-      // return {
-      //   success: false,
-      //   error: error.response?.data?.message || error.message,
-      //   status: error.response?.status || error.status || 500
-      // }
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message,
+        status: error.response?.status || error.status || 500
+      }
 
       // mock resp
-      const mockSuccess = true
-      if (mockSuccess) {
-        const Mockresult = NEW_MOCK_RESPONSES[documentType]?.success.data
-        return {
-          success: Mockresult.success,
-          data: Mockresult.data,
-          status: Mockresult.status_code
-        }
-      } else {
-        const Mockresult = NEW_MOCK_RESPONSES[documentType]?.failure.data
-        return {
-          success: Mockresult.success,
-          error: Mockresult.message,
-          status: Mockresult.status_code
-        }
-      }
+      // const mockSuccess = true
+      // if (mockSuccess) {
+      //   const Mockresult = NEW_MOCK_RESPONSES[documentType]?.success.data
+      //   return {
+      //     success: Mockresult.success,
+      //     data: Mockresult.data,
+      //     status: Mockresult.status_code
+      //   }
+      // } else {
+      //   const Mockresult = NEW_MOCK_RESPONSES[documentType]?.failure.data
+      //   return {
+      //     success: Mockresult.success,
+      //     error: Mockresult.message,
+      //     status: Mockresult.status_code
+      //   }
+      // }
     }
   }
 
