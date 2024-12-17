@@ -13,7 +13,7 @@ const API = require('../models/api')
 const APIError = require('../utils/error/apiError.js')
 const { STATUS_CODES } = require('../constants/statusCodes.js')
 const DocumentService = require('./documentService.js')
-const MOCK_RESPONSES = require('../utils/mockData.js')
+// const MOCK_RESPONSES = require('../utils/mockData.js')
 // const DBError = require('../utils/error/dbError.js')
 
 class APIService {

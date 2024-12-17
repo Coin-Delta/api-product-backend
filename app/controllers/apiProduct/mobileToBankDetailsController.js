@@ -1,81 +1,50 @@
-const API = require('../../models/api')
-const WalletService = require('../../services/walletService')
 const ResponseHelper = require('../../utils/responseHelper')
-const TransactionService = require('../../services/transactionService')
-const DocumentService = require('../../services/documentService')
+const APIService = require('../../services/apiService.js')
+const BaseError = require('../../utils/error/baseError.js')
 const MOCK_RESPONSES = require('../../utils/mockData')
 
 class VerifyBankWithMobileController {
   static async verifyBankDetails(req, res) {
+    let documentType
     try {
       const { apiId, documentData } = req.body
       const { bcaId: clientId } = req.user
 
-      // Find API configuration
-      const api = await API.findById(apiId).populate('vendorId')
-      if (!api) {
-        return ResponseHelper.notFound(res, 'API not found')
-      }
+      const apiDetails = await APIService.getAPIDetails(apiId)
+      console.log('api details:', apiDetails)
+      documentType = apiDetails.documentType
 
-      // Check wallet balance
-      let wallet
-      try {
-        wallet = await WalletService.checkAndDeductBalance(clientId, api.price)
-      } catch (error) {
-        return ResponseHelper.error(res, error.message, 400)
-      }
-
-      // Create transaction record
-      const transaction = await TransactionService.createTransaction(
-        api._id,
-        api.vendorId._id,
-        documentData,
-        api.price
-      )
-
-      try {
-        // Initialize document service with vendor
-        // const documentService = new DocumentService(api.vendorId.code)
-        const documentService = new DocumentService('surepass')
-
-        // Process verification using the provider system
-        const result = await documentService.verifyDocument(
-          'mobile_to_bank',
-          documentData
-        )
-        console.log(result, '{RESUL}')
-        // Update transaction
-        await TransactionService.updateTransaction(transaction, result)
-
-        // Deduct balance only on success
-        if (result.success && [200, 204].includes(result.status)) {
-          await WalletService.deductBalance(wallet, api.price)
-        }
-
-        return result.success
-          ? ResponseHelper.success(
-              res,
-              result.data,
-              'Bank verification successful'
-            )
-          : ResponseHelper.error(
-              res,
-              'Bank verification failed',
-              400,
-              result.error
-            )
-      } catch (error) {
-        // Update transaction with error
-        console.log(error, 'ERR++++')
-        await TransactionService.updateTransaction(transaction, {
-          success: false,
-          error: error.message,
-          status: 500
+      const { statusCode, apiResponse } =
+        await APIService.processDocumentAndUpdateBalance({
+          // apiId,
+          apiDetails,
+          documentData,
+          clientId
         })
 
-        return ResponseHelper.serverError(res, error)
-      }
+      // console.log('req:', req)
+      console.log('apiResponse controller:', apiResponse)
+
+      return ResponseHelper.success(
+        res,
+        apiResponse,
+        `${documentType} Verification successfull`,
+        statusCode
+      )
     } catch (error) {
+      if (error instanceof BaseError) {
+        console.log('error msg:', error.message)
+        console.log('full err:', error)
+        if (documentType) {
+          return ResponseHelper.error(
+            res,
+            `${documentType} Verification failed`,
+            error.statusCode,
+            error
+          )
+        }
+        return ResponseHelper.error(res, error.message, error.statusCode, error)
+      }
       return ResponseHelper.serverError(res, error)
     }
   }

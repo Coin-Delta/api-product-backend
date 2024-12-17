@@ -1,5 +1,5 @@
 const { DOCUMENT_TYPES } = require('../constants/documentTypes.js')
-const { success } = require('./responseHelper')
+// const { success } = require('./responseHelper')
 
 // utils/mockData.js
 const NEW_MOCK_RESPONSES = {
@@ -1091,6 +1091,956 @@ const NEW_MOCK_RESPONSES = {
         status_code: 422,
         success: false,
         message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.DIRECTOR_PHONE]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'director_phone_oxjmjVHbVouynMCmjptC',
+          din_number: '00000000',
+          phone_number: '+91900000000000'
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'director_phone_VCnqlwaZLcNhydxgsWio',
+          din_number: '00000000',
+          phone_number: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'invalid_or_inactive',
+        message_code: null
+      }
+    }
+  },
+  [DOCUMENT_TYPES.ECOURT_CNR]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'ecourt_cnr_search_hRguiuMgammwvWcqpuom',
+          cnr_number: 'CHCH0100123456789',
+          cnr_details: {
+            case_details: {
+              case_type: 'CRA',
+              filing_number: '192/2000',
+              filing_date: '2000-00-06',
+              registration_number: '3000/2000',
+              registration_date: '2000-00-07'
+            },
+            case_status: {
+              first_hearing_date: '2000-00-07',
+              next_hearing_date: '2000-11-02',
+              case_stage: 'Defence evidence ',
+              court_number_and_judge: 'District Judge',
+              decision_date: null,
+              nature_of_disposal: ''
+            },
+            petitioner_and_advocate_details: {
+              petitioner: 'K AGGARWAL',
+              advocate: 'V Jain'
+            },
+            respondent_and_advocate_details: [
+              'INCOME  OFFICER',
+              'UNION TERRITORY',
+              'CORPORATION ITD',
+              'N AGGARWAL',
+              'P AGGARWAL',
+              'P SINGH'
+            ],
+            act_details: [
+              {
+                under_act: 'Cr. P.C.',
+                under_section: '374'
+              }
+            ],
+            subordinate_court_information_details: {
+              case_number_and_year: '0001000 -  2019',
+              case_decision_date: '2000-00-08'
+            },
+            case_history_details: [
+              {
+                judge: 'District Judge',
+                business_on_date: '2000-00-07',
+                hearing_date: '2000-00-02',
+                purpose_of_hearing: 'Defence evidence'
+              }
+            ],
+            interim_orders_details: [
+              {
+                order_number: '1',
+                order_date: '2000-00-07'
+              }
+            ],
+            final_orders_and_judgements_details: [],
+            case_transfer_and_establishment_details: [],
+            process_details: [
+              {
+                process_id: 'PCHCH01000987654000_1_1',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_2',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_3',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_4',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_5',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_1_6',
+                process_data: '2000-07-00',
+                process_title: 'Notice to Respondent.'
+              },
+              {
+                process_id: 'PCHCH01000987654000_2_1',
+                process_data: '2000-07-00',
+                process_title: 'Docket Calling.'
+              }
+            ]
+          }
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'ecourt_cnr_search_HxMPvyByitraxVlkkjoD',
+          cnr_number: 'APAS020001080000',
+          cnr_details: {}
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.ELECTRICITY_BILL_DETAILS]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'electricity_jBxiqjAGXuymlqlbrOOb',
+          customer_id: '17000346322745',
+          operator_code: 'MH',
+          state: 'maharashtra',
+          full_name: 'SUKHWANI',
+          address: 'COLONY SOLAPUR ROAD NR LAD GIRNI SHEWALWADI 412307',
+          mobile: null,
+          user_email: null,
+          bill_amount: '1,280.00',
+          bill_number: null,
+          document_link: null
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: null,
+          customer_id: '17000346322745',
+          operator_code: 'MH',
+          state: 'maharashtra',
+          full_name: null,
+          address: null,
+          mobile: null,
+          user_email: null,
+          bill_amount: null,
+          bill_number: null,
+          document_link: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'employment_history_uan_aueTsCLbIqUDULtEFwZU',
+          uan: '111779821234',
+          employment_history: [
+            {
+              name: 'Munna Bhbaiya',
+              guardian_name: 'Kaleen Bhaiya',
+              establishment_name: 'I PROCESS SERVICES (INDIA) PVT. LTD.',
+              member_id: 'KDMAL004123654000313079',
+              date_of_joining: '2021-03-15',
+              date_of_exit: null,
+              last_pf_submitted: '2022-06-14',
+              wage_month: 'May-2022'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'employment_history_uan_owsYxXfJqptbCdfxxjxw',
+          uan: '101669821230',
+          employment_history: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'No Employment Record Found.',
+        message_code: null
+      }
+    }
+  },
+  [DOCUMENT_TYPES.FASTAG_RC]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'fastag_to_rc_OPartnFuEJMAwiUTWbsA',
+          fastag_id: '34161FA123456EE81E41EAE0',
+          rc_number: 'GJ05XX1234',
+          tag_status: 'ACTIVE',
+          vehicle_class: 'VC4',
+          issue_date: '2022-10-20',
+          issuer_bank: 'IDFC Bank'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'fastag_to_rc_CWBFxWWjVtHZZdjMmwnk',
+          fastag_id: '34161FA123456EE81E41EAE0',
+          rc_number: null,
+          tag_status: null,
+          vehicle_class: null,
+          issue_date: null,
+          issuer_bank: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.FASTAG_VERIFICATION]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'fastag_verification_dRKBysWbCksWhLlUpdrx',
+          rc_number: 'GJ05CN0000',
+          bank_name: 'IDFC First Bank',
+          tag_id: '0000FA00008EE81FCA123',
+          status: 'Active'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'fastag_verification_YcAxegLbwcnndbpXnCow',
+          rc_number: 'GJ05CN0000',
+          bank_name: null,
+          tag_id: null,
+          status: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.FIND_UPI_ID]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'find_upi_btYgGDVllvsuKxccKofh',
+          mobile_number: '1234567890',
+          upi_id: 'xyz123@ybl'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'find_upi_aRwaCnnibJvbBespVmVz',
+          mobile_number: '1234567890',
+          upi_id: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.MOBILE_TO_RC]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'mobile_number_to_rc_ubFojfkItBiHxioFbzJz',
+          rc_number: ['RJ14XJ1234'],
+          mobile_number: '8908885858'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'mobile_number_to_rc_oeVUKwQlHnUjgVGlNjtl',
+          rc_number: [],
+          mobile_number: '8908885858'
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.MOBILE_TO_BANK]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'mobile_to_bank_details_NkSxYeGblpzYhwMBbirH',
+          bank_ifsc: 'UTIB0001234',
+          bank_account_no: '92001006123456789',
+          bank_details: 'AXIS BANK, JAIPUR',
+          name: 'VISHAL RATHORE'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'mobile_to_bank_details_votfuQkijjwnuYepgebj',
+          bank_ifsc: null,
+          bank_account_no: null,
+          bank_details: null,
+          name: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.PAN_TO_UAN]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'pan_to_uan_hoadKOGjFSjwnS',
+          pan_number: 'XXXXX1234X',
+          uan_number: '123456789'
+        },
+        message_code: 'success',
+        success: true,
+        message: null,
+        status_code: 200
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'pan_to_uan_rkmoXxozWLIhomgKBpqu',
+          pan_number: 'XXXX1234XXXX',
+          uan_number: ''
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid PAN Number provided',
+        message_code: 'invalid_pan'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.PASSPORT]: {
+    success: {
+      data: {
+        data: {
+          date_of_application: '2017-07-24',
+          file_number: 'DL1061291XXXXXX',
+          client_id: 'passport_rfqevMkcqenNPushfhfM',
+          full_name: 'MUNNA BHAIYA',
+          passport_number: 'S2420000',
+          dob: '1990-01-01'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          date_of_application: null,
+          file_number: 'DL1061291XXXXXX',
+          client_id: null,
+          full_name: null,
+          passport_number: null,
+          dob: '1990-01-01'
+        },
+        status_code: 422,
+        success: false
+      }
+    }
+  },
+  [DOCUMENT_TYPES.RC_MOBILE_NUMBER]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'rc_to_mobile_number_WmrcRThlcmadfhblXtvQ',
+          rc_number: 'RJ14XJ1234',
+          mobile_number: '8890856565'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'rc_to_mobile_number_QjCgmrETvYbHqPLvcZjv',
+          rc_number: 'RJ14XJ1234',
+          mobile_number: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.RATION_CARD]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'ration_card_LqcwSxyPrnrKsnJjRwaD',
+          id_number: '10140100006004000005',
+          state_portal: 'central',
+          state_name: 'BIHAR',
+          district_name: 'MUZAFFARPUR',
+          fps_id: '121600100663',
+          scheme_name: 'PHH',
+          dup_uid_status: 'No',
+          member_details_list: [
+            {
+              member_id: '1014010000600400000501',
+              member_name: 'JAVANTI DEVI',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'SELF'
+            },
+            {
+              member_id: '1014010000600400000502',
+              member_name: 'RAMLAKSHAN RAI',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'NOT AVAILABLE'
+            },
+            {
+              member_id: '1014010000600400000504',
+              member_name: 'SAJAN KUMAR',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'SON'
+            },
+            {
+              member_id: '1014010000600400000505',
+              member_name: 'VIRSAN KUMAR',
+              uid_status: true,
+              masked_aadhaar: null,
+              relationship_name: 'SON'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'ration_card_uxzWHzSaOtxwqqvNbDlJ',
+          id_number: '10140100006004000000',
+          state_portal: 'central',
+          state_name: null,
+          district_name: null,
+          fps_id: null,
+          scheme_name: null,
+          dup_uid_status: null,
+          member_details_list: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Ration Card Number',
+        message_code: 'verification_error'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.TAN]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'tan_kjYdJwRvRJQszuvgdruK',
+          tan: 'RTKT06731E',
+          name: 'TAXREX SOLUTIONS PRIVATE LIMITED'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'tan_aVnCmDGrVzzickktvtyO',
+          tan: 'RTKT06731Z',
+          name: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: null
+      }
+    }
+  },
+  [DOCUMENT_TYPES.TAN_COMPANY_SEARCH]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'tan_company_search_MrZzXqGKYgZoewbEymGS',
+          search_company_name: 'ABC PRIVATE LIMITED',
+          search_size: 10,
+          search_state: 'DELHI',
+          exact_match: true,
+          hits: 1,
+          search_data: [
+            {
+              tan: 'DELS71234E',
+              company_name: 'ABC PRIVATE LIMITED'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'null',
+          search_company_name: 'ABC PRIVATE LIMITED',
+          search_size: 10,
+          search_state: 'DELHI',
+          exact_match: true,
+          hits: 1,
+          search_data: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'No Macth Found',
+        message_code: null
+      }
+    }
+  },
+  [DOCUMENT_TYPES.TELECOM_VERIFICATION]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'telecom_verification_TEMsLgQPzcOnripjzkph',
+          mobile_number: '910000000',
+          is_valid: true,
+          operator: 'jio',
+          circle: 'Rajasthan'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'telecom_verification_srJxnpvabOjxTYgJSwdQ',
+          mobile_number: '1234567897',
+          is_valid: false,
+          operator: null,
+          circle: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Mobile Number',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.TIN_VERIFICATION]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'tin_verification_bZNrBkyzCMfOfkqteenz',
+          tin_number: '12345678915',
+          cst_number: '12345678915',
+          dealer_name: 'RAM PERFURMERWORKS',
+          dealer_address: 'PLOT NO-XX-21',
+          state_name: 'Odisha',
+          pan_number: 'NOT AVAILABLE',
+          registration_date: '1992-12-16',
+          valid_upto: '2013-07-20',
+          registration_status: 'Cancelled'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'tin_verification_ciAiGJyyprlyusskNpzq',
+          tin_number: '12345678915',
+          cst_number: null,
+          dealer_name: null,
+          dealer_address: null,
+          state_name: null,
+          pan_number: null,
+          registration_date: null,
+          valid_upto: null,
+          registration_status: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.UDYOG_AADHAAR]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'uan_ANxqiNhrnwBbYwysUEvh',
+          uan: 'UDYAM-GJ-25-000000',
+          certificate_url: '',
+          main_details: {
+            enterprise_type_list: [
+              {
+                classification_year: '2023-24',
+                enterprise_type: 'Micro',
+                classification_date: '2023-05-09'
+              },
+              {
+                classification_year: '2022-23',
+                enterprise_type: 'Micro',
+                classification_date: '2022-06-26'
+              },
+              {
+                classification_year: '2021-22',
+                enterprise_type: 'Micro',
+                classification_date: '2022-04-16'
+              }
+            ],
+            name_of_enterprise: ' INDUSTRIES',
+            major_activity: 'Manufacturing',
+            social_category: 'General',
+            date_of_commencement: '2012-10-17',
+            dic_name: 'XXXXXX',
+            state: 'AAAAAA',
+            applied_date: '2022-04-16',
+            flat: '106/9',
+            name_of_building: '3RD PHASE',
+            road: 'XXXXX',
+            village: 'XXXXX',
+            block: 'NA',
+            city: 'VAPI',
+            pin: 'XXXXX',
+            mobile_number: 'XX*****XXX',
+            email: 'XXXXXXXXX@GMAIL.COM',
+            organization_type: 'Proprietary',
+            gender: 'Male',
+            date_of_incorporation: '0000-10-17',
+            msme_dfo: 'XXXXXXX',
+            registration_date: '00000-04-16'
+          },
+          location_of_plant_details: [
+            {
+              unit_name: 'XX*************XX',
+              line_1: 'C-104, 14/3',
+              building: 'XXXXXXXXXX SOCIETY',
+              village: 'XXX',
+              street: '',
+              road: 'BEHIND AAAAA COLLEGE',
+              city: 'AAAAA',
+              pin: '000000',
+              state: 'AAAAAA',
+              district: 'AAAAA'
+            },
+            {
+              unit_name: 'ABCD INDUSTRIES',
+              line_1: '106/9',
+              building: '3RD ',
+              village: 'MILLS LTD',
+              street: '',
+              road: 'ABCD',
+              city: 'ABCd',
+              pin: '000000',
+              state: 'ABCD',
+              district: 'YYYYYY'
+            }
+          ],
+          nic_code: [
+            {
+              nic_2_digit: ' 0; management consultancy activities',
+              nic_4_digit: 'Management consultancy activities',
+              nic_5_digit: 'Management consultancy activities',
+              activity_type: 'Services',
+              added_on: '0000-04-16'
+            },
+            {
+              nic_2_digit: '0: machinery and equipment',
+              nic_4_digit: '2599 -  of other fabricate n.e.c.',
+              nic_5_digit:
+                '25999 - Manufacture of other fabricated metal products n.e.c.',
+              activity_type: 'Manufacturing',
+              added_on: '0000-04-16'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'uan_FplbWroiZmroDfRWcblY',
+          uan: 'UDYAM-GJ-25-00000000',
+          certificate_url: '',
+          main_details: {},
+          location_of_plant_details: [],
+          nic_code: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid UAN.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.ECHALLAN]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'rc_related_UgaxohwEraUGgovAugEF',
+          challan_details: {
+            challans: [
+              {
+                number: 1,
+                challan_number: 'DL112345678978',
+                offense_details: 'Disobeying Lawful Directions',
+                challan_place: null,
+                challan_date: '2024-01-25',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'CENTRAL',
+                accused_name: 'MUNNA BHAIYA',
+                amount: 19500,
+                challan_status: 'Pending',
+                court_challan: true
+              },
+              {
+                number: 2,
+                challan_number: 'DL12345698789',
+                offense_details: 'Allowing Unauthorised Person To Drive',
+                challan_place: null,
+                challan_date: '2023-11-25',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'CENTRAL',
+                accused_name: 'KALEEN BHAIYA',
+                amount: 15000,
+                challan_status: 'Pending',
+                court_challan: true
+              },
+              {
+                number: 1,
+                challan_number: '12345678',
+                offense_details: 'OVER SPEED (Light Motor Vehicle)',
+                challan_place: 'MIRZAPUR',
+                challan_date: '2023-11-26',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'DL1',
+                accused_name: 'GUDDU BHAIYA',
+                amount: 2000,
+                challan_status: null,
+                court_challan: null
+              },
+              {
+                number: 2,
+                challan_number: '123456',
+                offense_details: 'Violating stop line',
+                challan_place: 'LODHI ROAD',
+                challan_date: '2022-08-03',
+                state: 'DL',
+                rto: null,
+                upstream_code: 'DL1',
+                accused_name: 'RATI SHANKAR SHUKLA',
+                amount: 500,
+                challan_status: null,
+                court_challan: null
+              }
+            ],
+            blacklist: []
+          }
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'uan_FplbWroiZmroDfRWcblY',
+          uan: 'UDYAM-GJ-25-00000000',
+          certificate_url: '',
+          main_details: {},
+          location_of_plant_details: [],
+          nic_code: []
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid UAN.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.AADHAAR_PAN_LINK_CHECK]: {
+    success: {
+      data: {
+        data: {
+          client_id: 'aadhaar_pan_link_check_ozWwDzcLVvotLwjyuiwq',
+          masked_pan: 'EKXXXXXX6F',
+          linking_status: true,
+          reason: 'linked',
+          detailed_reason: null
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'aadhaar_pan_link_check_pqbhhlAHfoWwfdbZdqkT',
+          masked_pan: '',
+          linking_status: false,
+          reason: 'invalid_aadhaar',
+          detailed_reason: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Aadhaar Number',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  [DOCUMENT_TYPES.AADHAAR_TO_UAN]: {
+    success: {
+      data: {
+        data: {
+          aadhaar_number: '445905879514',
+          client_id: 'aadhaar_to_uan_pvwoRJHGqcfpihFgrppF',
+          pf_uan: '101667814011'
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          aadhaar_number: '445905879514',
+          client_id: null,
+          pf_uan: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Invalid Aadhaar Number',
         message_code: 'verification_failed'
       }
     }

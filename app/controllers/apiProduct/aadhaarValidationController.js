@@ -3,8 +3,6 @@ const APIService = require('../../services/apiService.js')
 const BaseError = require('../../utils/error/baseError.js')
 const MOCK_RESPONSES = require('../../utils/mockData')
 
-// const { STATUS_CODES } = require('../../constants/statusCodes.js')
-
 class AadhaarController {
   static async verifyAadhaar(req, res) {
     let documentType
