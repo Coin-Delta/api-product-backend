@@ -5,13 +5,13 @@ const apiTransactionSchema = new mongoose.Schema(
   {
     apiId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'API',
-      required: true
+      ref: 'API'
+      // required: true
     },
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'APIVendor',
-      required: true
+      ref: 'APIVendor'
+      // required: true
     },
     clientId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -26,8 +26,8 @@ const apiTransactionSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['PENDING', 'SUCCESS', 'FAILED'],
-      default: 'PENDING'
+      enum: ['PENDING', 'SUCCESS', 'FAILED']
+      // default: 'PENDING'
     },
     price: {
       type: Number
@@ -47,8 +47,18 @@ const apiTransactionSchema = new mongoose.Schema(
     },
     transactionType: {
       type: String,
-      enum: [TRANSACTION_TYPES.CREDIT, TRANSACTION_TYPES.DEBIT],
-      require: true
+      enum: [TRANSACTION_TYPES.CREDIT, TRANSACTION_TYPES.DEBIT]
+      // require: true
+    },
+    initiatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+      // required: true
+    },
+    initiatedByRoleId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Role'
+      // required: true
     }
   },
   {

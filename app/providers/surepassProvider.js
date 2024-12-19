@@ -37,7 +37,9 @@ class SurepassProvider extends BaseProvider {
       // echallan: '/rc/rc-related/challan-details',
       // aadhaar_pan_link: '/pan/aadhaar-pan-link-check',
       // aadhaar_uan_link: '/income/epfo/aadhaar-to-uan',
-
+      // normal-adagr:
+      // adhar-submi
+      //
       [DOCUMENT_TYPES.AADHAAR]: '/aadhaar-validation/aadhaar-validation',
       [DOCUMENT_TYPES.PAN]: '/pan/verify',
       [DOCUMENT_TYPES.VOTER_ID]: '/voter-id/voter-id',

@@ -1,6 +1,8 @@
 // middleware/jwtAuth.js
 const jwt = require('jsonwebtoken')
 const BCA = require('../../models/BCA')
+// const { createTransaction } = require('../../services/transactionService.js')
+const TransactionService = require('../../services/transactionService.js')
 
 /**
  * Extracts token from: header, body or query
@@ -37,6 +39,31 @@ const verifyJWT = async (req, res, next) => {
     // Verify the JWT token
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
+    console.log('decoded token:', decoded)
+
+    const permission = decoded.permissions['canAccessAPIProduct']
+
+    try {
+      if (!permission) {
+        await TransactionService.createTransaction({
+          clientId: decoded.bcaId,
+          initiatedBy: decoded.userId,
+          initiatedByRoleId: decoded.roleId
+        })
+        return res.status(403).json({
+          error: 'You do not have permission to access API Product.'
+        })
+      }
+    } catch (errror) {
+      console.error(
+        'error logging unauthorized access entry in transaction:',
+        errror
+      )
+      return res.status(403).json({
+        error: 'You do not have permission to access API Product.'
+      })
+    }
+
     // Find user in BCA collection
     const user = await BCA.findById(decoded.bcaId)
 
@@ -61,8 +88,10 @@ const verifyJWT = async (req, res, next) => {
       // You can add additional user data from the BCA collection if needed
       bcaData: user
     }
+    console.log('jwt auth req.user:', req.user)
 
     next()
+    return
   } catch (err) {
     console.log('JWT Verification Error:', err)
 
