@@ -1,4 +1,4 @@
-name: Automated Docker Image CI - CCT-BETA
+name: Automated Docker Image CI - API-PRODUCT-BACKEND
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: cct-beta
     env:
-      image_name: cct-backend-${{ github.ref }}
+      image_name: api-product-backend-${{ github.ref }}
       AWS_Account_ID: $(aws sts get-caller-identity --query Account --output text)
       ENVIRONMENT: cct-beta
       REGION: ap-south-1
