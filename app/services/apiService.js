@@ -30,10 +30,16 @@ class APIService {
     // apiId,
     documentData,
     apiDetails,
-    // initiatedBy,
-    // initiatedByRole,
+    initiatedBy,
+    initiatedByRoleId,
     clientId
   }) {
+    console.log(
+      'api service clientId initiatedBy,initiatedByRoleId:',
+      clientId,
+      initiatedBy,
+      initiatedByRoleId
+    )
     //   const { idNumber } = req.body
     //   const clientId = req.user.role === 'BCA' ? req.user._id : req.user.BCAId
     //   const initiatedBy = req?.user?._id
@@ -104,8 +110,9 @@ class APIService {
           // status: TRANSACTION_STATUS_TYPES.PENDING,
           price,
           transactionType: TRANSACTION_TYPES.DEBIT,
-          // initiatedBy,
-          // initiatedByRole,
+          status: TRANSACTION_STATUS_TYPES.PENDING,
+          initiatedBy,
+          initiatedByRoleId,
           apiId,
           vendorId,
           requestData: documentData

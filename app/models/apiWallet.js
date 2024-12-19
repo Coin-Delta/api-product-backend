@@ -4,7 +4,7 @@ const apiWallet = new mongoose.Schema(
   {
     clientId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'BCA',
+      // ref: 'BCA',
       required: true,
       index: true
     },

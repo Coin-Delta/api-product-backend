@@ -3,6 +3,7 @@ const APIService = require('../../services/apiService.js')
 const BaseError = require('../../utils/error/baseError.js')
 // const MOCK_RESPONSES = require('../../utils/mockData')
 const NEW_MOCK_RESPONSES = require('../../utils/newMockData.js')
+const util = require('util')
 
 // const { STATUS_CODES } = require('../../constants/statusCodes.js')
 
@@ -11,10 +12,17 @@ class DynamicController {
     let documentType
     try {
       const { apiId, documentData } = req.body
-      const { bcaId: clientId } = req.user
+      const {
+        bcaId: clientId,
+        userId: initiatedBy,
+        roleId: initiatedByRoleId
+      } = req.user
+
+      // console.log('user details:', util.inspect(req.user, { depth: null }))
 
       const apiDetails = await APIService.getAPIDetails(apiId)
       console.log('api details:', apiDetails)
+
       documentType = apiDetails.documentType
 
       const { statusCode, apiResponse } =
@@ -22,10 +30,12 @@ class DynamicController {
           // apiId,
           apiDetails,
           documentData,
-          clientId
+          clientId,
+          initiatedBy,
+          initiatedByRoleId
         })
 
-      // console.log('req:', req)
+      console.log('req:', req)
       console.log('apiResponse controller:', apiResponse)
 
       return ResponseHelper.success(
