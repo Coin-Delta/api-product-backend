@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Building Docker Image for cct-beta
+    name: Building Docker Image for api-product-beta
     runs-on: ubuntu-latest
     environment: cct-beta
     env:
