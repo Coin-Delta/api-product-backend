@@ -385,7 +385,7 @@ class APIService {
   static async getAPIDetails(apiId) {
     // Fetch specific fields from the `API` collection and the `vendorId` reference
     const api = await API.findById(apiId)
-      .select('_id price documentType vendorId') // Select specific fields from the API document
+      .select('_id price documentType vendorId inputSchema') // Select specific fields from the API document
       .populate({
         path: 'vendorId',
         select: '_id name' // Fetch only specific fields from the vendor document

@@ -37,6 +37,9 @@ const { verifyJWT } = require('../middleware/auth')
 // const VerifyPanWithAadhaarController = require('../controllers/apiProduct/aadhaarToPanController')
 // const VerifyUANWithAadhaarController = require('../controllers/apiProduct/aadhaarToUanController')
 const DynamicController = require('../controllers/apiProduct/dynamicValidationController.js')
+const {
+  validateDocument
+} = require('../middleware/validations/documentDataValidation.js')
 
 // /*
 //  * API Product route
@@ -319,6 +322,7 @@ router.post(
   '/',
   trimRequest.all,
   verifyJWT,
+  validateDocument,
   process.env.TEST_MODE === 'true'
     ? DynamicController.verifyDocumentTest
     : DynamicController.verifyDocument

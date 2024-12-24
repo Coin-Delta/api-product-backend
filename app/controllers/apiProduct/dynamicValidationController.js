@@ -20,10 +20,13 @@ class DynamicController {
 
       // console.log('user details:', util.inspect(req.user, { depth: null }))
 
-      const apiDetails = await APIService.getAPIDetails(apiId)
-      console.log('api details:', apiDetails)
+      // const apiDetails = await APIService.getAPIDetails(apiId)
+      const apiDetails = req.apiDetails
+      console.log('api details from req.apidetails:', apiDetails)
 
       documentType = apiDetails.documentType
+
+      // APIService.validateDocument(documentData, apiDetails.inputSchema)
 
       const { statusCode, apiResponse } =
         await APIService.processDocumentAndUpdateBalance({
