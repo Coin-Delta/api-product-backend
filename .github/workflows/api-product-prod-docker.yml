@@ -1,0 +1,121 @@
+name: Automated Docker Image CI - API-PRODUCT-BACKEND-PROD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Building Docker Image for api-product-beta-prod
+    runs-on: ubuntu-latest
+    environment: cct-prod
+    env:
+      image_name: api-product-backend-${{ github.ref }}
+      AWS_Account_ID: $(aws sts get-caller-identity --query Account --output text)
+      ENVIRONMENT: cct-prod
+      REGION: ap-south-1
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Send Start Notification
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: "Github-Actions-Notification-Bot"
+          title: ' ${{ github.repository }} Build Starting '
+          description: |
+            Environment: ${{ env.ENVIRONMENT }}
+            Branch: ${{ github.ref_name }}
+            Stage: Build
+            Status: STARTED
+            Region: ap-south-1
+          color: 0xffff00
+
+      - name: Create ECR Repo
+        run: |
+          ECR_REPO_LIST=$(aws ecr describe-repositories --region ap-south-1 | jq -r '.repositories[].repositoryName')
+          REPO_NAME='${{ env.image_name }}'
+
+          if [ "$ECR_REPO_LIST" = '[]' ] || [ "$ECR_REPO_LIST" != "$REPO_NAME" ]
+          then
+              if aws ecr create-repository --repository-name "$REPO_NAME" --image-tag-mutability MUTABLE --region ap-south-1 2>&1 | grep -q "RepositoryAlreadyExistsException"
+              then
+                  echo "Repository Already Exists"
+              else
+                 json_content='{
+                     "rules": [
+                         {
+                             "rulePriority": 1,
+                             "description": "Expire images after the 3rd image",
+                             "selection": {
+                                 "tagStatus": "untagged",
+                                 "countType": "imageCountMoreThan",
+                                 "countNumber": 3
+                             },
+                             "action": {
+                                 "type": "expire"
+                             }
+                         }
+                     ]
+                  }'
+                 echo "$json_content" > policy.json
+                 aws ecr put-lifecycle-policy \
+                  --repository-name "$REPO_NAME" \
+                  --lifecycle-policy-text "file://policy.json"
+                 echo "Repository Created"
+              fi
+          fi
+
+      - name: Docker login
+        run: aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${{ env.AWS_Account_ID }}.dkr.ecr.ap-south-1.amazonaws.com
+
+      - name: Build the Docker image
+        run: docker build --tag ${{ env.image_name }} .
+
+      - name: Add tag to Docker image
+        run: docker tag ${{ env.image_name }}:latest ${{ env.AWS_Account_ID }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.image_name }}:latest
+
+      - name: Docker push
+        run: docker push ${{ env.AWS_Account_ID }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.image_name }}:latest
+
+      - name: Docker logout
+        run: docker logout
+
+      - name: Send Success Notification
+        if: success()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: "Github-Actions-Notification-Bot"
+          title: ' ${{ github.repository }} Build Success'
+          description: |
+            Environment: ${{ env.ENVIRONMENT }}
+            Branch: ${{ github.ref_name }}
+            Stage: Build
+            Status: SUCCESS
+            Region: ap-south-1
+          color: 0x00ff00
+
+      - name: Send Failure Notification
+        if: failure()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: "Github-Actions-Notification-Bot"
+          title: ' ${{ github.repository }} Build Failed'
+          description: |
+            Environment: ${{ env.ENVIRONMENT }}
+            Branch: ${{ github.ref_name }}
+            Stage: Build
+            Status: FAILED
+            Region: ap-south-1
+          color: 0xff0000

@@ -41,13 +41,15 @@ class BaseProvider {
         headers: this.getHeaders(),
         timeout: this.timeout
       })
+
       return {
         success: response.data.success,
-        data: response.data,
-        status: response.data.status
+        // data: response.data,
+        data: response.data.data,
+        status: response.data.status_code
       }
     } catch (error) {
-      console.log('base provider err:', error)
+      // console.log('base provider err:', error)
       console.log('error.status:', error.status)
       console.log('val status:', error.response?.status || error.status)
 
