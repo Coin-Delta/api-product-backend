@@ -288,6 +288,7 @@ router.post(
     ? UdyogAadhaarVerifcationController.verifyUdyogAadhaarTest
     : UdyogAadhaarVerifcationController.verifyUdyogAadhaar
 )
+
 router.post(
   '/echallan',
   trimRequest.all,
@@ -302,8 +303,8 @@ router.post(
   trimRequest.all,
   verifyJWT,
   process.env.TEST_MODE === 'true'
-    ? VerifyPanWithAadhaarController.VerifyPanWithAadhaar
-    : VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest
+    ? VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest
+    : VerifyPanWithAadhaarController.VerifyPanWithAadhaar
 )
 
 router.post(

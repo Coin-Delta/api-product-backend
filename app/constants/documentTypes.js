@@ -1,4 +1,3 @@
-// src/constants/apiTypes.js
 exports.DOCUMENT_TYPES = {
   AADHAAR: 'AADHAAR',
   PAN: 'PAN',

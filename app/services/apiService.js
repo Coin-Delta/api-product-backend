@@ -17,15 +17,6 @@ const DocumentService = require('./documentService.js')
 // const DBError = require('../utils/error/dbError.js')
 
 class APIService {
-  //   static async processDocumentAndUpdateBalance({
-  //     apiType,
-  //     price,
-  //     req,
-  //     documentData,
-  //     apiId,
-  //     vendorId,
-  //     clientId
-  //   }) {
   static async processDocumentAndUpdateBalance({
     // apiId,
     documentData,
@@ -40,23 +31,6 @@ class APIService {
       initiatedBy,
       initiatedByRoleId
     )
-    //   const { idNumber } = req.body
-    //   const clientId = req.user.role === 'BCA' ? req.user._id : req.user.BCAId
-    //   const initiatedBy = req?.user?._id
-    //   const initiatedByRole = req?.user?.role
-
-    // const api = await API.findById(apiId).populate('vendorId')
-    // // testing
-    // throw new Error('custom err 0')
-    // if (!api) {
-    //   // return ResponseUtil.send(res, 404, { message: 'API not found' })
-    //   throw new APIError(STATUS_CODES.NOT_FOUND, 'API not found')
-    // }
-    //   const apiType = api.documentType
-
-    // const price = api.price
-    // const vendorId = api.vendorId._id
-    // const documentType = api.documentType
 
     const apiId = apiDetails._id
     const price = apiDetails.price
@@ -213,7 +187,7 @@ class APIService {
         // controller will handle this err
         // here err is a string returned as property from documentService.verifyDocument()
         // const errorMessage = `${documentType} verification failed`
-        console.log('')
+        console.log(statusCode, err, '{{ERRR+++}}')
         throw new APIError(statusCode, err)
       } else {
         // also update transaction log with resp data,succeess and everything
