@@ -4,7 +4,7 @@ const APIController = require('../controllers/api/apiController')
 
 router.post('/', APIController.create)
 router.put('/:id', APIController.update)
-router.get('/api', APIController.getAllActiveApis)
+router.get('/production', APIController.getAllActiveApis)
 router.get('/', APIController.getAllApis)
 router.get('/:id', APIController.getById)
 router.delete('/:id', APIController.delete)
