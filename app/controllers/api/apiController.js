@@ -30,7 +30,16 @@ class APIController {
     }
   }
 
-  static async getAll(req, res) {
+  static async getAllActiveApis(req, res) {
+    try {
+      const apis = await API.find({ isActive: true }).populate('vendor')
+      return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
+    } catch (error) {
+      return ResponseHelper.serverError(res, error)
+    }
+  }
+
+  static async getAllApis(req, res) {
     try {
       const apis = await API.find().populate('vendor')
       return ResponseHelper.success(res, apis, 'APIs retrieved successfully')

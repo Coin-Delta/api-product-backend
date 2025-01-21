@@ -46,273 +46,421 @@ router.post(
   '/aadhaar-validation',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? AadhaarController.verifyAadhaarTest
-    : AadhaarController.verifyAadhaar
+  AadhaarController.verifyAadhaar
 )
+
+router.post(
+  '/test/aadhaar-validation',
+  trimRequest.all,
+  AadhaarController.verifyAadhaarTest
+)
+
 router.post(
   '/driving-license',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? DrivingLicenseController.verifyLicenseTest
-    : DrivingLicenseController.verifyLicense
+  DrivingLicenseController.verifyLicense
 )
 
 router.post(
-  '/verify-rc',
+  '/test/driving-license',
   trimRequest.all,
-  verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? RCTextController.verifyRCTest
-    : RCTextController.verifyRC
+  DrivingLicenseController.verifyLicenseTest
 )
+
+router.post('/verify-rc', trimRequest.all, verifyJWT, RCTextController.verifyRC)
+
+router.post('/test/verify-rc', trimRequest.all, RCTextController.verifyRCTest)
 
 router.post(
   '/verify-voterid',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? VoteridController.verifyVoterIdTest
-    : VoteridController.verifyVoterId
+  VoteridController.verifyVoterId
+)
+
+router.post(
+  '/test/verify-voterid',
+  trimRequest.all,
+  verifyJWT,
+  VoteridController.verifyVoterIdTest
 )
 
 router.post(
   '/verify-pan-lite',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? PANLiteController.verifyPanLiteTest
-    : PANLiteController.verifyPANLite
+  PANLiteController.verifyPANLite
 )
+
+router.post(
+  '/test/verify-pan-lite',
+  trimRequest.all,
+  PANLiteController.verifyPanLiteTest
+)
+
 router.post(
   '/verify-pan-comprehensive',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? PANComprehensiveController.verifyPanCardTest
-    : PANComprehensiveController.verifyPanCard
+  PANComprehensiveController.verifyPanCard
 )
+
+router.post(
+  '/test/verify-pan-comprehensive',
+  trimRequest.all,
+  PANComprehensiveController.verifyPanCardTest
+)
+
 router.post(
   '/bank-verification',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? BankVerificationController.verifyBankDetailsTest
-    : BankVerificationController.verifyBankDetails
+  BankVerificationController.verifyBankDetails
+)
+
+router.post(
+  '/test/bank-verification',
+  trimRequest.all,
+  BankVerificationController.verifyBankDetailsTest
 )
 
 router.post(
   '/bank-verification-pennyless',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? BankVerificationPennylessController.verifyBankDetailsTest
-    : BankVerificationPennylessController.verifyBankDetails
+  BankVerificationPennylessController.verifyBankDetails
+)
+
+router.post(
+  '/test/bank-verification-pennyless',
+  trimRequest.all,
+  BankVerificationPennylessController.verifyBankDetailsTest
 )
 
 router.post(
   '/coporate-cin',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? CorporateCINController.verifyCINTest
-    : CorporateCINController.verifyCIN
+  CorporateCINController.verifyCIN
+)
+
+router.post(
+  '/test/coporate-cin',
+  trimRequest.all,
+  CorporateCINController.verifyCINTest
 )
 
 router.post(
   '/coporate-gstin',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? CorporateGSTINController.verifyGSTINTest
-    : CorporateGSTINController.verifyGSTIN
+  CorporateGSTINController.verifyGSTIN
 )
+
+router.post(
+  '/test/coporate-gstin',
+  trimRequest.all,
+  CorporateGSTINController.verifyGSTINTest
+)
+
 router.post(
   '/credit-report',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? CreditReportController.verifyCreditReportTest
-    : CreditReportController.verifyCreditReport
+  CreditReportController.verifyCreditReport
 )
+
+router.post(
+  '/test/credit-report',
+  trimRequest.all,
+  CreditReportController.verifyCreditReportTest
+)
+
 router.post(
   '/credit-report-pdf',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? CreditReportPDFController.verifyCreditReportPdfTest
-    : CreditReportPDFController.verifyCreditReportPdf
+  CreditReportPDFController.verifyCreditReportPdf
 )
+
+router.post(
+  '/test/credit-report-pdf',
+  trimRequest.all,
+  CreditReportPDFController.verifyCreditReportPdfTest
+)
+
 router.post(
   '/director-phone',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? DirectorPhoneNumberController.verifyDirectorPhoneTest
-    : DirectorPhoneNumberController.verifyDirectorPhone
+  DirectorPhoneNumberController.verifyDirectorPhone
 )
+
+router.post(
+  '/test/director-phone',
+  trimRequest.all,
+  DirectorPhoneNumberController.verifyDirectorPhoneTest
+)
+
 router.post(
   '/ecourt-cnr',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? EcourtByCNRController.verifyEcourtCNRTest
-    : EcourtByCNRController.verifyEcourtCNR
+  EcourtByCNRController.verifyEcourtCNR
 )
+
+router.post(
+  '/test/ecourt-cnr',
+  trimRequest.all,
+  EcourtByCNRController.verifyEcourtCNRTest
+)
+
 router.post(
   '/electricity-bill-details',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? ElectricityBillController.verifyElectricityDetailsTest
-    : ElectricityBillController.verifyElectricityDetails
+  ElectricityBillController.verifyElectricityDetails
 )
+
+router.post(
+  '/test/electricity-bill-details',
+  trimRequest.all,
+  ElectricityBillController.verifyElectricityDetailsTest
+)
+
 router.post(
   '/employment-history-uan',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? EmploymentHistoryController.verifyEmploymentHistoryTest
-    : EmploymentHistoryController.verifyEmploymentHistory
+  EmploymentHistoryController.verifyEmploymentHistory
 )
+
+router.post(
+  '/test/employment-history-uan',
+  trimRequest.all,
+  EmploymentHistoryController.verifyEmploymentHistoryTest
+)
+
 router.post(
   '/fastag-rc',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? FastagRCController.verifyFastagRCDetailsTest
-    : FastagRCController.verifyFastagRCDetails
+  FastagRCController.verifyFastagRCDetails
 )
+
+router.post(
+  '/test/fastag-rc',
+  trimRequest.all,
+  FastagRCController.verifyFastagRCDetailsTest
+)
+
 router.post(
   '/fastag-details',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? FastagVerificationController.verifyFastagDetailsTest
-    : FastagVerificationController.verifyFastagDetails
+  FastagVerificationController.verifyFastagDetails
 )
+
+router.post(
+  '/test/fastag-details',
+  trimRequest.all,
+  FastagVerificationController.verifyFastagDetailsTest
+)
+
 router.post(
   '/fetch-upi-details',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? FetchUPIDetailsController.verifyUPIDetailsTest
-    : FetchUPIDetailsController.verifyUPIDetails
+  FetchUPIDetailsController.verifyUPIDetails
 )
+
+router.post(
+  '/test/fetch-upi-details',
+  trimRequest.all,
+  FetchUPIDetailsController.verifyUPIDetailsTest
+)
+
 router.post(
   '/mobile-to-rc',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? VerifyRCWithMobileController.verifyRCTest
-    : VerifyRCWithMobileController.verifyRC
+  VerifyRCWithMobileController.verifyRC
 )
+
+router.post(
+  '/test/mobile-to-rc',
+  trimRequest.all,
+  VerifyRCWithMobileController.verifyRCTest
+)
+
 router.post(
   '/mobile-to-bank',
-  trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? VerifyBankWithMobileController.verifyBankDetailsTest
-    : VerifyBankWithMobileController.verifyBankDetails
+  trimRequest.all,
+  VerifyBankWithMobileController.verifyBankDetails
 )
+
+router.post(
+  '/test/mobile-to-bank',
+  trimRequest.all,
+  VerifyBankWithMobileController.verifyBankDetailsTest
+)
+
 router.post(
   '/pan-to-uan',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? PANToUANController.verifyUANWithPANTest
-    : PANToUANController.verifyUANWithPAN
+  PANToUANController.verifyUANWithPAN
 )
+
+router.post(
+  '/test/pan-to-uan',
+  trimRequest.all,
+  PANToUANController.verifyUANWithPANTest
+)
+
 router.post(
   '/passport',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? verifyPassportController.verifyPassportTest
-    : verifyPassportController.verifPassport
+  verifyPassportController.verifPassport
 )
+
+router.post(
+  '/test/passport',
+  trimRequest.all,
+  verifyPassportController.verifyPassportTest
+)
+
 router.post(
   '/rc-to-mobile',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? VerifyMobileWithRCController.verifyMobileTest
-    : VerifyMobileWithRCController.verifyMobile
+  VerifyMobileWithRCController.verifyMobile
 )
+
+router.post(
+  '/test/rc-to-mobile',
+  trimRequest.all,
+  VerifyMobileWithRCController.verifyMobileTest
+)
+
 router.post(
   '/ration-card',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? rationCardVerificationController.verifyRationCardTest
-    : rationCardVerificationController.verifyRationCard
+  rationCardVerificationController.verifyRationCard
 )
+
+router.post(
+  '/test/ration-card',
+  trimRequest.all,
+  rationCardVerificationController.verifyRationCardTest
+)
+
 router.post(
   '/tan',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? TanVerifcationController.verifyTANDetailsTest
-    : TanVerifcationController.verifyTANDetails
+  TanVerifcationController.verifyTANDetails
 )
+
+router.post(
+  '/test/tan',
+  trimRequest.all,
+  TanVerifcationController.verifyTANDetailsTest
+)
+
 router.post(
   '/tan-company-search',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? TanCompanySearchController.searchCompanyTanTest
-    : TanCompanySearchController.searchCompanyTan
+  TanCompanySearchController.searchCompanyTan
 )
+
+router.post(
+  '/test/tan-company-search',
+  trimRequest.all,
+  TanCompanySearchController.searchCompanyTanTest
+)
+
 router.post(
   '/telecom-verification',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? TelecomVerifcationController.verifyTelecomDetailsTest
-    : TelecomVerifcationController.verifyTelecomDetails
+  TelecomVerifcationController.verifyTelecomDetails
 )
+
+router.post(
+  '/test/telecom-verification',
+  trimRequest.all,
+  TelecomVerifcationController.verifyTelecomDetailsTest
+)
+
 router.post(
   '/tin-verification',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? TINVerifcationController.verifyTINDetailsTest
-    : TINVerifcationController.verifyTINDetails
+  TINVerifcationController.verifyTINDetails
 )
+
+router.post(
+  '/test/tin-verification',
+  trimRequest.all,
+  TINVerifcationController.verifyTINDetailsTest
+)
+
 router.post(
   '/udyog-aadhaar',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? UdyogAadhaarVerifcationController.verifyUdyogAadhaarTest
-    : UdyogAadhaarVerifcationController.verifyUdyogAadhaar
+  UdyogAadhaarVerifcationController.verifyUdyogAadhaar
 )
+
+router.post(
+  '/test/udyog-aadhaar',
+  trimRequest.all,
+  UdyogAadhaarVerifcationController.verifyUdyogAadhaarTest
+)
+
 router.post(
   '/echallan',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? EchallanController.verifyEchallanTest
-    : EchallanController.verifyEchallan
+  EchallanController.verifyEchallan
+)
+
+router.post(
+  '/test/echallan',
+  trimRequest.all,
+  EchallanController.verifyEchallanTest
 )
 
 router.post(
   '/aadhaar-pan-link',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? VerifyPanWithAadhaarController.VerifyPanWithAadhaar
-    : VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest
+  VerifyPanWithAadhaarController.VerifyPanWithAadhaar
+)
+
+router.post(
+  '/test/aadhaar-pan-link',
+  trimRequest.all,
+  VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest
 )
 
 router.post(
   '/aadhaar-uan-link',
   trimRequest.all,
   verifyJWT,
-  process.env.TEST_MODE === 'true'
-    ? VerifyUANWithAadhaarController.VerifyUANWithAadhaarTest
-    : VerifyUANWithAadhaarController.VerifyUANWithAadhaar
+  VerifyUANWithAadhaarController.VerifyUANWithAadhaar
+)
+
+router.post(
+  '/test/aadhaar-uan-link',
+  trimRequest.all,
+  VerifyUANWithAadhaarController.VerifyUANWithAadhaarTest
 )
 
 router.post(
