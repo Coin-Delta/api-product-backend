@@ -1,4 +1,7 @@
+// Updated Transaction Schema with mongoose-paginate-v2
+
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 const { TRANSACTION_TYPES } = require('../constants/transactionTypes.js')
 
 const apiTransactionSchema = new mongoose.Schema(
@@ -6,12 +9,10 @@ const apiTransactionSchema = new mongoose.Schema(
     apiId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'API'
-      // required: true
     },
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'APIVendor'
-      // required: true
     },
     clientId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -27,7 +28,6 @@ const apiTransactionSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['PENDING', 'SUCCESS', 'FAILED']
-      // default: 'PENDING'
     },
     price: {
       type: Number
@@ -47,18 +47,19 @@ const apiTransactionSchema = new mongoose.Schema(
     },
     transactionType: {
       type: String,
-      enum: [TRANSACTION_TYPES.CREDIT, TRANSACTION_TYPES.DEBIT]
-      // require: true
+      enum: [
+        TRANSACTION_TYPES.CREDIT,
+        TRANSACTION_TYPES.DEBIT,
+        TRANSACTION_TYPES.RECHARGE
+      ]
     },
     initiatedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
-      // required: true
     },
     initiatedByRoleId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Role'
-      // required: true
     }
   },
   {
@@ -71,5 +72,9 @@ const apiTransactionSchema = new mongoose.Schema(
 // Add indexes for performance
 apiTransactionSchema.index({ apiId: 1, vendorId: 1, status: 1 })
 apiTransactionSchema.index({ requestedAt: -1 })
+apiTransactionSchema.index({ clientId: 1 })
+
+// Add pagination plugin
+apiTransactionSchema.plugin(mongoosePaginate)
 
 module.exports = mongoose.model('APITransaction', apiTransactionSchema)

@@ -10,32 +10,9 @@ class WalletService {
     return await APIWallet.findOne({ clientId }).select('_id balance')
   }
 
-  // static async checkAndDeductBalance(clientId, amount) {
-  //   const wallet = await this.findWallet(clientId)
-  //   if (!wallet) {
-  //     throw new Error('Wallet not found')
-  //   }
-
-  //   if (wallet.balance < amount) {
-  //     throw new Error('Insufficient balance')
-  //   }
-
-  //   return wallet
-  // }
-
-  // static async deductBalance(wallet, amount) {
-  //   // Using the pre-save middleware, only balance updates are allowed
-  //   wallet.balance -= amount
-  //   return wallet.save()
-  // }
-
   static async getWalletAndCheckBalance(clientId, price) {
     const wallet = await WalletService.findWallet(clientId)
-    // const wallets = await apiWallet.find({})
-    // console.log('all wallets:', wallets)
-    // let wallet
-    // console.log('clientid:', clientId)
-    // console.log('type of clientid:', typeof wallets[0].clientId)
+
     if (!wallet) {
       throw new WalletError(STATUS_CODES.NOT_FOUND, 'Wallet not found')
     }
@@ -52,11 +29,7 @@ class WalletService {
     return wallet
   }
 
-  static async changeWallet(
-    // { clientId, price, transactionType, initiatedBy, initiatedByRole },
-    { clientId, price, transactionType },
-    session
-  ) {
+  static async changeWallet({ clientId, price, transactionType }, session) {
     try {
       console.log('changeWallet called')
       console.log('clientid,price,tran type:', clientId, price, transactionType)
@@ -66,11 +39,7 @@ class WalletService {
       if (!wallet) {
         throw new WalletError(STATUS_CODES.NOT_FOUND, 'Wallet not found')
       }
-      // console.log('wallet found:', wallet)
-      // Validate access
-      // await this.validateAccess(wallet, initiatedBy, initiatedByRole)
 
-      // in case of debit it will be -ve and for credit => +ve
       if (transactionType === TRANSACTION_TYPES.DEBIT) {
         price = -price
       }
