@@ -41,7 +41,7 @@ const verifyJWT = async (req, res, next) => {
 
     console.log('decoded token:', decoded)
 
-    const permission = decoded.permissions['canAccessAPIProduct']
+    const permission = decoded?.claims?.includes('access_api_catalog')
 
     try {
       if (!permission) {
