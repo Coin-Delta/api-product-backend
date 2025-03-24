@@ -37,6 +37,7 @@ const EchallanController = require('../controllers/apiProduct/echallanVerificati
 const VerifyPanWithAadhaarController = require('../controllers/apiProduct/aadhaarToPanController')
 const VerifyUANWithAadhaarController = require('../controllers/apiProduct/aadhaarToUanController')
 const DynamicController = require('../controllers/apiProduct/dynamicValidationController.js')
+const MobileToUANController = require('../controllers/apiProduct/mobileToUANController.js')
 
 /*
  * API Product route
@@ -312,6 +313,12 @@ router.post(
   trimRequest.all,
   verifyJWT,
   PANToUANController.verifyUANWithPAN
+)
+router.post(
+  '/mobile-to-uan',
+  trimRequest.all,
+  verifyJWT,
+  MobileToUANController.verifyUANWithMobile
 )
 
 router.post(
