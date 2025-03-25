@@ -1,41 +1,25 @@
 // services/transaction.service.js
 const APITransaction = require('../models/apiTransaction')
-// const {
-//   TRANSACTION_STATUS_TYPES
-// } = require('../constants/transactionStatusTypes.js')
+const {
+  TRANSACTION_STATUS_TYPES
+} = require('../constants/transactionStatusTypes.js')
 const DBError = require('../utils/error/dbError.js')
 const { STATUS_CODES } = require('../constants/statusCodes.js')
 
 class TransactionService {
   static async createTransaction(
-    {
-      apiId,
-      vendorId,
-      requestData,
-      price,
-      transactionType,
-      status,
-      clientId,
-      initiatedBy,
-      initiatedByRoleId
-    },
+    { apiId, vendorId, requestData, price, transactionType, clientId, remark },
     session
   ) {
-    console.log(
-      'initiatedBy,initiatedByRoleId:',
-      initiatedBy,
-      initiatedByRoleId
-    )
     return new APITransaction({
       apiId,
       vendorId,
       requestData,
       price,
-      status,
+      status: TRANSACTION_STATUS_TYPES.PENDING,
       transactionType,
       clientId,
-      initiatedBy,
-      initiatedByRoleId
+      remark
     }).save({ session })
   }
 
@@ -44,6 +28,7 @@ class TransactionService {
       const {
         _id,
         status,
+        remark,
         responseData,
         httpStatus,
         errorMessage,
@@ -59,6 +44,7 @@ class TransactionService {
           responseData,
           httpStatus,
           errorMessage,
+          remark,
           completedAt
         },
         { new: true, session }

@@ -81,7 +81,10 @@ class WalletService {
       )
       console.log('updatedWallet found:', updatedWallet)
 
-      return updatedWallet
+      return {
+        wallet: updatedWallet,
+        afterBalance: updatedWallet.balance
+      }
     } catch (err) {
       console.log('error inside change wallet:', err)
       throw err

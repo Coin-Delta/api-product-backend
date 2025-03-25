@@ -8,9 +8,10 @@ class DocumentService {
   }
 
   async verifyDocument(documentType, data) {
-    console.log(data, '{documentType}')
     try {
-      return await this.provider.verify(documentType, data)
+      const response = await this.provider.verify(documentType, data)
+      console.log(response, 'RES FROM DOCUMENT SERVICE')
+      return response
     } catch (error) {
       throw new Error(`Document verification failed: ${error.message}`)
     }
