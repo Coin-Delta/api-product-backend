@@ -53,7 +53,7 @@ class SurepassProvider extends BaseProvider {
       [DOCUMENT_TYPES.CORPORATE_CIN]: '/corporate/company-details',
       [DOCUMENT_TYPES.CORPORATE_GSTIN]: '/corporate/gstin',
       [DOCUMENT_TYPES.CREDIT_REPORT]: '/credit-report-v2/fetch-report',
-      [DOCUMENT_TYPES.CREDIT_REPORT_PDF]: 'credit-report-v2/fetch-pdf-report',
+      [DOCUMENT_TYPES.CREDIT_REPORT_PDF]: '/credit-report-v2/fetch-pdf-report',
       [DOCUMENT_TYPES.DIRECTOR_PHONE]: '/corporate/director-phone',
       [DOCUMENT_TYPES.ECOURT_CNR]: '/ecourts/ecourt-cnr-search',
       [DOCUMENT_TYPES.ELECTRICITY_BILL_DETAILS]: '/utility/electricity/',
