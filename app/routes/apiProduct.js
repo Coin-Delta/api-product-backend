@@ -38,6 +38,9 @@ const VerifyPanWithAadhaarController = require('../controllers/apiProduct/aadhaa
 const VerifyUANWithAadhaarController = require('../controllers/apiProduct/aadhaarToUanController')
 const DynamicController = require('../controllers/apiProduct/dynamicValidationController.js')
 const MobileToUANController = require('../controllers/apiProduct/mobileToUANController.js')
+const {
+  getDashboardAnalytics
+} = require('../controllers/dashboardAnalytics/getDashboardAnalytics.js')
 
 /*
  * API Product route
@@ -478,5 +481,6 @@ router.post(
     ? DynamicController.verifyDocumentTest
     : DynamicController.verifyDocument
 )
+router.post('/dashboard-analytics', trimRequest.all, getDashboardAnalytics)
 
 module.exports = router

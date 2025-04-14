@@ -1,5 +1,6 @@
 // controllers/api.controller.js
 const API = require('../../models/api')
+const BCA = require('../../models/BCA')
 const ResponseHelper = require('../../utils/responseHelper')
 
 class APIController {
@@ -30,9 +31,38 @@ class APIController {
     }
   }
 
+  // static async getAllActiveApis(req, res) {
+  //   try {
+  //     const user = await BCA.findById(req.user.bcaId)
+  //     let apiConfiguration = user?.configurations.apiCatalog.allowedApis
+  //     console.log('WAIT FOR USER', apiConfiguration, 'USERINREQUEST', user)
+
+  //     const apis = await API.find({ isActive: true }).populate('vendor')
+  //     return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
+  //   } catch (error) {
+  //     return ResponseHelper.serverError(res, error)
+  //   }
+  // }
   static async getAllActiveApis(req, res) {
     try {
-      const apis = await API.find({ isActive: true }).populate('vendor')
+      const user = await BCA.findById(req.user.bcaId)
+      const apiConfiguration =
+        user?.configurations?.apiCatalog?.allowedApis || []
+
+      console.log('Allowed API IDs:', apiConfiguration)
+
+      if (!Array.isArray(apiConfiguration) || apiConfiguration.length === 0) {
+        return ResponseHelper.success(
+          res,
+          [],
+          'No allowed APIs configured for this user'
+        )
+      }
+
+      const apis = await API.find({
+        _id: { $in: apiConfiguration }
+      }).populate('vendor')
+
       return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
     } catch (error) {
       return ResponseHelper.serverError(res, error)
@@ -41,6 +71,7 @@ class APIController {
 
   static async getAllApis(req, res) {
     try {
+      console.log(req.user.confifuration.apiCatalog, 'USE-----')
       const apis = await API.find().populate('vendor')
       return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
     } catch (error) {
