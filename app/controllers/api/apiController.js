@@ -31,37 +31,41 @@ class APIController {
     }
   }
 
-  // static async getAllActiveApis(req, res) {
-  //   try {
-  //     const user = await BCA.findById(req.user.bcaId)
-  //     let apiConfiguration = user?.configurations.apiCatalog.allowedApis
-  //     console.log('WAIT FOR USER', apiConfiguration, 'USERINREQUEST', user)
-
-  //     const apis = await API.find({ isActive: true }).populate('vendor')
-  //     return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
-  //   } catch (error) {
-  //     return ResponseHelper.serverError(res, error)
-  //   }
-  // }
   static async getAllActiveApis(req, res) {
     try {
       const user = await BCA.findById(req.user.bcaId)
-      const apiConfiguration =
-        user?.configurations?.apiCatalog?.allowedApis || []
+      const isUserAllowedToAccess = user?.configurations?.apiCatalog?.enabled
+      const isUserHavingAccessToAllApis = user?.configurations?.apiCatalog?.all
+      const allowedApis = user?.configurations?.apiCatalog?.allowedApis || []
 
-      console.log('Allowed API IDs:', apiConfiguration)
+      console.log('Allowed API IDs:', user?.configurations?.apiCatalog)
 
-      if (!Array.isArray(apiConfiguration) || apiConfiguration.length === 0) {
-        return ResponseHelper.success(
-          res,
-          [],
-          'No allowed APIs configured for this user'
-        )
+      let apis = []
+
+      if (isUserAllowedToAccess) {
+        if (isUserHavingAccessToAllApis) {
+          // Get all APIs if user has access to all
+          // apis = await API.find({ isActive: true }).populate('vendor')
+          apis = await API.find().populate('vendor')
+        } else {
+          // Check if the allowedApis array is valid and not empty
+          if (!Array.isArray(allowedApis) || allowedApis.length === 0) {
+            return ResponseHelper.success(
+              res,
+              [],
+              'No allowed APIs configured for this user'
+            )
+          }
+
+          // Get only the allowed APIs for this user
+          apis = await API.find({
+            _id: { $in: allowedApis }
+          }).populate('vendor')
+        }
+      } else {
+        // If user doesn't have access, return empty array
+        apis = []
       }
-
-      const apis = await API.find({
-        _id: { $in: apiConfiguration }
-      }).populate('vendor')
 
       return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
     } catch (error) {
@@ -71,7 +75,6 @@ class APIController {
 
   static async getAllApis(req, res) {
     try {
-      console.log(req.user.confifuration.apiCatalog, 'USE-----')
       const apis = await API.find().populate('vendor')
       return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
     } catch (error) {
