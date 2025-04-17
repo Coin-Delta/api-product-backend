@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 
 const apiSchema = new mongoose.Schema(
   {
@@ -62,5 +63,8 @@ apiSchema.virtual('vendor', {
   foreignField: '_id',
   justOne: true
 })
+
+// Add pagination plugin
+apiSchema.plugin(mongoosePaginate)
 
 module.exports = mongoose.model('API', apiSchema)

@@ -34,40 +34,64 @@ class APIController {
   static async getAllActiveApis(req, res) {
     try {
       const user = await BCA.findById(req.user.bcaId)
+      console.log(user)
       const isUserAllowedToAccess = user?.configurations?.apiCatalog?.enabled
       const isUserHavingAccessToAllApis = user?.configurations?.apiCatalog?.all
       const allowedApis = user?.configurations?.apiCatalog?.allowedApis || []
+      console.log(allowedApis.length)
+      // Ensure limit is a number and between 1-100
+      let limit = parseInt(req.query.limit) || 10
+      limit = Math.min(Math.max(limit, 1), 100)
 
-      console.log('Allowed API IDs:', user?.configurations?.apiCatalog)
+      // Ensure page is a positive number
+      let page = parseInt(req.query.page) || 1
+      page = Math.max(page, 1)
 
-      let apis = []
-
-      if (isUserAllowedToAccess) {
-        if (isUserHavingAccessToAllApis) {
-          // Get all APIs if user has access to all
-          // apis = await API.find({ isActive: true }).populate('vendor')
-          apis = await API.find().populate('vendor')
-        } else {
-          // Check if the allowedApis array is valid and not empty
-          if (!Array.isArray(allowedApis) || allowedApis.length === 0) {
-            return ResponseHelper.success(
-              res,
-              [],
-              'No allowed APIs configured for this user'
-            )
-          }
-
-          // Get only the allowed APIs for this user
-          apis = await API.find({
-            _id: { $in: allowedApis }
-          }).populate('vendor')
-        }
-      } else {
-        // If user doesn't have access, return empty array
-        apis = []
+      // Return early if user does not have access
+      if (!isUserAllowedToAccess) {
+        return ResponseHelper.success(res, [], 'APIs are not allowed to access')
       }
 
-      return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
+      const options = {
+        page,
+        limit,
+        populate: 'vendor',
+        lean: true // For better performance
+      }
+
+      let result
+      // If user has access to all APIs
+      if (isUserHavingAccessToAllApis) {
+        result = await API.paginate({}, options)
+      } else {
+        // If user has access to specific APIs only
+        if (!allowedApis.length) {
+          return ResponseHelper.success(
+            res,
+            [],
+            'No APIs are configured for access'
+          )
+        }
+        result = await API.paginate({ _id: { $in: allowedApis } }, options)
+      }
+
+      const paginatedResult = {
+        docs: result.docs,
+        totalDocs: result.totalDocs,
+        page: result.page,
+        limit: limit,
+        totalPages: result.totalPages,
+        nextPage: result.hasNextPage ? result.nextPage : null,
+        prevPage: result.hasPrevPage ? result.prevPage : null,
+        hasNextPage: result.hasNextPage,
+        hasPrevPage: result.hasPrevPage
+      }
+
+      return ResponseHelper.success(
+        res,
+        paginatedResult,
+        'APIs retrieved successfully'
+      )
     } catch (error) {
       return ResponseHelper.serverError(res, error)
     }
@@ -75,9 +99,53 @@ class APIController {
 
   static async getAllApis(req, res) {
     try {
-      const apis = await API.find().populate('vendor')
-      return ResponseHelper.success(res, apis, 'APIs retrieved successfully')
+      // Ensure limit is a number and between 1-100
+      let limit = parseInt(req.query.limit) || 10
+      limit = Math.min(Math.max(limit, 1), 100)
+
+      // Ensure page is a positive number
+      let page = parseInt(req.query.page) || 1
+      page = Math.max(page, 1)
+
+      const options = {
+        page: page,
+        limit: limit,
+        populate: 'vendor',
+        lean: true // For better performance
+      }
+
+      // Log the actual values being used
+      console.log('Using pagination values:', { page, limit })
+
+      const result = await API.paginate({}, options)
+
+      // Verify the result has expected pagination data
+      console.log('Pagination result:', {
+        totalDocs: result.totalDocs,
+        limit: result.limit,
+        page: result.page,
+        totalPages: result.totalPages
+      })
+
+      const paginatedResult = {
+        docs: result.docs,
+        totalDocs: result.totalDocs,
+        limit: limit,
+        page: result.page,
+        totalPages: result.totalPages,
+        nextPage: result.hasNextPage ? result.nextPage : null,
+        prevPage: result.hasPrevPage ? result.prevPage : null,
+        hasNextPage: result.hasNextPage,
+        hasPrevPage: result.hasPrevPage
+      }
+
+      return ResponseHelper.success(
+        res,
+        paginatedResult,
+        'APIs retrieved successfully'
+      )
     } catch (error) {
+      console.error('Error in getAllApis pagination:', error)
       return ResponseHelper.serverError(res, error)
     }
   }
