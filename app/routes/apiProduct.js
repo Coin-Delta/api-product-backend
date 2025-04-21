@@ -41,6 +41,7 @@ const MobileToUANController = require('../controllers/apiProduct/mobileToUANCont
 const {
   getDashboardAnalytics
 } = require('../controllers/dashboardAnalytics/getDashboardAnalytics.js')
+const DirectorVerification = require('../controllers/apiProduct/dinVerificationController.js')
 
 /*
  * API Product route
@@ -61,6 +62,7 @@ const {
 
 router.post('/aadhaar-validation', trimRequest.all, (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
+    console.log(process.env.NODE_ENV)
     // Skip JWT verification and go directly to test controller
     return AadhaarController.verifyAadhaarTest(req, res, next)
   } else {
@@ -892,6 +894,17 @@ router.post('/aadhaar-uan-link', trimRequest.all, (req, res, next) => {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
       VerifyUANWithAadhaarController.VerifyUANWithAadhaar(req, res, next)
+    })
+  }
+})
+router.post('/din-verification', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return DirectorVerification.verifyDINTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      DirectorVerification.verifyDIN(req, res, next)
     })
   }
 })
