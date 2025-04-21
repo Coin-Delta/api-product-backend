@@ -119,3 +119,23 @@ jobs:
             Status: FAILED
             Region: ap-south-1
           color: 0xff0000
+      - name: Deploy to Hostinger VPS via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOSTINGER_IP }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          port: 22
+          script: |
+            echo "Logging in to ECR..."
+            aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 637423611985.dkr.ecr.ap-south-1.amazonaws.com
+            
+            echo "Pulling latest api-product-backend image..."
+            docker pull 637423611985.dkr.ecr.ap-south-1.amazonaws.com/api-product-backend-refs/heads/beta:latest
+
+            echo "Restarting only api-product-backend container..."
+            cd Home/container
+            docker compose up -d api-product-backend
+
+            echo "Cleaning up old images (keeping latest 3)..."
+            docker images "637423611985.dkr.ecr.ap-south-1.amazonaws.com/api-product-backend-refs/heads/beta" --format "{{.ID}}" | tail -n +4 | xargs -r docker rmi || true
