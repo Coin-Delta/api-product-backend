@@ -5,8 +5,8 @@ const { verifyJWT } = require('../middleware/auth')
 
 router.post('/', APIController.create)
 router.put('/:id', APIController.update)
-router.get('/production', verifyJWT, APIController.getAllActiveApis)
-router.get('/', APIController.getAllApis)
+router.get('/', verifyJWT, APIController.getAllActiveApis)
+router.get('/all', APIController.getAllApis)
 router.get('/:id', APIController.getById)
 router.delete('/:id', APIController.delete)
 
