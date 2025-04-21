@@ -42,6 +42,225 @@ const MOCK_RESPONSES = {
       }
     }
   },
+  din_verification: {
+    success: {
+      data: {
+        data: {
+          director_data: {
+            din: '00000001',
+            name: 'RATAN NAVAL TATA'
+          },
+          company_data: [
+            {
+              end_date: '-',
+              designation: 'Director',
+              company_name: 'RNT ASSOCIATES PRIVATE LIMITED',
+              begin_date: '05/03/2009',
+              'cin/fcrn': 'U74990MH2009PTC190764'
+            },
+            {
+              end_date: '-',
+              designation: 'Director',
+              company_name: 'TATA FOUNDATION',
+              begin_date: '21/02/2014',
+              'cin/fcrn': 'U85191MH2014NPL253500'
+            },
+            {
+              end_date: '-',
+              designation: 'Director',
+              company_name: 'RATAN TATA FOUNDATION',
+              begin_date: '06/07/2017',
+              'cin/fcrn': 'U74999MH2017NPL297009'
+            },
+            {
+              end_date: '09/10/2024',
+              designation: 'Nominee Director',
+              company_name: 'ADVANCED VETERINARY CARE FOUNDATION',
+              begin_date: '28/11/2022',
+              'cin/fcrn': 'U85320MH2018NPL311761'
+            },
+            {
+              end_date: '09/10/2024',
+              designation: 'Director',
+              company_name: 'ELECTRODRIVE POWERTRAIN SOLUTIONS PRIVATE LIMITED',
+              begin_date: '30/09/2019',
+              'cin/fcrn': 'U74999TZ2017PTC029256'
+            },
+            {
+              end_date: '09/10/2024',
+              designation: 'Director',
+              company_name: 'AVANTI FINANCE PRIVATE LIMITED',
+              begin_date: '01/08/2016',
+              'cin/fcrn': 'U65929KA2016PTC138355'
+            },
+            {
+              end_date: '26/03/2024',
+              designation: 'Director',
+              company_name: 'AVANTI MICROFINANCE PRIVATE LIMITED',
+              begin_date: '07/10/2016',
+              'cin/fcrn': 'U65929KA2016PTC138292'
+            },
+            {
+              end_date: '23/03/2009',
+              designation: 'Director',
+              company_name: 'TATA TELESERVICES (MAHARASHTRA) LIMITED',
+              begin_date: '11/08/2006',
+              'cin/fcrn': 'L64200MH1995PLC086354'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'THE TATA POWER COMPANY LIMITED',
+              begin_date: '18/05/1989',
+              'cin/fcrn': 'L28920MH1919PLC000567'
+            },
+            {
+              end_date: '22/02/2017',
+              designation: 'Additional Director',
+              company_name: 'TATA SONS PRIVATE LIMITED',
+              begin_date: '24/10/2016',
+              'cin/fcrn': 'U99999MH1917PTC000478'
+            },
+            {
+              end_date: '22/02/2009',
+              designation: 'Director',
+              company_name: 'HINDUSTAN AERONAUTICS LIMITED',
+              begin_date: '23/02/2006',
+              'cin/fcrn': 'L35301KA1963GOI001622'
+            },
+            {
+              end_date: '10/08/2006',
+              designation: 'Director',
+              company_name: 'TATA TELESERVICES (MAHARASHTRA) LIMITED',
+              begin_date: '18/10/2005',
+              'cin/fcrn': 'L64200MH1995PLC086354'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'THE INDIAN HOTELS COMPANY LIMITED',
+              begin_date: '09/01/1984',
+              'cin/fcrn': 'L74999MH1902PLC000183'
+            },
+            {
+              end_date: '26/09/2008',
+              designation: 'Director',
+              company_name: 'TATA AUTOCOMP SYSTEMS LIMITED',
+              begin_date: '29/05/1997',
+              'cin/fcrn': 'U30204PN1995PLC158999'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'TATA INDUSTRIES LIMITED',
+              begin_date: '06/09/1981',
+              'cin/fcrn': 'U44003MH1945PLC004403'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Nominee Director',
+              company_name: 'TATA TELESERVICES LIMITED',
+              begin_date: '18/10/2005',
+              'cin/fcrn': 'U74899DL1995PLC066685'
+            },
+            {
+              end_date: '30/09/2019',
+              designation: 'Additional Director',
+              company_name: 'ELECTRODRIVE POWERTRAIN SOLUTIONS PRIVATE LIMITED',
+              begin_date: '26/03/2019',
+              'cin/fcrn': 'U74999TZ2017PTC029256'
+            },
+            {
+              end_date: '07/06/2013',
+              designation: 'Director',
+              company_name: 'ANTRIX CORPORATION LIMITED',
+              begin_date: '27/11/1992',
+              'cin/fcrn': 'U85110KA1992GOI013570'
+            },
+            {
+              end_date: '29/12/2012',
+              designation: 'Director',
+              company_name: 'TATA SONS PRIVATE LIMITED',
+              begin_date: '21/08/1974',
+              'cin/fcrn': 'U99999MH1917PTC000478'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'TATA STEEL LIMITED',
+              begin_date: '17/08/1977',
+              'cin/fcrn': 'L27100MH1907PLC000260'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'TATA CHEMICALS LIMITED',
+              begin_date: '11/04/1983',
+              'cin/fcrn': 'L24239MH1939PLC002893'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'TATA CONSULTANCY SERVICES LIMITED',
+              begin_date: '05/05/2004',
+              'cin/fcrn': 'L22210MH1995PLC084781'
+            },
+            {
+              end_date: '07/02/2013',
+              designation: 'Director',
+              company_name:
+                'THE BOMBAY DYEING AND MANUFACTURING COMPANY LIMITED',
+              begin_date: '01/08/1979',
+              'cin/fcrn': 'L17120MH1879PLC000037'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'TATA CONSUMER PRODUCTS LIMITED',
+              begin_date: '18/01/1991',
+              'cin/fcrn': 'L15491WB1962PLC031425'
+            },
+            {
+              end_date: '28/12/2012',
+              designation: 'Director',
+              company_name: 'TATA MOTORS LIMITED',
+              begin_date: '14/08/1981',
+              'cin/fcrn': 'L28920MH1945PLC004520'
+            }
+          ],
+          llp_data: [
+            {
+              end_date: '-',
+              llp_name: 'AVANTI CAPITAL ADVISORS LLP',
+              designation: 'Designated Partner',
+              begin_date: '09/04/2017',
+              'llpin/fllpin': 'AAJ-1011'
+            },
+            {
+              end_date: '-',
+              llp_name: 'RNT CAPITAL ADVISERS LLP',
+              designation: 'Designated Partner',
+              begin_date: '12/04/2016',
+              'llpin/fllpin': 'AAG-1638'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
+        status_code: 422,
+        success: false,
+        message: 'Inactive ClientId',
+        message_code: 'verification_failed'
+      }
+    }
+  },
   driving_license: {
     success: {
       data: {
