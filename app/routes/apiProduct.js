@@ -41,6 +41,15 @@ const MobileToUANController = require('../controllers/apiProduct/mobileToUANCont
 const {
   getDashboardAnalytics
 } = require('../controllers/dashboardAnalytics/getDashboardAnalytics.js')
+const DirectorVerification = require('../controllers/apiProduct/dinVerificationController.js')
+const AadhaarDetailsController = require('../controllers/apiProduct/aadhaarDetailsController.js')
+const FSSAIVerification = require('../controllers/apiProduct/fssaiVerification.js')
+const GSTDetailsAdvanceController = require('../controllers/apiProduct/gstDetailsAdvanceController.js')
+const PANAdvanceController = require('../controllers/apiProduct/panAdvanceVerification.js')
+const PANUDYAMMSMEController = require('../controllers/apiProduct/panUdyamMsmeStatusController.js')
+const EmploymentHistoryAdvanceController = require('../controllers/apiProduct/employmentHistoryAdvance.js')
+const CreditReportV2Controller = require('../controllers/apiProduct/creditReportV2Controller.js')
+const ccrvController = require('../controllers/apiProduct/ccrvController.js')
 
 /*
  * API Product route
@@ -61,12 +70,72 @@ const {
 
 router.post('/aadhaar-validation', trimRequest.all, (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
+    console.log(process.env.NODE_ENV)
     // Skip JWT verification and go directly to test controller
     return AadhaarController.verifyAadhaarTest(req, res, next)
   } else {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
       AadhaarController.verifyAadhaar(req, res, next)
+    })
+  }
+})
+router.post(
+  '/aadhaar-details-generate-otp',
+  trimRequest.all,
+  (req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(process.env.NODE_ENV)
+      // Skip JWT verification and go directly to test controller
+      return AadhaarController.verifyAadhaarTest(req, res, next)
+    } else {
+      // Verify JWT and continue to the real controller
+      verifyJWT(req, res, () => {
+        AadhaarDetailsController.generateOtp(req, res, next)
+      })
+    }
+  }
+)
+
+router.post(
+  '/aadhaar-details-verify-otp',
+  trimRequest.all,
+  (req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(process.env.NODE_ENV)
+      // Skip JWT verification and go directly to test controller
+      return AadhaarController.verifyAadhaarTest(req, res, next)
+    } else {
+      // Verify JWT and continue to the real controller
+      verifyJWT(req, res, () => {
+        AadhaarDetailsController.verifyOtp(req, res, next)
+      })
+    }
+  }
+)
+
+router.post('/fssai-verification', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(process.env.NODE_ENV)
+    // Skip JWT verification and go directly to test controller
+    return FSSAIVerification.verifyFSSAITest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      FSSAIVerification.verifyFSSAI(req, res, next)
+    })
+  }
+})
+
+router.post('/gst-details-advance', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(process.env.NODE_ENV)
+    // Skip JWT verification and go directly to test controller
+    return GSTDetailsAdvanceController.verifyGSTAdvanceTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      GSTDetailsAdvanceController.verifyGSTAdvance(req, res, next)
     })
   }
 })
@@ -342,6 +411,17 @@ router.post('/credit-report-pdf', trimRequest.all, (req, res, next) => {
     })
   }
 })
+router.post('/credit-report-v2', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return CreditReportV2Controller.verifyCreditReportPdfTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      CreditReportV2Controller.verifyCreditReportPdf(req, res, next)
+    })
+  }
+})
 
 // router.post(
 //   '/director-phone',
@@ -447,6 +527,53 @@ router.post('/employment-history-uan', trimRequest.all, (req, res, next) => {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
       EmploymentHistoryController.verifyEmploymentHistory(req, res, next)
+    })
+  }
+})
+
+router.post(
+  '/employment-history-advance',
+  trimRequest.all,
+  (req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+      // Skip JWT verification and go directly to test controller
+      return EmploymentHistoryAdvanceController.verifyEmploymentHistoryTest(
+        req,
+        res,
+        next
+      )
+    } else {
+      // Verify JWT and continue to the real controller
+      verifyJWT(req, res, () => {
+        EmploymentHistoryAdvanceController.verifyEmploymentHistory(
+          req,
+          res,
+          next
+        )
+      })
+    }
+  }
+)
+
+router.post('/ccrv-generate-request', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return ccrvController.generateCCRVRequestTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      ccrvController.generateCCRVRequest(req, res, next)
+    })
+  }
+})
+router.post('/ccrv-verify-request', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return ccrvController.fecthCCRVRequestTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      ccrvController.fecthCCRVRequest(req, res, next)
     })
   }
 })
@@ -589,6 +716,29 @@ router.post('/pan-to-uan', trimRequest.all, (req, res, next) => {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
       PANToUANController.verifyUANWithPAN(req, res, next)
+    })
+  }
+})
+
+router.post('/pan-advance-verification', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return PANAdvanceController.verifyPanCardTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      PANAdvanceController.verifyPanCard(req, res, next)
+    })
+  }
+})
+router.post('/pan-udyam-msme-status', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return PANUDYAMMSMEController.verifyPANUDYAMMSMEStatusTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      PANUDYAMMSMEController.verifyPANUDYAMMSMEStatus(req, res, next)
     })
   }
 })
@@ -892,6 +1042,17 @@ router.post('/aadhaar-uan-link', trimRequest.all, (req, res, next) => {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
       VerifyUANWithAadhaarController.VerifyUANWithAadhaar(req, res, next)
+    })
+  }
+})
+router.post('/din-verification', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return DirectorVerification.verifyDINTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      DirectorVerification.verifyDIN(req, res, next)
     })
   }
 })
