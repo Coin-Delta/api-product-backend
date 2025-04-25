@@ -17,7 +17,10 @@ class TransactionService {
       status,
       clientId,
       initiatedBy,
-      initiatedByRoleId
+      initiatedByRoleId,
+      httpStatus,
+      remark,
+      afterBalance
     },
     session
   ) {
@@ -35,7 +38,10 @@ class TransactionService {
       transactionType,
       clientId,
       initiatedBy,
-      initiatedByRoleId
+      initiatedByRoleId,
+      httpStatus,
+      remark,
+      afterBalance
     }).save({ session })
   }
 
@@ -47,6 +53,8 @@ class TransactionService {
         responseData,
         httpStatus,
         errorMessage,
+        remark,
+        afterBalance,
         completedAt
       } = transactionData
       console.log('update trans data:', transactionData)
@@ -59,6 +67,8 @@ class TransactionService {
           responseData,
           httpStatus,
           errorMessage,
+          remark,
+          afterBalance,
           completedAt
         },
         { new: true, session }
