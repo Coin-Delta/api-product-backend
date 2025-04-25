@@ -1,22 +1,29 @@
 const SurepassProvider = require('../providers/surepassProvider')
-const SignzyProvider = require('../providers/signzyProvider')
+const DeepVueProvider = require('../providers/DeepVueProvider')
+const OnGridProvider = require('../providers/onGridProvider')
 
 class ProviderFactory {
   static #providers = {
-    signzy: SignzyProvider,
-    surepass: SurepassProvider
+    surepass: SurepassProvider,
+    deepvuetech: DeepVueProvider,
+    ongrid: OnGridProvider
   }
 
   static #configurations = {
-    signzy: {
-      baseUrl: process.env.SIGNZY_BASE_URL,
-      apiKey: process.env.SIGNZY_API_KEY,
-      apiSecret: process.env.SIGNZY_API_SECRET,
-      timeout: 20000
-    },
     surepass: {
       baseUrl: process.env.APIPRODUCT_BASEURL,
       token: process.env.API_TOKEN,
+      timeout: 30000
+    },
+    deepvuetech: {
+      baseUrl: process.env.DEEPVUE_BASE_URL_V1,
+      clientId: process.env.DEEPVUE_CLIENT_ID,
+      clientSecret: process.env.DEEPVUE_CLIENT_SECRET,
+      timeout: 30000
+    },
+    ongrid: {
+      baseUrl: process.env.ONGRID_BASE_URL,
+      apiKey: process.env.ONGRID_API_KEY,
       timeout: 30000
     }
   }

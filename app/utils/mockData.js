@@ -261,6 +261,493 @@ const MOCK_RESPONSES = {
       }
     }
   },
+  fssai_verification: {
+    success: {
+      data: {
+        data: {
+          id_number: '21524010000507',
+          application_number: '30240523116619907',
+          fssai_number: '21524010000507',
+          details: [
+            {
+              address_premises:
+                'SHOP NO-F/37,1ST FLR,SEZ PLAZA BLOCK SECTOR MARVE ROAD MALAD WEST,  Marve Erangel, Greater Mumbai Ward-P/N, Greater Mumbai, Maharashtra, 400064',
+              status_desc: 'Registration Certificate issued',
+              district_name: 'Greater Mumbai',
+              fbo_id: 599743778735406,
+              display_ref_id: '30240523116619907',
+              taluk_name: 'Greater Mumbai Ward-P/N',
+              company_name: 'KRISHNAA  AGRO LLP',
+              state_premises: 'MH',
+              district_premises: 458,
+              app_type_desc: 'New License/New Registration',
+              taluk_premises: 4169,
+              state_name: 'Maharashtra',
+              license_category_name: 'Registration',
+              app_type: 'N',
+              app_submission_date: '2024-05-23',
+              last_updated_on: '2024-06-01',
+              pincode: 400064,
+              ref_id: 116619907
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
+        status_code: 422,
+        success: false,
+        message: 'Invalid Id',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  gst_details_advance: {
+    success: {
+      data: {
+        data: {
+          contact_details: {
+            principal: {
+              address:
+                'Belur Industrial Area, Works Office, Mummigatti Post, Pune Bangalore Road, Dharwad, Dharwad, Karnataka, 580011',
+              email: 'gst.south@tatamotors.com',
+              mobile: '9130094259',
+              nature_of_business:
+                'Factory / Manufacturing, Office / Sale Office, Recipient of Goods or Services, Service Provision, Wholesale Business, Retail Business'
+            },
+            additional: [
+              {
+                address:
+                  'BELUR INDUSTRIAL AREA, TMML, GARAG ROAD, MUMMIGATTI POSTT DHARWAD, Dharwad, Karnataka, 580011',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business: 'Others'
+              },
+              {
+                address:
+                  'Kailash Vahan Udyog Limited Factory 21, Balagaranahalli Hosur main road, Attibele, Bengaluru Rural, Karnataka, 562107',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business: 'Others'
+              },
+              {
+                address:
+                  'Warehouse, Survey No 331 and A/332, Marsur Village, Kasab Hobli, Anekal Taluk, Bengaluru Urban, Karnataka, 560081',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business: 'Others'
+              },
+              {
+                address:
+                  'Plot No 317-P, 318-P, 319-P, Jigani-Bommasandra link Road, Jigani, Anekal Taluk, Bengaluru Urban, Karnataka, 562106',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business: 'Others'
+              },
+              {
+                address:
+                  'Vehicle Maintenance Department, VRL Complex, 16KM Bangalore Road, NH4, Hubballi, Warur, Dharwad, Karnataka, 581207',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business: 'Warehouse / Depot'
+              },
+              {
+                address:
+                  'Krishnapuram Jigani, Plot No 314 and 319, Tata Motors Ltd SPD CV, Anekal Taluk Jigani, Jigani-Bommasandra link Road, Sidlaghatta, Chikkaballapur, Karnataka, 562105',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business:
+                  'Export, Recipient of Goods or Services, Warehouse / Depot, Office / Sale Office'
+              },
+              {
+                address:
+                  'Mummigatti Post, Regional Sales Office, NH 4, Tata Motors Manufacturing Plant Dharwad, Belur Industrial Area, Belur Industrial Area, Dharwad, Karnataka, 580011',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business:
+                  'Bonded Warehouse, Recipient of Goods or Services, Warehouse / Depot, Office / Sale Office, Export'
+              },
+              {
+                address:
+                  'No 129/1B, IMAC India Coach Builders Pvt Ltd, Mysore Road, Kengeri, Bengaluru, Bengaluru Urban, Karnataka, 560060',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business:
+                  'Others, Supplier of Services, Recipient of Goods or Services, Office / Sale Office'
+              },
+              {
+                address:
+                  '2 and 3 Floor, # 648, Regional Area Office, 1st Main Road. Sector 6 HSR Layout, Bengaluru, Bengaluru Urban, Karnataka, 560102',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business:
+                  'Office / Sale Office, Supplier of Services, Recipient of Goods or Services'
+              },
+              {
+                address:
+                  '127, Tata Motors Limited -SATRAC ENGINEERING, SOMPURA INDUSTRIAL AREA, Nidavanda Village, Dobaspet Industrial Area, Bengaluru Rural, Karnataka, 562132',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business:
+                  'Office / Sale Office, Others, Recipient of Goods or Services, Supplier of Services, Warehouse / Depot'
+              },
+              {
+                address:
+                  '1A, 1st Floor, Roopena Agrahara., Fortune Summit,Sector 6 , under BBMP Ward No.174., 290/281/276/243/244, Hosur Road, Bommanahalli, Bengaluru, Bengaluru Urban, Karnataka, 560068',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business:
+                  'Bonded Warehouse, Retail Business, Supplier of Services, Recipient of Goods or Services, Warehouse / Depot, Office / Sale Office'
+              },
+              {
+                address:
+                  'Plot No. 176 C, SY No. 233 and 241, Anchemco India Pvt Ltd, Belur village, Dharwad Taluk, Garag Hobli, Belur Industrial Area, Dharwad, Dharwad, Karnataka, 580001',
+                email: 'gst.south@tatamotors.com',
+                mobile: '9130094259',
+                nature_of_business:
+                  'Bonded Warehouse, Warehouse / Depot, Office / Sale Office, Others, Export, Supplier of Services, Recipient of Goods or Services'
+              }
+            ]
+          },
+          promoters: ['Girish Arun Wagh ', 'Om Prakash Bhatt '],
+          annual_turnover: 'Slab: Rs. 500 Cr. and above',
+          annual_turnover_fy: '2023-2024',
+          percentage_in_cash_fy: '2023-2024',
+          percentage_in_cash: 'Slab: 2 to 5%',
+          aadhaar_validation: 'Yes',
+          aadhaar_validation_date: '2024-12-06',
+          address_details: {},
+          gstin: '29AAACT2727Q1ZS',
+          pan_number: 'AAACT2727Q',
+          business_name: 'TATA  MOTORS  LTD',
+          legal_name: 'TATA MOTORS LIMITED',
+          center_jurisdiction:
+            'State - CBIC,Zone - BENGALURU,Commissionerate - BELAGAVI,Division - DHARWAR DIVISION,Range - DHARWAD-B RANGE (Jurisdictional Office)',
+          state_jurisdiction:
+            'State - Karnataka,Division - DGSTO Dharwad, LOCAL GST Office - LGSTO 310 - Dharwad',
+          date_of_registration: '2017-07-01',
+          constitution_of_business: 'Public Limited Company',
+          taxpayer_type: 'Regular',
+          gstin_status: 'Active',
+          date_of_cancellation: '1800-01-01',
+          field_visit_conducted: 'No',
+          nature_bus_activities: [
+            'Factory / Manufacturing',
+            'Office / Sale Office',
+            'Recipient of Goods or Services',
+            'Service Provision',
+            'Wholesale Business',
+            'Retail Business',
+            'Others',
+            'Warehouse / Depot',
+            'Export',
+            'Bonded Warehouse',
+            'Supplier of Services'
+          ],
+          nature_of_core_business_activity_code: 'MFT',
+          nature_of_core_business_activity_description: 'Manufacturer',
+          filing_status: [
+            [
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'December',
+                date_of_filing: '2025-01-11',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'November',
+                date_of_filing: '2024-12-10',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'October',
+                date_of_filing: '2024-11-11',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'September',
+                date_of_filing: '2024-10-11',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'August',
+                date_of_filing: '2024-09-11',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'July',
+                date_of_filing: '2024-08-09',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'June',
+                date_of_filing: '2024-07-10',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'May',
+                date_of_filing: '2024-06-10',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2024-2025',
+                tax_period: 'April',
+                date_of_filing: '2024-05-10',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR1',
+                financial_year: '2023-2024',
+                tax_period: 'March',
+                date_of_filing: '2024-04-11',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'December',
+                date_of_filing: '2025-01-22',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'November',
+                date_of_filing: '2024-12-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'October',
+                date_of_filing: '2024-11-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'September',
+                date_of_filing: '2024-10-19',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'August',
+                date_of_filing: '2024-09-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'July',
+                date_of_filing: '2024-08-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'June',
+                date_of_filing: '2024-07-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'May',
+                date_of_filing: '2024-06-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2024-2025',
+                tax_period: 'April',
+                date_of_filing: '2024-05-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR3B',
+                financial_year: '2023-2024',
+                tax_period: 'March',
+                date_of_filing: '2024-04-20',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9',
+                financial_year: '2023-2024',
+                tax_period: 'Annual',
+                date_of_filing: '2024-12-26',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9',
+                financial_year: '2022-2023',
+                tax_period: 'Annual',
+                date_of_filing: '2023-12-22',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9',
+                financial_year: '2021-2022',
+                tax_period: 'Annual',
+                date_of_filing: '2022-12-19',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9',
+                financial_year: '2020-2021',
+                tax_period: 'Annual',
+                date_of_filing: '2021-11-11',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9',
+                financial_year: '2019-2020',
+                tax_period: 'Annual',
+                date_of_filing: '2021-02-24',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9',
+                financial_year: '2018-2019',
+                tax_period: 'Annual',
+                date_of_filing: '2020-09-21',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9',
+                financial_year: '2017-2018',
+                tax_period: 'Annual',
+                date_of_filing: '2019-09-26',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9C',
+                financial_year: '2023-2024',
+                tax_period: 'Annual',
+                date_of_filing: '2024-12-26',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9C',
+                financial_year: '2022-2023',
+                tax_period: 'Annual',
+                date_of_filing: '2023-12-23',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9C',
+                financial_year: '2021-2022',
+                tax_period: 'Annual',
+                date_of_filing: '2022-12-21',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9C',
+                financial_year: '2020-2021',
+                tax_period: 'Annual',
+                date_of_filing: '2021-11-11',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9C',
+                financial_year: '2019-2020',
+                tax_period: 'Annual',
+                date_of_filing: '2021-02-25',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9C',
+                financial_year: '2018-2019',
+                tax_period: 'Annual',
+                date_of_filing: '2020-09-24',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              },
+              {
+                return_type: 'GSTR9C',
+                financial_year: '2017-2018',
+                tax_period: 'Annual',
+                date_of_filing: '2019-10-22',
+                status: 'Filed',
+                mode_of_filing: 'ONLINE'
+              }
+            ]
+          ],
+          address: null,
+          hsn_info: {},
+          filing_frequency: []
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
+        status_code: 422,
+        success: false,
+        message: 'Invalid GST Number',
+        message_code: 'verification_failed'
+      }
+    }
+  },
   driving_license: {
     success: {
       data: {
@@ -325,6 +812,170 @@ const MOCK_RESPONSES = {
           initial_doi: null,
           current_status: null
         },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: null
+      }
+    }
+  },
+  tan_verification: {
+    success: {
+      data: {
+        data: {
+          nameOrgn: 'AMAZON SELLER SERVICES PRIVATE LIMITED',
+          addLine1: '26/1 8TH FLOOR',
+          addLine2: 'BRIGADE GATEWAY',
+          addLine3: 'DR.RAJKUMAR ROAD',
+          addLine5: 'BANGALORE',
+          stateCd: 15,
+          pin: 560055,
+          phoneNum: '9xxxxxxxx9',
+          dtTanAllotment: 1293691500000,
+          emailId1: 'RxxxxxxxxxxxxxxxxxM'
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'license_tkrawxSTiBqADpYgphxj',
+          license_number: 'MH03201400155',
+          state: null,
+          name: null,
+          permanent_address: null,
+          permanent_zip: null,
+          temporary_address: null,
+          temporary_zip: null,
+          citizenship: null,
+          ola_name: null,
+          ola_code: null,
+          gender: null,
+          father_or_husband_name: null,
+          dob: '1940-06-21',
+          doe: null,
+          transport_doe: null,
+          doi: null,
+          transport_doi: null,
+          profile_image: null,
+          has_image: false,
+          blood_group: null,
+          vehicle_classes: [],
+          less_info: false,
+          additional_check: [],
+          initial_doi: null,
+          current_status: null
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: null
+      }
+    }
+  },
+  pan_advance_verification: {
+    success: {
+      data: {
+        data: {
+          pan_number: 'AAAPT0002F',
+          full_name: 'RATAN NAVAL TATA',
+          full_name_split: ['RATAN', 'NAVAL', 'TATA'],
+          masked_aadhaar: 'XXXXXXXX8901',
+          address: {
+            line_1: 'HAKEKAI 169B- 171',
+            line_2: 'LOWER COLABA ROAD',
+            street_name: 'Mumbai',
+            zip: '400005',
+            city: 'Mumbai',
+            state: 'MAHARASHTRA',
+            country: 'INDIA',
+            full: 'HAKEKAI 169B- 171 LOWER COLABA ROAD Mumbai Mumbai MAHARASHTRA 400005'
+          },
+          email: 'hd*****ra@tata.com',
+          phone_number: '92XXXXXX26',
+          gender: 'M',
+          dob: '1937-12-28',
+          aadhaar_linked: true,
+          category: 'person'
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: null
+      }
+    }
+  },
+  pan_udyam_msme_status: {
+    success: {
+      data: {
+        data: {
+          pan_number: 'AFVPG9986M',
+          udyam_exists: true,
+          migration_status: null,
+          pan_details: {
+            full_name: 'BHIVA GANGARAM GAWAS',
+            full_name_split: ['BHIVA', 'GANGARAM', 'GAWAS'],
+            masked_aadhaar: 'XXXXXXXX1712',
+            gender: 'M',
+            dob: '1965-08-15',
+            aadhaar_linked: true,
+            category: 'person',
+            status: 'valid'
+          }
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: null
+      }
+    }
+  },
+  employment_history_uan_advance: {
+    success: {
+      data: {
+        data: {
+          employment_data: [
+            {
+              name: 'JOHN DOE',
+              guardian_name: 'XXXX XXXX',
+              establishment_name: 'XXXX PRIVATE LIMITED',
+              member_id: 'NXXXXXXXXXXXXXXXXXXXX0',
+              date_of_joining: '2018-12-01',
+              date_of_exit: '2019-06-29'
+            }
+          ]
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
         status_code: 422,
         success: false,
         message: 'Verification Failed.',
@@ -888,6 +1539,96 @@ const MOCK_RESPONSES = {
       }
     }
   },
+  generate_ccrv_request: {
+    success: {
+      data: {
+        data: {
+          code: '1016',
+          message: 'CCRV search requested successfully.',
+          transaction_id: '8602ce64-27ab-43df-b13f-990989479b84',
+          ccrv_status: 'REQUESTED'
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
+        status_code: 422,
+        success: false,
+        message: 'Internal Server Error',
+        message_code: null
+      }
+    }
+  },
+  verify_ccrv_request: {
+    success: {
+      data: {
+        data: {
+          code: '1019',
+          message: 'CCRV result fetched for an individual.',
+          transaction_id: 'e0cc901d-05ce-478f-97c8-116d840ec242',
+          ccrv_status: 'COMPLETED',
+          ccrv_data: {
+            case_count: 1,
+            cases: [
+              {
+                algorithm_risk: 'average risk',
+                father_match_type: 'PARTIAL_EXACT',
+                name_match_type: 'EXACT_MATCH',
+                case_id:
+                  'af1e6bdcbccb35dc8f899b1ebefe6e5d_23ad1dc65d4edd0ccbf1bb771607a154',
+                case_type_name: 'PMLA MA',
+                link: 'https://verify24x7.in/live/casehtml3.php?link=https%3A%2F%2Ffullhtml2.s3-us-west-2.amazonaws.com%2Faf1e6bdcbccb35dc8f899b1ebefe6e5d_23ad1dc65d4edd0ccbf1bb771607a154&id=1-37-2',
+                md5: 'af1e6bdcbccb35dc8f899b1ebefe6e5d_23ad1dc65d4edd0ccbf1bb771607a154',
+                unique_case_id: '10c0fffabb8f3b9e2c4a9ca36a067c7a',
+                case_category: 'criminal',
+                case_decision_date: '04th July 2017',
+                case_number: '214101008402017',
+                case_status: 'CASE DISPOSED',
+                case_type: 'PMLA MA',
+                case_year: '2017',
+                cnr: 'MHCC020149422017',
+                decision_date: '04th July 2017',
+                district_name: 'Mumbai City Civil Court',
+                filing_date: '04-07-2017',
+                filing_number: '108094/2017',
+                filing_year: '2017',
+                first_hearing_date: '04th July 2017',
+                name: 'vijay vittal mallya',
+                nature_of_disposal: 'Contested--DISPOSSED OFF',
+                oparty: 'Directorate of Enforcement Through Vipin Nair',
+                registration_date: '04-07-2017',
+                registration_number: '100840/2017',
+                registration_year: '2017',
+                source: 'ecourt',
+                state_name: 'Maharashtra',
+                type: 1,
+                under_acts: 'Prevention of Money Laundering Act-2002',
+                under_sections: '3,4'
+              }
+            ]
+          }
+        },
+        status_code: 200,
+        success: true,
+        message: null,
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: null,
+        status_code: 422,
+        success: false,
+        message: 'Internal Server Error',
+        message_code: null
+      }
+    }
+  },
   corporate_gstin: {
     success: {
       data: {
@@ -1286,6 +2027,41 @@ const MOCK_RESPONSES = {
           credit_score: '799',
           credit_report: {},
           credit_report_link:
+            'https://aadhaar-kyc-docs.s3.amazonaws.com/vishal.rathore/credit_report_v2/credit_reporure=568a2c563ec24f24fe3a6a03ce3180a888b27091d1e55d8a7562fd06247f3693'
+        },
+        status_code: 200,
+        success: true,
+        message: 'Success',
+        message_code: 'success'
+      }
+    },
+    failure: {
+      data: {
+        data: {
+          client_id: 'credit_report_v2_pdf_YygamLlwrYijpaauUbsl',
+          id_number: '********5514',
+          id_type: 'aadhaar',
+          mobile: '8079012345',
+          name: 'Vishal Rathore',
+          credit_score: '',
+          credit_report: {},
+          credit_report_link: ''
+        },
+        status_code: 422,
+        success: false,
+        message: 'Verification Failed.',
+        message_code: 'verification_failed'
+      }
+    }
+  },
+  credit_report_v2: {
+    success: {
+      data: {
+        data: {
+          pan: null,
+          mobile: '9370254216',
+          name: 'ASHOK JADHAV',
+          pdf_url:
             'https://aadhaar-kyc-docs.s3.amazonaws.com/vishal.rathore/credit_report_v2/credit_reporure=568a2c563ec24f24fe3a6a03ce3180a888b27091d1e55d8a7562fd06247f3693'
         },
         status_code: 200,
