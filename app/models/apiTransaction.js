@@ -38,6 +38,12 @@ const apiTransactionSchema = new mongoose.Schema(
     errorMessage: {
       type: String
     },
+    remark: {
+      type: String
+    },
+    afterBalance: {
+      type: Number
+    },
     requestedAt: {
       type: Date,
       default: Date.now
