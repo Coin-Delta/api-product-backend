@@ -162,7 +162,7 @@ class APIService {
       const transaction = await TransactionService.createTransaction(
         {
           clientId,
-          price,
+          price: 0,
           transactionType: TRANSACTION_TYPES.DEBIT, // Still recording as DEBIT type
           status: TRANSACTION_STATUS_TYPES.FAILURE,
           initiatedBy,
