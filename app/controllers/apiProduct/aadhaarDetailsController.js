@@ -97,6 +97,35 @@ class AadhaarDetailsController {
     }
   }
 
+  static async generateOTPTest(req, res) {
+    try {
+      const { documentData } = req.body
+      console.log('user:', req.user)
+
+      // Return success or failure mock response based on whether documentData is provided
+      const mockResponse = documentData
+        ? MOCK_RESPONSES.aadhaar_details_generate.success.data
+        : MOCK_RESPONSES.aadhaar_details_generate.failure.data
+
+      return mockResponse.success
+        ? ResponseHelper.success(
+            res,
+            mockResponse.data,
+            mockResponse.message,
+            mockResponse.status_code
+          )
+        : ResponseHelper.error(
+            res,
+            mockResponse.message,
+            mockResponse.status_code,
+            mockResponse.data
+          )
+    } catch (error) {
+      console.log(error)
+      return ResponseHelper.serverError(res, error)
+    }
+  }
+
   static async verifyAadhaarDetailsTest(req, res) {
     try {
       const { documentData } = req.body
@@ -104,8 +133,8 @@ class AadhaarDetailsController {
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
-        ? MOCK_RESPONSES.aadhaar_validation.success.data
-        : MOCK_RESPONSES.aadhaar_validation.failure.data
+        ? MOCK_RESPONSES.aadhaar_details_verify.success.data
+        : MOCK_RESPONSES.aadhaar_details_verify.failure.data
 
       return mockResponse.success
         ? ResponseHelper.success(
