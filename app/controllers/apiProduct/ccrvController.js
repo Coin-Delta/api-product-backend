@@ -3,6 +3,12 @@ const APIService = require('../../services/apiService.js')
 const BaseError = require('../../utils/error/baseError.js')
 const MOCK_RESPONSES = require('../../utils/mockData')
 const CCRVVerification = require('../../models/ccrvVerification.js')
+const TransactionService = require('../../services/transactionService.js')
+const WalletService = require('../../services/walletService.js')
+const {
+  TRANSACTION_STATUS_TYPES
+} = require('../../constants/transactionStatusTypes.js')
+const { TRANSACTION_TYPES } = require('../../constants/transactionTypes.js')
 
 class ccrvController {
   static async ccrvGenerateRequest(req, res) {
@@ -137,6 +143,101 @@ class ccrvController {
       verification.callbackData = callbackData
 
       await verification.save()
+
+      // If we're in production and the status is COMPLETED, process the payment
+      if (process.env.NODE_ENV === 'production') {
+        try {
+          const clientId = verification.clientId
+          const price = 70 // Fixed price for this service
+
+          // Check if the user has sufficient balance
+          const wallet = await WalletService.getWalletAndCheckBalance(
+            clientId,
+            price
+          )
+
+          // Check if the verification was successful based on the callback data
+          const isSuccessful =
+            callbackData.code === '1019' &&
+            callbackData.ccrv_status === 'COMPLETED'
+
+          if (isSuccessful) {
+            // Deduct wallet and create success transaction
+            const session = await mongoose.startSession()
+            try {
+              session.startTransaction()
+
+              // Deduct wallet amount
+              const updatedWallet = await WalletService.changeWallet(
+                {
+                  clientId,
+                  price,
+                  transactionType: TRANSACTION_TYPES.DEBIT
+                },
+                session
+              )
+
+              // Create transaction log with SUCCESS status
+              await TransactionService.createTransaction(
+                {
+                  clientId,
+                  price,
+                  transactionType: TRANSACTION_TYPES.DEBIT,
+                  status: TRANSACTION_STATUS_TYPES.SUCCESS,
+                  apiId: null, // You'll need to store the API ID in the verification model if needed
+                  vendorId: null, // Same for vendor ID
+                  requestData: {
+                    name: verification.name,
+                    fatherName: verification.fatherName,
+                    address: verification.address,
+                    dateOfBirth: verification.dateOfBirth
+                  },
+                  responseData: callbackData,
+                  httpStatus: 200,
+                  afterBalance: updatedWallet.balance,
+                  remark: `CCRV Verification Successful - Cases Found: ${
+                    callbackData.ccrv_data?.case_count || 0
+                  }`,
+                  completedAt: Date.now()
+                },
+                session
+              )
+
+              await session.commitTransaction()
+              console.log(
+                `Successfully processed payment for transaction ID: ${transactionId}`
+              )
+            } catch (error) {
+              await session.abortTransaction()
+              console.error('Error processing payment:', error)
+            } finally {
+              session.endSession()
+            }
+          } else {
+            // Log transaction with FAILURE status but don't deduct wallet
+            await TransactionService.createTransaction({
+              clientId,
+              price: 0, // No charge for failed verification
+              transactionType: TRANSACTION_TYPES.DEBIT,
+              status: TRANSACTION_STATUS_TYPES.FAILURE,
+              requestData: {
+                name: verification.name,
+                fatherName: verification.fatherName,
+                address: verification.address,
+                dateOfBirth: verification.dateOfBirth
+              },
+              responseData: callbackData,
+              httpStatus: 200,
+              afterBalance: wallet.balance,
+              remark: `CCRV Verification Failed - Code: ${callbackData.code}, Status: ${callbackData.ccrv_status}`,
+              completedAt: Date.now()
+            })
+          }
+        } catch (error) {
+          console.error('Error processing payment for verification:', error)
+          // Don't throw here as we still want to return 200 to the third-party
+        }
+      }
 
       // Return 200 to acknowledge successful receipt (as per third-party requirements)
       return ResponseHelper.success(

@@ -80,6 +80,7 @@ router.post('/aadhaar-validation', trimRequest.all, (req, res, next) => {
     })
   }
 })
+
 router.post(
   '/aadhaar-details-generate-otp',
   trimRequest.all,
