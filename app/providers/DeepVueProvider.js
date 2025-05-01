@@ -31,7 +31,11 @@ class DeepVueProvider extends BaseProvider {
       [DOCUMENT_TYPES.PAN_ADVANCE_VERIFICATION]: '/verification/pan-plus',
       [DOCUMENT_TYPES.PAN_UDYAM_MSME_STATUS]: '/verification/pan-msme-check',
       [DOCUMENT_TYPES.CREDIT_REPORT_V2]:
-        '/financial-services/credit-bureau/credit-report'
+        '/financial-services/credit-bureau/credit-report',
+      [DOCUMENT_TYPES.AADHAAR_TO_UAN]: '/verification/epfo/aadhaar-to-uan',
+      [DOCUMENT_TYPES.PAN_TO_UAN]: '/verification/epfo/pan-to-uan',
+      [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]:
+        '/verification/epfo/uan-to-employment-history'
       // Add other document types as needed by DeepVue
     }
   }
@@ -61,6 +65,18 @@ class DeepVueProvider extends BaseProvider {
       },
       [DOCUMENT_TYPES.CREDIT_REPORT_V2]: {
         baseUrl: process.env.DEEPVUE_BASE_URL_V2,
+        authType: AUTH_TYPES.TOKEN_API_KEY
+      },
+      [DOCUMENT_TYPES.AADHAAR_TO_UAN]: {
+        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
+        authType: AUTH_TYPES.TOKEN_API_KEY
+      },
+      [DOCUMENT_TYPES.PAN_TO_UAN]: {
+        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
+        authType: AUTH_TYPES.TOKEN_API_KEY
+      },
+      [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]: {
+        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
         authType: AUTH_TYPES.TOKEN_API_KEY
       }
 
@@ -172,7 +188,7 @@ class DeepVueProvider extends BaseProvider {
         break
 
       case DOCUMENT_TYPES.AADHAAR_DETAILED_VERIFY_OTP:
-        url = `${url}?otp=${data.otp}&reference_id=${data.referenceId}&consent=${data.consent}&purpose=ForKYC&mobile_number=${data.mobileNumber}&generate_pdf=${data.generatePDF}`
+        url = `${url}?otp=${data.otp}&reference_id=${data.referenceId}&consent=Y&purpose=ForKYC&mobile_number=${data.mobileNumber}&generate_pdf=Y`
         requestData = {} // Empty object instead of null as per docs
         break
 
@@ -204,6 +220,21 @@ class DeepVueProvider extends BaseProvider {
         break
       case DOCUMENT_TYPES.CREDIT_REPORT_V2:
         url = `${url}?full_name=${data.name}&id_number=${data.id_number}&mobile_number=${data.mobile}&gender=${data.gender}&consent=${data.consent}&purpose=${data.purpose}&generate_pdf=True`
+        method = 'GET'
+        requestData = null
+        break
+      case DOCUMENT_TYPES.AADHAAR_TO_UAN:
+        url = `${url}?aadhaar_number=${data.aadhaar_number}`
+        method = 'GET'
+        requestData = null
+        break
+      case DOCUMENT_TYPES.PAN_TO_UAN:
+        url = `${url}?pan_number=${data.id_number}`
+        method = 'GET'
+        requestData = null
+        break
+      case DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN:
+        url = `${url}?uan_number=${data.id_number}`
         method = 'GET'
         requestData = null
         break
