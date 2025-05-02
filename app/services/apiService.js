@@ -16,12 +16,14 @@ class APIService {
     apiDetails,
     clientId,
     initiatedBy,
-    initiatedByRoleId
+    initiatedByRoleId,
+    skipWalletDeduction = false // Add parameter to skip wallet deduction for polling
   }) {
     console.log('API service processing:', {
       documentData,
       apiDetails,
-      clientId
+      clientId,
+      skipWalletDeduction
     })
 
     // Extract API details
@@ -32,10 +34,17 @@ class APIService {
     const vendorName = apiDetails.vendorId.name
 
     // Check if the user has sufficient balance (without deducting)
-    const wallet = await WalletService.getWalletAndCheckBalance(clientId, price)
-    console.log(
-      `Wallet balance before API call: ${wallet.balance}, API price: ${price}`
-    )
+    // Skip this check if skipWalletDeduction is true
+    let wallet = null
+    if (!skipWalletDeduction) {
+      wallet = await WalletService.getWalletAndCheckBalance(clientId, price)
+      console.log(
+        `Wallet balance before API call: ${wallet.balance}, API price: ${price}`
+      )
+    } else {
+      // Just get the wallet info without checking balance
+      wallet = await WalletService.findWallet(clientId)
+    }
 
     try {
       // Make API call through DocumentService first
@@ -57,8 +66,9 @@ class APIService {
       // If status is 200 or 422, we proceed with wallet deduction
       // regardless of the success flag
       const shouldDeductWallet =
-        statusCode === STATUS_CODES.SUCCESS ||
-        statusCode === STATUS_CODES.UNPROCESSABLE_ENTITY
+        !skipWalletDeduction &&
+        (statusCode === STATUS_CODES.SUCCESS ||
+          statusCode === STATUS_CODES.UNPROCESSABLE_ENTITY)
 
       console.log(
         'Should deduct wallet?',
@@ -68,6 +78,17 @@ class APIService {
       )
 
       if (!shouldDeductWallet) {
+        if (skipWalletDeduction) {
+          console.log('Skipping wallet deduction as requested')
+          return {
+            statusCode,
+            apiResponse,
+            responseMessage: null,
+            remark,
+            referenceId
+          }
+        }
+
         console.log('Processing as FAILED transaction - no wallet deduction')
         // API call failed - create failure transaction log without deducting wallet
         await this.logFailedTransaction({

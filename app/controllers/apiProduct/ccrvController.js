@@ -9,8 +9,250 @@ const {
   TRANSACTION_STATUS_TYPES
 } = require('../../constants/transactionStatusTypes.js')
 const { TRANSACTION_TYPES } = require('../../constants/transactionTypes.js')
+const mongoose = require('mongoose')
 
 class ccrvController {
+  /**
+   * Enhanced CCRV request method that handles both generation and result fetch with polling
+   * This combines the functionality of ccrvGenerateRequest and ccrvFetchRequest
+   */
+  static async ccrvUnifiedRequest(req, res) {
+    let documentType
+    let generateApiDetails
+    let fetchApiDetails
+    let verification
+
+    try {
+      const {
+        apiId,
+        documentData,
+        pollingTimeoutSeconds = 30,
+        pollingIntervalMs = 10000
+      } = req.body
+      const { bcaId: clientId } = req.user
+      const { name, fatherName, address, dateOfBirth } = req.body.documentData
+
+      // Step 1: Get API details for generate request
+      generateApiDetails = await APIService.getAPIDetails(apiId)
+      console.log('Generate API details:', generateApiDetails)
+      documentType = generateApiDetails.documentType
+
+      // Step 2: Get API details for fetch request (we need this for proper pricing)
+      // This assumes you have a way to get the related fetch API or a fixed ID
+      // You might need to adjust this logic based on how your APIs are related
+      const fetchApiId = '680b453aaf033a39cd7c7021' // The ID of the CCRV_VERIFY_REQUEST API
+      fetchApiDetails = await APIService.getAPIDetails(fetchApiId)
+
+      // Step 3: Check wallet balance with the FETCH price (as that's what we'll actually charge)
+      const price = fetchApiDetails.price
+      const wallet = await WalletService.getWalletAndCheckBalance(
+        clientId,
+        price
+      )
+
+      // Step 4: Make the initial generate request
+      const { statusCode, apiResponse } =
+        await APIService.processDocumentAndUpdateBalance({
+          apiDetails: generateApiDetails,
+          documentData,
+          clientId
+        })
+
+      console.log('Initial API Response:', apiResponse)
+
+      if (!apiResponse.transaction_id) {
+        throw new BaseError(
+          'Failed to get transaction ID from initial request',
+          400
+        )
+      }
+
+      // Step 5: Create verification record
+      verification = new CCRVVerification({
+        name,
+        fatherName,
+        address,
+        dateOfBirth,
+        clientId,
+        transactionId: apiResponse.transaction_id,
+        status: apiResponse.ccrv_status
+      })
+      await verification.save()
+
+      // Step 6: Start polling for results
+      const startTime = Date.now()
+      const maxEndTime = startTime + pollingTimeoutSeconds * 1000
+      let finalResult = null
+      let isCompleted = false
+
+      while (Date.now() < maxEndTime && !isCompleted) {
+        // Wait for the polling interval before trying again
+        await new Promise((resolve) => setTimeout(resolve, pollingIntervalMs))
+
+        // Make the fetch request
+        try {
+          const fetchResult = await APIService.processDocumentAndUpdateBalance({
+            apiDetails: fetchApiDetails,
+            documentData: {
+              reference_id: apiResponse.transaction_id
+            },
+            clientId,
+            // Don't deduct balance yet - this is just for checking status
+            skipWalletDeduction: true
+          })
+
+          console.log('Poll result:', fetchResult.apiResponse)
+
+          // Check if completed
+          if (
+            fetchResult.apiResponse &&
+            fetchResult.apiResponse.ccrv_status === 'COMPLETED'
+          ) {
+            finalResult = fetchResult
+            isCompleted = true
+
+            // Update verification record
+            verification.status = 'COMPLETED'
+            verification.callbackReceived = true
+            verification.callbackTimestamp = new Date()
+            verification.callbackData = fetchResult.apiResponse
+            await verification.save()
+          }
+        } catch (pollError) {
+          // Log error but continue polling
+          console.error('Polling error (continuing):', pollError)
+        }
+      }
+
+      // Step 7: Process payment if we got a completed result
+      if (isCompleted && finalResult) {
+        // Now deduct the wallet and create the transaction
+        const session = await mongoose.startSession()
+        try {
+          session.startTransaction()
+
+          // Deduct wallet amount
+          const updatedWallet = await WalletService.changeWallet(
+            {
+              clientId,
+              price,
+              transactionType: TRANSACTION_TYPES.DEBIT
+            },
+            session
+          )
+
+          // Create transaction log
+          await TransactionService.createTransaction(
+            {
+              clientId,
+              price,
+              transactionType: TRANSACTION_TYPES.DEBIT,
+              status: TRANSACTION_STATUS_TYPES.SUCCESS,
+              apiId: fetchApiDetails._id,
+              vendorId: fetchApiDetails.vendorId._id,
+              requestData: {
+                name,
+                fatherName,
+                address,
+                dateOfBirth,
+                reference_id: apiResponse.transaction_id
+              },
+              responseData: finalResult.apiResponse,
+              httpStatus: finalResult.statusCode,
+              afterBalance: updatedWallet.balance,
+              remark: `CCRV Verification Successful - Cases Found: ${
+                finalResult.apiResponse.ccrv_data?.case_count || 0
+              }`,
+              completedAt: Date.now()
+            },
+            session
+          )
+
+          await session.commitTransaction()
+          console.log(
+            `Payment processed for transaction ID: ${apiResponse.transaction_id}`
+          )
+
+          // Return the complete response
+          return ResponseHelper.success(
+            res,
+            finalResult.apiResponse,
+            `${documentType} Verification successful`,
+            finalResult.statusCode
+          )
+        } catch (txError) {
+          await session.abortTransaction()
+          console.error('Transaction error:', txError)
+          throw txError
+        } finally {
+          session.endSession()
+        }
+      } else {
+        // If we timed out, return the status as is with the last known state
+        const statusMessage = isCompleted
+          ? `${documentType} Verification successful`
+          : `${documentType} Verification in progress - please check status later`
+
+        // In case of timeout, we'll return the original apiResponse with proper status
+        return ResponseHelper.success(
+          res,
+          {
+            ...apiResponse,
+            _timeoutOccurred: !isCompleted,
+            _statusMessage: statusMessage
+          },
+          statusMessage,
+          isCompleted ? 200 : 202 // Use 202 Accepted for in-progress
+        )
+      }
+    } catch (error) {
+      if (error instanceof BaseError) {
+        console.log('error msg:', error.message)
+        console.log('full err:', error)
+        if (documentType) {
+          return ResponseHelper.error(
+            res,
+            `${documentType} Verification failed`,
+            error.statusCode,
+            error
+          )
+        }
+        return ResponseHelper.error(res, error.message, error.statusCode, error)
+      }
+      return ResponseHelper.serverError(res, error)
+    }
+  }
+
+  static async ccrvUnifiedRequestTest(req, res) {
+    try {
+      const { documentData } = req.body
+      console.log('user:', req.user)
+
+      // Return success or failure mock response based on whether documentData is provided
+      const mockResponse = documentData
+        ? MOCK_RESPONSES.verify_ccrv_request.success.data
+        : MOCK_RESPONSES.verify_ccrv_request.failure.data
+
+      return mockResponse.success
+        ? ResponseHelper.success(
+            res,
+            mockResponse.data,
+            mockResponse.message,
+            mockResponse.status_code
+          )
+        : ResponseHelper.error(
+            res,
+            mockResponse.message,
+            mockResponse.status_code,
+            mockResponse.data
+          )
+    } catch (error) {
+      console.log(error)
+      return ResponseHelper.serverError(res, error)
+    }
+  }
+
+  // Keep existing methods for backward compatibility
   static async ccrvGenerateRequest(req, res) {
     let documentType
     try {
@@ -24,13 +266,11 @@ class ccrvController {
 
       const { statusCode, apiResponse } =
         await APIService.processDocumentAndUpdateBalance({
-          // apiId,
           apiDetails,
           documentData,
           clientId
         })
 
-      // console.log('req:', req)
       console.log('apiResponse controller:', apiResponse)
 
       const verification = new CCRVVerification({
@@ -38,7 +278,7 @@ class ccrvController {
         fatherName,
         address,
         dateOfBirth,
-        clientId, // Store clientId from the user object
+        clientId,
         transactionId: apiResponse.transaction_id,
         status: apiResponse.ccrv_status
       })
@@ -68,6 +308,48 @@ class ccrvController {
     }
   }
 
+  static async ccrvFetchRequest(req, res) {
+    let documentType
+    try {
+      const { apiId, documentData } = req.body
+      const { bcaId: clientId } = req.user
+
+      const apiDetails = await APIService.getAPIDetails(apiId)
+      console.log('api details:', apiDetails)
+      documentType = apiDetails.documentType
+
+      const { statusCode, apiResponse } =
+        await APIService.processDocumentAndUpdateBalance({
+          apiDetails,
+          documentData,
+          clientId
+        })
+
+      console.log('apiResponse controller:', apiResponse)
+
+      return ResponseHelper.success(
+        res,
+        apiResponse,
+        `${documentType} Verification successfull`,
+        statusCode
+      )
+    } catch (error) {
+      if (error instanceof BaseError) {
+        console.log('error msg:', error.message)
+        console.log('full err:', error)
+        if (documentType) {
+          return ResponseHelper.error(
+            res,
+            `${documentType} Verification failed`,
+            error.statusCode,
+            error
+          )
+        }
+        return ResponseHelper.error(res, error.message, error.statusCode, error)
+      }
+      return ResponseHelper.serverError(res, error)
+    }
+  }
   static async ccrvGenerateRequestTest(req, res) {
     try {
       const { documentData } = req.body
@@ -157,9 +439,7 @@ class ccrvController {
           )
 
           // Check if the verification was successful based on the callback data
-          const isSuccessful =
-            callbackData.code === '1019' &&
-            callbackData.ccrv_status === 'COMPLETED'
+          const isSuccessful = callbackData.ccrv_status === 'COMPLETED'
 
           if (isSuccessful) {
             // Deduct wallet and create success transaction

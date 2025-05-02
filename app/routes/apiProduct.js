@@ -567,11 +567,11 @@ router.post('/employment-api', trimRequest.all, (req, res, next) => {
 router.post('/ccrv-generate-request', trimRequest.all, (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     // Skip JWT verification and go directly to test controller
-    return ccrvController.ccrvGenerateRequestTest(req, res, next)
+    return ccrvController.ccrvUnifiedRequestTest(req, res, next)
   } else {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
-      ccrvController.ccrvGenerateRequest(req, res, next)
+      ccrvController.ccrvUnifiedRequest(req, res, next)
     })
   }
 })
