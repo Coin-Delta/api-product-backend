@@ -62,6 +62,8 @@ class APIService {
       const err = result.error
       const remark = result.remark
       const referenceId = result.referenceId
+      const messageCode = result.message
+      const message = result.message
 
       // If status is 200 or 422, we proceed with wallet deduction
       // regardless of the success flag
@@ -106,7 +108,12 @@ class APIService {
           afterBalance: wallet.balance
         })
 
-        throw new APIError(statusCode, err || 'API verification failed')
+        throw new APIError(
+          statusCode,
+          err || 'API verification failed',
+          messageCode,
+          remark
+        )
       }
 
       console.log('Processing as transaction with wallet deduction')
@@ -140,14 +147,25 @@ class APIService {
         responseMessage = `${documentType} verification completed but with issues`
       }
 
-      return { statusCode, apiResponse, responseMessage, remark, referenceId }
+      return {
+        isSuccess,
+        statusCode,
+        apiResponse,
+        responseMessage,
+        remark,
+        referenceId,
+        message,
+        messageCode
+      }
     } catch (error) {
       console.error('Error in API processing:', error)
       // If it's not already an APIError, convert it
       if (!(error instanceof APIError)) {
         throw new APIError(
           STATUS_CODES.SERVER_ERROR,
-          error.message || 'Processing failed'
+          error.message || 'Processing failed',
+          'PROCESSING_ERROR',
+          error.stack
         )
       }
       throw error
@@ -196,6 +214,8 @@ class APIService {
           errorMessage: err,
           afterBalance,
           remark,
+          message,
+          messageCode,
           completedAt: Date.now()
         },
         session
@@ -224,7 +244,9 @@ class APIService {
     initiatedBy,
     initiatedByRoleId,
     remark,
-    transactionStatus
+    transactionStatus,
+    message,
+    messageCode
   }) {
     console.log('Deducting wallet and creating transaction')
     const session = await mongoose.startSession()
@@ -270,6 +292,8 @@ class APIService {
           httpStatus: statusCode, // This field exists in schema but may not be getting saved
           afterBalance: updatedWallet.balance,
           remark,
+          message,
+          messageCode,
           completedAt: Date.now()
         },
         session

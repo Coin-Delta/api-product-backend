@@ -41,6 +41,13 @@ const apiTransactionSchema = new mongoose.Schema(
     remark: {
       type: String
     },
+    messageCode: {
+      type: String
+    },
+    message: {
+      type: String
+    },
+
     afterBalance: {
       type: Number
     },
