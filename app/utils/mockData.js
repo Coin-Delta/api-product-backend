@@ -3538,7 +3538,6 @@ const MOCK_RESPONSES = {
     success: {
       data: {
         data: {
-          client_id: 'employment_history_uan_aueTsCLbIqUDULtEFwZU',
           uan: '111779821234',
           employment_history: [
             {
@@ -3562,7 +3561,6 @@ const MOCK_RESPONSES = {
     failure: {
       data: {
         data: {
-          client_id: 'employment_history_uan_owsYxXfJqptbCdfxxjxw',
           uan: '101669821230',
           employment_history: []
         },
