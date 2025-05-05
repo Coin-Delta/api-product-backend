@@ -22,6 +22,18 @@ const apiSchema = new mongoose.Schema(
       enum: ['GET', 'POST', 'PUT', 'DELETE'],
       default: 'POST'
     },
+    category: {
+      type: String,
+      enum: [
+        'IDENTITY_VERIFICATION',
+        'EMPLOYMENT_VERIFICATION',
+        'BANK_VERIFICATION',
+        'VEHICLE_VERFICATION',
+        'CCRV',
+        'FINANCIAL'
+      ],
+      default: null
+    },
 
     inputSchema: {
       type: mongoose.Schema.Types.Mixed

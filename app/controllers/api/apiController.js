@@ -39,6 +39,7 @@ class APIController {
       const isUserHavingAccessToAllApis = user?.configurations?.apiCatalog?.all
       const allowedApis = user?.configurations?.apiCatalog?.allowedApis || []
       console.log(allowedApis.length)
+
       // Ensure limit is a number and between 1-100
       let limit = parseInt(req.query.limit) || 10
       limit = Math.min(Math.max(limit, 1), 100)
@@ -59,10 +60,19 @@ class APIController {
         lean: true // For better performance
       }
 
+      // Build the query object
+      let query = {}
+
+      // Add category filter if provided in query params
+      if (req.query.category) {
+        query.category = req.query.category
+      }
+
       let result
       // If user has access to all APIs
       if (isUserHavingAccessToAllApis) {
-        result = await API.paginate({}, options)
+        // Apply only the category filter if it exists
+        result = await API.paginate(query, options)
       } else {
         // If user has access to specific APIs only
         if (!allowedApis.length) {
@@ -72,7 +82,9 @@ class APIController {
             'No APIs are configured for access'
           )
         }
-        result = await API.paginate({ _id: { $in: allowedApis } }, options)
+        // Combine the category filter with the allowedApis filter
+        query._id = { $in: allowedApis }
+        result = await API.paginate(query, options)
       }
 
       const paginatedResult = {
