@@ -50,6 +50,7 @@ const PANUDYAMMSMEController = require('../controllers/apiProduct/panUdyamMsmeSt
 const EmploymentHistoryAdvanceController = require('../controllers/apiProduct/employmentHistoryAdvance.js')
 const CreditReportV2Controller = require('../controllers/apiProduct/creditReportV2Controller.js')
 const ccrvController = require('../controllers/apiProduct/ccrvController.js')
+const EmploymentCompositeController = require('../controllers/apiProduct/employmentCompositeAPIcontroller.js')
 
 /*
  * API Product route
@@ -80,6 +81,7 @@ router.post('/aadhaar-validation', trimRequest.all, (req, res, next) => {
     })
   }
 })
+
 router.post(
   '/aadhaar-details-generate-otp',
   trimRequest.all,
@@ -87,7 +89,7 @@ router.post(
     if (process.env.NODE_ENV === 'development') {
       console.log(process.env.NODE_ENV)
       // Skip JWT verification and go directly to test controller
-      return AadhaarController.verifyAadhaarTest(req, res, next)
+      return AadhaarDetailsController.generateOTPTest(req, res, next)
     } else {
       // Verify JWT and continue to the real controller
       verifyJWT(req, res, () => {
@@ -104,7 +106,7 @@ router.post(
     if (process.env.NODE_ENV === 'development') {
       console.log(process.env.NODE_ENV)
       // Skip JWT verification and go directly to test controller
-      return AadhaarController.verifyAadhaarTest(req, res, next)
+      return AadhaarDetailsController.verifyAadhaarDetailsTest(req, res, next)
     } else {
       // Verify JWT and continue to the real controller
       verifyJWT(req, res, () => {
@@ -200,6 +202,17 @@ router.post('/verify-voterid', trimRequest.all, (req, res, next) => {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
       VoteridController.verifyVoterId(req, res, next)
+    })
+  }
+})
+router.post('/verify-employment-uan', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return EmploymentCompositeController.verifyEmploymentTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      EmploymentCompositeController.verifyEmployment(req, res, next)
     })
   }
 })
@@ -555,17 +568,40 @@ router.post(
   }
 )
 
-router.post('/ccrv-generate-request', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return ccrvController.generateCCRVRequestTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
+router.post('/employment-api', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
     verifyJWT(req, res, () => {
-      ccrvController.generateCCRVRequest(req, res, next)
+      EmploymentHistoryAdvanceController.verifyEmploymentHistory(req, res, next)
     })
   }
 })
+
+router.post('/ccrv-generate-request', trimRequest.all, (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    // Skip JWT verification and go directly to test controller
+    return ccrvController.ccrvUnifiedRequestTest(req, res, next)
+  } else {
+    // Verify JWT and continue to the real controller
+    verifyJWT(req, res, () => {
+      ccrvController.ccrvUnifiedRequest(req, res, next)
+    })
+  }
+})
+
+router.get(
+  '/ccrv/verification/:transactionId',
+  verifyJWT,
+  trimRequest.all,
+  ccrvController.getVerificationStatus
+)
+router.get('/ccrv', verifyJWT, trimRequest.all, ccrvController.getAllCcrv)
+
+router.get(
+  '/ccrv/callback',
+  trimRequest.all,
+  ccrvController.verificationCallback
+)
+
 router.post('/ccrv-verify-request', trimRequest.all, (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     // Skip JWT verification and go directly to test controller
@@ -573,7 +609,7 @@ router.post('/ccrv-verify-request', trimRequest.all, (req, res, next) => {
   } else {
     // Verify JWT and continue to the real controller
     verifyJWT(req, res, () => {
-      ccrvController.fecthCCRVRequest(req, res, next)
+      ccrvController.ccrvFetchRequest(req, res, next)
     })
   }
 })

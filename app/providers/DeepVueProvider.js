@@ -1,5 +1,7 @@
+// providers/deepVueProvider.js
 const BaseProvider = require('./baseProvider')
 const axios = require('axios')
+const ResponseTransformer = require('../utils/error/responseTransformer.js')
 const { DOCUMENT_TYPES } = require('../constants/documentTypes.js')
 
 // Authentication types
@@ -31,7 +33,11 @@ class DeepVueProvider extends BaseProvider {
       [DOCUMENT_TYPES.PAN_ADVANCE_VERIFICATION]: '/verification/pan-plus',
       [DOCUMENT_TYPES.PAN_UDYAM_MSME_STATUS]: '/verification/pan-msme-check',
       [DOCUMENT_TYPES.CREDIT_REPORT_V2]:
-        '/financial-services/credit-bureau/credit-report'
+        '/financial-services/credit-bureau/credit-report',
+      [DOCUMENT_TYPES.AADHAAR_TO_UAN]: '/verification/epfo/aadhaar-to-uan',
+      [DOCUMENT_TYPES.PAN_TO_UAN]: '/verification/epfo/pan-to-uan',
+      [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]:
+        '/verification/epfo/uan-to-employment-history'
       // Add other document types as needed by DeepVue
     }
   }
@@ -62,22 +68,19 @@ class DeepVueProvider extends BaseProvider {
       [DOCUMENT_TYPES.CREDIT_REPORT_V2]: {
         baseUrl: process.env.DEEPVUE_BASE_URL_V2,
         authType: AUTH_TYPES.TOKEN_API_KEY
+      },
+      [DOCUMENT_TYPES.AADHAAR_TO_UAN]: {
+        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
+        authType: AUTH_TYPES.TOKEN_API_KEY
+      },
+      [DOCUMENT_TYPES.PAN_TO_UAN]: {
+        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
+        authType: AUTH_TYPES.TOKEN_API_KEY
+      },
+      [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]: {
+        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
+        authType: AUTH_TYPES.TOKEN_API_KEY
       }
-
-      // V2 endpoints with token + x-api-key auth
-      // Add any V2 endpoints that need token authentication here
-      // Example:
-      // [DOCUMENT_TYPES.SOME_V2_ENDPOINT_WITH_TOKEN]: {
-      //   baseUrl: process.env.DEEPVUE_BASE_URL_V2,
-      //   authType: AUTH_TYPES.TOKEN_API_KEY
-      // },
-
-      // Regular endpoints with only x-api-key auth (if any)
-      // Example:
-      // [DOCUMENT_TYPES.SOME_ENDPOINT_WITH_ONLY_API_KEY]: {
-      //   baseUrl: this.baseUrl,
-      //   authType: AUTH_TYPES.API_KEY_ONLY
-      // }
     }
 
     // Return specific config if exists, otherwise default
@@ -167,12 +170,14 @@ class DeepVueProvider extends BaseProvider {
         break
 
       case DOCUMENT_TYPES.AADHAAR_DETAILED_GENERATE_OTP:
-        url = `${url}?aadhaar_number=${data.id_number}&consent=${data.consent}&purpose=ForKYC`
+        url = `${url}?aadhaar_number=${data.id_number}&consent=${
+          data.consent || 'Y'
+        }&purpose=ForKYC`
         requestData = {} // Empty object instead of null as per docs
         break
 
       case DOCUMENT_TYPES.AADHAAR_DETAILED_VERIFY_OTP:
-        url = `${url}?otp=${data.otp}&reference_id=${data.referenceId}&consent=${data.consent}&purpose=ForKYC&mobile_number=${data.mobileNumber}&generate_pdf=${data.generatePDF}`
+        url = `${url}?otp=${data.otp}&reference_id=${data.referenceId}&consent=Y&purpose=ForKYC&mobile_number=${data.mobileNumber}&generate_pdf=Y`
         requestData = {} // Empty object instead of null as per docs
         break
 
@@ -194,16 +199,36 @@ class DeepVueProvider extends BaseProvider {
         requestData = null
         break
       case DOCUMENT_TYPES.PAN_ADVANCE_VERIFICATION:
-        url = `${url}?pan_number=${data.id_number}`
+        url = `${url}?pan_number=${data.pan_number || data.id_number}`
         method = 'GET'
         requestData = null
+        break
       case DOCUMENT_TYPES.PAN_UDYAM_MSME_STATUS:
-        url = `${url}?pan_number=${data.id_number}`
+        url = `${url}?pan_number=${data.id_number || data.pan_number}`
         method = 'GET'
         requestData = null
         break
       case DOCUMENT_TYPES.CREDIT_REPORT_V2:
-        url = `${url}?full_name=${data.name}&id_number=${data.id_number}&mobile_number=${data.mobile}&gender=${data.gender}&consent=${data.consent}&purpose=${data.purpose}&generate_pdf=True`
+        url = `${url}?full_name=${data.name}&id_number=${
+          data.id_number
+        }&mobile_number=${data.mobile}&gender=${data.gender}&consent=${
+          data.consent || 'Y'
+        }&purpose=${data.purpose || 'ForKYC'}&generate_pdf=True`
+        method = 'GET'
+        requestData = null
+        break
+      case DOCUMENT_TYPES.AADHAAR_TO_UAN:
+        url = `${url}?aadhaar_number=${data.aadhaar_number || data.id_number}`
+        method = 'GET'
+        requestData = null
+        break
+      case DOCUMENT_TYPES.PAN_TO_UAN:
+        url = `${url}?pan_number=${data.pan_number || data.id_number}`
+        method = 'GET'
+        requestData = null
+        break
+      case DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN:
+        url = `${url}?uan_number=${data.id_number}`
         method = 'GET'
         requestData = null
         break
@@ -212,42 +237,6 @@ class DeepVueProvider extends BaseProvider {
     }
 
     return { url, method, requestData }
-  }
-
-  // Transform response to standard format
-  transformResponse(response) {
-    if (response.data.reference_id) {
-      return {
-        success: true,
-        data: { referenceId: response.data.reference_id },
-        status: response.data.code,
-        message: response.data.message,
-        remark: response.data.message
-      }
-    } else {
-      return {
-        success: true,
-        data: response.data.data,
-        status: response.data.code,
-        remark: response.data.message
-      }
-    }
-  }
-
-  // Handle errors in standardized way
-  handleError(error) {
-    console.log('DeepVue provider error:', error.response?.data)
-    console.log('DeepVue provider error status:', error.response?.status)
-
-    return {
-      success: false,
-      error:
-        error.response?.data?.detail ||
-        error.response?.data?.message ||
-        error.message,
-      status: error.response?.status || error.status || 500,
-      remark: error.response?.data?.message
-    }
   }
 
   // Override the verify method from BaseProvider
@@ -291,9 +280,13 @@ class DeepVueProvider extends BaseProvider {
       console.log('DeepVue Response:', response.data)
 
       // Transform DeepVue response to match standard format
-      return this.transformResponse(response)
+      return ResponseTransformer.transformResponse(
+        response,
+        this.providerName,
+        data
+      )
     } catch (error) {
-      return this.handleError(error)
+      return ResponseTransformer.transformError(error, this.providerName)
     }
   }
 }

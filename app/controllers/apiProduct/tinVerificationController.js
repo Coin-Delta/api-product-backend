@@ -14,38 +14,87 @@ class TINVerifcationController {
       console.log('api details:', apiDetails)
       documentType = apiDetails.documentType
 
-      const { statusCode, apiResponse } =
-        await APIService.processDocumentAndUpdateBalance({
-          // apiId,
-          apiDetails,
-          documentData,
-          clientId
-        })
+      const {
+        statusCode,
+        apiResponse,
+        isSuccess,
+        responseMessage,
+        remark,
+        referenceId,
+        message,
+        messageCode
+      } = await APIService.processDocumentAndUpdateBalance({
+        apiDetails,
+        documentData,
+        clientId
+      })
 
-      // console.log('req:', req)
       console.log('apiResponse controller:', apiResponse)
 
       return ResponseHelper.success(
         res,
         apiResponse,
-        `${documentType} Verification successfull`,
-        statusCode
+        responseMessage || `${documentType} Verification successful`,
+        statusCode,
+        remark,
+        referenceId,
+        messageCode
       )
     } catch (error) {
       if (error instanceof BaseError) {
-        console.log('error msg:', error.message)
-        console.log('full err:', error)
+        console.log('error details:', {
+          message: error.message,
+          statusCode: error.statusCode,
+          messageCode: error.messageCode,
+          remark: error.remark,
+          stack: error.stack
+        })
+
         if (documentType) {
           return ResponseHelper.error(
             res,
-            `${documentType} Verification failed`,
+            error.message || `${documentType} Verification failed`,
             error.statusCode,
-            error
+            {
+              error: error.message,
+              messageCode: error.messageCode,
+              remark: error.remark,
+              stack:
+                process.env.NODE_ENV === 'development' ? error.stack : undefined
+            },
+            error.remark,
+            null,
+            error.messageCode
           )
         }
-        return ResponseHelper.error(res, error.message, error.statusCode, error)
+        return ResponseHelper.error(
+          res,
+          error.message,
+          error.statusCode,
+          {
+            error: error.message,
+            messageCode: error.messageCode,
+            remark: error.remark,
+            stack:
+              process.env.NODE_ENV === 'development' ? error.stack : undefined
+          },
+          error.remark,
+          null,
+          error.messageCode
+        )
       }
-      return ResponseHelper.serverError(res, error)
+
+      // For non-BaseError errors
+      return ResponseHelper.serverError(
+        res,
+        error.message,
+        error.status || 500,
+        {
+          error: error.message,
+          stack:
+            process.env.NODE_ENV === 'development' ? error.stack : undefined
+        }
+      )
     }
   }
   static async verifyTINDetailsTest(req, res) {

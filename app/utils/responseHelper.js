@@ -7,7 +7,8 @@ class ResponseHelper {
     message = 'Success',
     statusCode = 200,
     remark = null,
-    referenceId = null
+    referenceId = null,
+    messageCode
   ) {
     return res.status(statusCode).json({
       success: true,
@@ -15,6 +16,8 @@ class ResponseHelper {
       data,
       remark,
       referenceId,
+      message,
+      messageCode,
       timestamp: new Date().toISOString()
     })
   }
@@ -23,17 +26,25 @@ class ResponseHelper {
     res,
     message = 'Error occurred',
     statusCode = 400,
-    errors = null,
+    errorDetails = null,
     remark = null,
-    referenceId = null
+    referenceId = null,
+    messageCode = null
   ) {
-    console.log('error--:', message, statusCode, errors)
+    console.log('API Error:', { message, statusCode, errorDetails })
+
+    // Handle case where errorDetails is an object with additional info
+    const errors = errorDetails?.error || errorDetails
+    const errMsg = errorDetails?.error || message
+    const finalMessageCode = errorDetails?.messageCode || messageCode
+    const finalRemark = errorDetails?.remark || remark
+
     return res.status(statusCode).json({
       success: false,
-      message,
-      errors,
-      errMsg: errors.message,
-      remark,
+      message: errMsg,
+      error: errors,
+      messageCode: finalMessageCode,
+      remark: finalRemark,
       referenceId,
       timestamp: new Date().toISOString()
     })
@@ -55,18 +66,32 @@ class ResponseHelper {
   }
 
   // For server errors
-  static serverError(res, error) {
-    const message =
-      process.env.NODE_ENV === 'production'
-        ? 'Internal server error'
-        : error.message
+  static serverError(
+    res,
+    message = 'Error occurred',
+    statusCode = 400,
+    errorDetails = null,
+    remark = null,
+    referenceId = null,
+    messageCode = null
+  ) {
+    console.log('API Error:', { message, statusCode, errorDetails })
 
-    return this.error(
-      res,
-      message,
-      500,
-      process.env.NODE_ENV === 'development' ? error.stack : undefined
-    )
+    // Handle case where errorDetails is an object with additional info
+    const errors = errorDetails?.error || errorDetails
+    const errMsg = errorDetails?.error || message
+    const finalMessageCode = errorDetails?.messageCode || messageCode
+    const finalRemark = errorDetails?.remark || remark
+
+    return res.status(statusCode).json({
+      success: false,
+      message: errMsg,
+      error: errors,
+      messageCode: finalMessageCode,
+      remark: finalRemark,
+      referenceId,
+      timestamp: new Date().toISOString()
+    })
   }
 
   // For custom status codes
