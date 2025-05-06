@@ -100,9 +100,13 @@ class VerifyUANWithAadhaarController {
   static async VerifyUANWithAadhaarTest(req, res) {
     try {
       const { documentData } = req.body
-
+      let proxyDocumentData = {
+        documentData: {
+          uan_number: '101165849255'
+        }
+      }
       // Return success or failure mock response based on whether documentData is provided
-      const mockResponse = documentData
+      const mockResponse = proxyDocumentData
         ? MOCK_RESPONSES.aadhaar_uan_link.success.data
         : MOCK_RESPONSES.aadhaar_uan_link.failure.data
 
