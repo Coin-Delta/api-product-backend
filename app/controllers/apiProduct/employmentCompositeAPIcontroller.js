@@ -313,7 +313,7 @@ class EmploymentCompositeController {
 
       // Case 3: Try with Aadhaar (either as first option or after PAN failed)
       if (aadhaar_number) {
-        req.body.apiId = API_IDS.AADHAAR_TO_UAN
+        // req.body.apiId = API_IDS.AADHAAR_TO_UAN
         req.body.documentData = {
           id_number: aadhaar_number
         }
@@ -322,12 +322,12 @@ class EmploymentCompositeController {
           req,
           proxyRes
         )
-
+        console.log(proxyRes, '{{{{proxyRes}}}}')
         // Check if the response was successful and contains a UAN number
         if (
           !proxyRes.responseData.success ||
           !proxyRes.responseData.data ||
-          !proxyRes.responseData.data.uan_number
+          !proxyRes.responseData.data.aadhaar_number
         ) {
           return ResponseHelper.error(
             res,
