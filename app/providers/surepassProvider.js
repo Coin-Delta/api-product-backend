@@ -22,7 +22,8 @@ class SurepassProvider extends BaseProvider {
       [DOCUMENT_TYPES.DIRECTOR_PHONE]: '/corporate/director-phone',
       [DOCUMENT_TYPES.ECOURT_CNR]: '/ecourts/ecourt-cnr-search',
       [DOCUMENT_TYPES.ELECTRICITY_BILL_DETAILS]: '/utility/electricity/',
-      [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]: '/income/employment-history-uan',
+      [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_WAGE_MONTH]:
+        '/income/employment-history-uan',
       [DOCUMENT_TYPES.FASTAG_RC]: '/fastag/fastag-to-rc',
       [DOCUMENT_TYPES.FASTAG_VERIFICATION]: '/fastag/verification',
       [DOCUMENT_TYPES.FIND_UPI_ID]: '/bank-verification/find-upi-id',
