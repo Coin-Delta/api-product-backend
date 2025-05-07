@@ -51,6 +51,7 @@ const EmploymentHistoryAdvanceController = require('../controllers/apiProduct/em
 const CreditReportV2Controller = require('../controllers/apiProduct/creditReportV2Controller.js')
 const ccrvController = require('../controllers/apiProduct/ccrvController.js')
 const EmploymentCompositeController = require('../controllers/apiProduct/employmentCompositeAPIcontroller.js')
+const EmploymentHistoryWithWageMonthController = require('../controllers/apiProduct/employmentHistoryWageMonthController.js')
 
 /*
  * API Product route
@@ -543,6 +544,30 @@ router.post('/employment-history-uan', trimRequest.all, (req, res, next) => {
     })
   }
 })
+
+router.post(
+  '/employment-history-wage-month',
+  trimRequest.all,
+  (req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+      // Skip JWT verification and go directly to test controller
+      return EmploymentHistoryWithWageMonthController.verifyEmploymentHistoryTest(
+        req,
+        res,
+        next
+      )
+    } else {
+      // Verify JWT and continue to the real controller
+      verifyJWT(req, res, () => {
+        EmploymentHistoryWithWageMonthController.verifyEmploymentHistory(
+          req,
+          res,
+          next
+        )
+      })
+    }
+  }
+)
 
 router.post(
   '/employment-history-advance',
