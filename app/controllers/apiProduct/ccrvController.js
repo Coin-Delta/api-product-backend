@@ -546,7 +546,10 @@ class ccrvController {
       const { transactionId } = req.params
 
       // Check if we're in development mode and should return mock data
-      if (process.env.NODE_ENV === 'development') {
+      if (
+        process.env.NODE_ENV === 'development' ||
+        (process.env.NODE_ENV === 'production' && req.user.useMockData)
+      ) {
         // Return mock data for development testing
         const mockData = {
           transactionId,
@@ -668,7 +671,10 @@ class ccrvController {
       } = req.query
 
       // Check if we're in development mode and should return mock data
-      if (process.env.NODE_ENV === 'development') {
+      if (
+        process.env.NODE_ENV === 'development' ||
+        (process.env.NODE_ENV === 'production' && req.user.useMockData)
+      ) {
         // Generate mock data with pagination
         const mockTotalCount = 35 // Mock total number of records
         const totalPages = Math.ceil(mockTotalCount / limit)
