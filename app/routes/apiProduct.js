@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const trimRequest = require('trim-request')
 
+// Import controllers
 const AadhaarController = require('../controllers/apiProduct/aadhaarValidationController')
-const { verifyJWT } = require('../middleware/auth')
 const DrivingLicenseController = require('../controllers/apiProduct/drivingLicenseController')
 const RCTextController = require('../controllers/apiProduct/rctextController')
 const VoteridController = require('../controllers/apiProduct/voterIdController')
@@ -53,1071 +53,561 @@ const ccrvController = require('../controllers/apiProduct/ccrvController.js')
 const EmploymentCompositeController = require('../controllers/apiProduct/employmentCompositeAPIcontroller.js')
 const EmploymentHistoryWithWageMonthController = require('../controllers/apiProduct/employmentHistoryWageMonthController.js')
 
+// Import authentication and controller selector middlewares
+const { verifyJWT } = require('../middleware/auth')
+const controllerSelector = require('../utils/helper.js')
+
 /*
- * API Product route
+ * API Product routes
  */
 
-// router.post(
-//   '/aadhaar-validation',
-//   trimRequest.all,
-//   verifyJWT,
-//   AadhaarController.verifyAadhaar
-// )
+// Aadhaar Validation
+router.post(
+  '/aadhaar-validation',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: AadhaarController.verifyAadhaar,
+    mock: AadhaarController.verifyAadhaarTest
+  })
+)
 
-// router.post(
-//   '/test/aadhaar-validation',
-//   trimRequest.all,
-//   AadhaarController.verifyAadhaarTest
-// )
-
-router.post('/aadhaar-validation', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(process.env.NODE_ENV)
-    // Skip JWT verification and go directly to test controller
-    return AadhaarController.verifyAadhaarTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      AadhaarController.verifyAadhaar(req, res, next)
-    })
-  }
-})
-
+// Aadhaar Details - Generate OTP
 router.post(
   '/aadhaar-details-generate-otp',
   trimRequest.all,
-  (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(process.env.NODE_ENV)
-      // Skip JWT verification and go directly to test controller
-      return AadhaarDetailsController.generateOTPTest(req, res, next)
-    } else {
-      // Verify JWT and continue to the real controller
-      verifyJWT(req, res, () => {
-        AadhaarDetailsController.generateOtp(req, res, next)
-      })
-    }
-  }
+  verifyJWT,
+  controllerSelector({
+    real: AadhaarDetailsController.generateOtp,
+    mock: AadhaarDetailsController.generateOTPTest
+  })
 )
 
+// Aadhaar Details - Verify OTP
 router.post(
   '/aadhaar-details-verify-otp',
   trimRequest.all,
-  (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(process.env.NODE_ENV)
-      // Skip JWT verification and go directly to test controller
-      return AadhaarDetailsController.verifyAadhaarDetailsTest(req, res, next)
-    } else {
-      // Verify JWT and continue to the real controller
-      verifyJWT(req, res, () => {
-        AadhaarDetailsController.verifyOtp(req, res, next)
-      })
-    }
-  }
+  verifyJWT,
+  controllerSelector({
+    real: AadhaarDetailsController.verifyOtp,
+    mock: AadhaarDetailsController.verifyAadhaarDetailsTest
+  })
 )
 
-router.post('/fssai-verification', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(process.env.NODE_ENV)
-    // Skip JWT verification and go directly to test controller
-    return FSSAIVerification.verifyFSSAITest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      FSSAIVerification.verifyFSSAI(req, res, next)
-    })
-  }
-})
+// FSSAI Verification
+router.post(
+  '/fssai-verification',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: FSSAIVerification.verifyFSSAI,
+    mock: FSSAIVerification.verifyFSSAITest
+  })
+)
 
-router.post('/gst-details-advance', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(process.env.NODE_ENV)
-    // Skip JWT verification and go directly to test controller
-    return GSTDetailsAdvanceController.verifyGSTAdvanceTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      GSTDetailsAdvanceController.verifyGSTAdvance(req, res, next)
-    })
-  }
-})
+// GST Details Advance
+router.post(
+  '/gst-details-advance',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: GSTDetailsAdvanceController.verifyGSTAdvance,
+    mock: GSTDetailsAdvanceController.verifyGSTAdvanceTest
+  })
+)
 
-// router.post(
-//   '/driving-license',
-//   trimRequest.all,
-//   verifyJWT,
-//   DrivingLicenseController.verifyLicense
-// )
+// Driving License
+router.post(
+  '/driving-license',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: DrivingLicenseController.verifyLicense,
+    mock: DrivingLicenseController.verifyLicenseTest
+  })
+)
 
-// router.post(
-//   '/test/driving-license',
-//   trimRequest.all,
-//   DrivingLicenseController.verifyLicenseTest
-// )
-router.post('/driving-license', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return DrivingLicenseController.verifyLicenseTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      DrivingLicenseController.verifyLicense(req, res, next)
-    })
-  }
-})
+// Verify RC
+router.post(
+  '/verify-rc',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: RCTextController.verifyRC,
+    mock: RCTextController.verifyRCTest
+  })
+)
 
-// router.post('/verify-rc', trimRequest.all, verifyJWT, RCTextController.verifyRC)
+// Verify Voter ID
+router.post(
+  '/verify-voterid',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: VoteridController.verifyVoterId,
+    mock: VoteridController.verifyVoterIdTest
+  })
+)
 
-// router.post('/test/verify-rc', trimRequest.all, RCTextController.verifyRCTest)
-router.post('/verify-rc', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return RCTextController.verifyRCTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      RCTextController.verifyRC(req, res, next)
-    })
-  }
-})
-// router.post(
-//   '/verify-voterid',
-//   trimRequest.all,
-//   verifyJWT,
-//   VoteridController.verifyVoterId
-// )
+// Employment UAN Verification
+router.post(
+  '/verify-employment-uan',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: EmploymentCompositeController.verifyEmployment,
+    mock: EmploymentCompositeController.verifyEmploymentTest
+  })
+)
 
-// router.post(
-//   '/test/verify-voterid',
-//   trimRequest.all,
-//   verifyJWT,
-//   VoteridController.verifyVoterIdTest
-// )
+// PAN Lite Verification
+router.post(
+  '/verify-pan-lite',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: PANLiteController.verifyPANLite,
+    mock: PANLiteController.verifyPanLiteTest
+  })
+)
 
-router.post('/verify-voterid', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return VoteridController.verifyVoterIdTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      VoteridController.verifyVoterId(req, res, next)
-    })
-  }
-})
-router.post('/verify-employment-uan', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return EmploymentCompositeController.verifyEmploymentTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      EmploymentCompositeController.verifyEmployment(req, res, next)
-    })
-  }
-})
+// PAN Comprehensive Verification
+router.post(
+  '/verify-pan-comprehensive',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: PANComprehensiveController.verifyPanCard,
+    mock: PANComprehensiveController.verifyPanCardTest
+  })
+)
 
-// router.post(
-//   '/verify-pan-lite',
-//   trimRequest.all,
-//   verifyJWT,
-//   PANLiteController.verifyPANLite
-// )
+// Bank Verification
+router.post(
+  '/bank-verification',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: BankVerificationController.verifyBankDetails,
+    mock: BankVerificationController.verifyBankDetailsTest
+  })
+)
 
-// router.post(
-//   '/test/verify-pan-lite',
-//   trimRequest.all,
-//   PANLiteController.verifyPanLiteTest
-// )
-
-router.post('/verify-pan-lite', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return PANLiteController.verifyPanLiteTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      PANLiteController.verifyPANLite(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/verify-pan-comprehensive',
-//   trimRequest.all,
-//   verifyJWT,
-//   PANComprehensiveController.verifyPanCard
-// )
-
-// router.post(
-//   '/test/verify-pan-comprehensive',
-//   trimRequest.all,
-//   PANComprehensiveController.verifyPanCardTest
-// )
-
-router.post('/verify-pan-comprehensive', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return PANComprehensiveController.verifyPanCardTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      PANComprehensiveController.verifyPanCard(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/bank-verification',
-//   trimRequest.all,
-//   verifyJWT,
-//   BankVerificationController.verifyBankDetails
-// )
-
-// router.post(
-//   '/test/bank-verification',
-//   trimRequest.all,
-//   BankVerificationController.verifyBankDetailsTest
-// )
-
-router.post('/bank-verification', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return BankVerificationController.verifyBankDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      BankVerificationController.verifyBankDetails(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/bank-verification-pennyless',
-//   trimRequest.all,
-//   verifyJWT,
-//   BankVerificationPennylessController.verifyBankDetails
-// )
-
-// router.post(
-//   '/test/bank-verification-pennyless',
-//   trimRequest.all,
-//   BankVerificationPennylessController.verifyBankDetailsTest
-// )
-
+// Bank Verification Pennyless
 router.post(
   '/bank-verification-pennyless',
   trimRequest.all,
-  (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
-      // Skip JWT verification and go directly to test controller
-      return BankVerificationPennylessController.verifyBankDetailsTest(
-        req,
-        res,
-        next
-      )
-    } else {
-      // Verify JWT and continue to the real controller
-      verifyJWT(req, res, () => {
-        BankVerificationPennylessController.verifyBankDetails(req, res, next)
-      })
-    }
-  }
+  verifyJWT,
+  controllerSelector({
+    real: BankVerificationPennylessController.verifyBankDetails,
+    mock: BankVerificationPennylessController.verifyBankDetailsTest
+  })
 )
 
-// router.post(
-//   '/coporate-cin',
-//   trimRequest.all,
-//   verifyJWT,
-//   CorporateCINController.verifyCIN
-// )
+// Corporate CIN
+router.post(
+  '/coporate-cin',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: CorporateCINController.verifyCIN,
+    mock: CorporateCINController.verifyCINTest
+  })
+)
 
-// router.post(
-//   '/test/coporate-cin',
-//   trimRequest.all,
-//   CorporateCINController.verifyCINTest
-// )
+// Corporate GSTIN
+router.post(
+  '/coporate-gstin',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: CorporateGSTINController.verifyGSTIN,
+    mock: CorporateGSTINController.verifyGSTINTest
+  })
+)
 
-router.post('/coporate-cin', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return CorporateCINController.verifyCINTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      CorporateCINController.verifyCIN(req, res, next)
-    })
-  }
-})
+// Credit Report
+router.post(
+  '/credit-report',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: CreditReportController.verifyCreditReport,
+    mock: CreditReportController.verifyCreditReportTest
+  })
+)
 
-// router.post(
-//   '/coporate-gstin',
-//   trimRequest.all,
-//   verifyJWT,
-//   CorporateGSTINController.verifyGSTIN
-// )
+// Credit Report PDF
+router.post(
+  '/credit-report-pdf',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: CreditReportPDFController.verifyCreditReportPdf,
+    mock: CreditReportPDFController.verifyCreditReportPdfTest
+  })
+)
 
-// router.post(
-//   '/test/coporate-gstin',
-//   trimRequest.all,
-//   CorporateGSTINController.verifyGSTINTest
-// )
+// Credit Report V2
+router.post(
+  '/credit-report-v2',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: CreditReportV2Controller.verifyCreditReportPdf,
+    mock: CreditReportV2Controller.verifyCreditReportPdfTest
+  })
+)
 
-router.post('/coporate-gstin', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return CorporateGSTINController.verifyGSTINTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      CorporateGSTINController.verifyGSTIN(req, res, next)
-    })
-  }
-})
+// Director Phone
+router.post(
+  '/director-phone',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: DirectorPhoneNumberController.verifyDirectorPhone,
+    mock: DirectorPhoneNumberController.verifyDirectorPhoneTest
+  })
+)
 
-// router.post(
-//   '/credit-report',
-//   trimRequest.all,
-//   verifyJWT,
-//   CreditReportController.verifyCreditReport
-// )
+// Ecourt CNR
+router.post(
+  '/ecourt-cnr',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: EcourtByCNRController.verifyEcourtCNR,
+    mock: EcourtByCNRController.verifyEcourtCNRTest
+  })
+)
 
-// router.post(
-//   '/test/credit-report',
-//   trimRequest.all,
-//   CreditReportController.verifyCreditReportTest
-// )
+// Electricity Bill Details
+router.post(
+  '/electricity-bill-details',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: ElectricityBillController.verifyElectricityDetails,
+    mock: ElectricityBillController.verifyElectricityDetailsTest
+  })
+)
 
-router.post('/credit-report', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return CreditReportController.verifyCreditReportTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      CreditReportController.verifyCreditReport(req, res, next)
-    })
-  }
-})
+// Employment History UAN
+router.post(
+  '/employment-history-uan',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: EmploymentHistoryController.verifyEmploymentHistory,
+    mock: EmploymentHistoryController.verifyEmploymentHistoryTest
+  })
+)
 
-// router.post(
-//   '/credit-report-pdf',
-//   trimRequest.all,
-//   verifyJWT,
-//   CreditReportPDFController.verifyCreditReportPdf
-// )
-
-// router.post(
-//   '/test/credit-report-pdf',
-//   trimRequest.all,
-//   CreditReportPDFController.verifyCreditReportPdfTest
-// )
-
-router.post('/credit-report-pdf', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return CreditReportPDFController.verifyCreditReportPdfTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      CreditReportPDFController.verifyCreditReportPdf(req, res, next)
-    })
-  }
-})
-router.post('/credit-report-v2', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return CreditReportV2Controller.verifyCreditReportPdfTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      CreditReportV2Controller.verifyCreditReportPdf(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/director-phone',
-//   trimRequest.all,
-//   verifyJWT,
-//   DirectorPhoneNumberController.verifyDirectorPhone
-// )
-
-// router.post(
-//   '/test/director-phone',
-//   trimRequest.all,
-//   DirectorPhoneNumberController.verifyDirectorPhoneTest
-// )
-
-router.post('/director-phone', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return DirectorPhoneNumberController.verifyDirectorPhoneTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      DirectorPhoneNumberController.verifyDirectorPhone(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/ecourt-cnr',
-//   trimRequest.all,
-//   verifyJWT,
-//   EcourtByCNRController.verifyEcourtCNR
-// )
-
-// router.post(
-//   '/test/ecourt-cnr',
-//   trimRequest.all,
-//   EcourtByCNRController.verifyEcourtCNRTest
-// )
-
-router.post('/ecourt-cnr', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return EcourtByCNRController.verifyEcourtCNRTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      EcourtByCNRController.verifyEcourtCNR(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/electricity-bill-details',
-//   trimRequest.all,
-//   verifyJWT,
-//   ElectricityBillController.verifyElectricityDetails
-// )
-
-// router.post(
-//   '/test/electricity-bill-details',
-//   trimRequest.all,
-//   ElectricityBillController.verifyElectricityDetailsTest
-// )
-
-router.post('/electricity-bill-details', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return ElectricityBillController.verifyElectricityDetailsTest(
-      req,
-      res,
-      next
-    )
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      ElectricityBillController.verifyElectricityDetails(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/employment-history-uan',
-//   trimRequest.all,
-//   verifyJWT,
-//   EmploymentHistoryController.verifyEmploymentHistory
-// )
-
-// router.post(
-//   '/test/employment-history-uan',
-//   trimRequest.all,
-//   EmploymentHistoryController.verifyEmploymentHistoryTest
-// )
-
-router.post('/employment-history-uan', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return EmploymentHistoryController.verifyEmploymentHistoryTest(
-      req,
-      res,
-      next
-    )
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      EmploymentHistoryController.verifyEmploymentHistory(req, res, next)
-    })
-  }
-})
-
+// Employment History Wage Month
 router.post(
   '/employment-history-wage-month',
   trimRequest.all,
-  (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
-      // Skip JWT verification and go directly to test controller
-      return EmploymentHistoryWithWageMonthController.verifyEmploymentHistoryTest(
-        req,
-        res,
-        next
-      )
-    } else {
-      // Verify JWT and continue to the real controller
-      verifyJWT(req, res, () => {
-        EmploymentHistoryWithWageMonthController.verifyEmploymentHistory(
-          req,
-          res,
-          next
-        )
-      })
-    }
-  }
+  verifyJWT,
+  controllerSelector({
+    real: EmploymentHistoryWithWageMonthController.verifyEmploymentHistory,
+    mock: EmploymentHistoryWithWageMonthController.verifyEmploymentHistoryTest
+  })
 )
 
+// Employment History Advance
 router.post(
   '/employment-history-advance',
   trimRequest.all,
-  (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
-      // Skip JWT verification and go directly to test controller
-      return EmploymentHistoryAdvanceController.verifyEmploymentHistoryTest(
-        req,
-        res,
-        next
-      )
-    } else {
-      // Verify JWT and continue to the real controller
-      verifyJWT(req, res, () => {
-        EmploymentHistoryAdvanceController.verifyEmploymentHistory(
-          req,
-          res,
-          next
-        )
-      })
-    }
-  }
+  verifyJWT,
+  controllerSelector({
+    real: EmploymentHistoryAdvanceController.verifyEmploymentHistory,
+    mock: EmploymentHistoryAdvanceController.verifyEmploymentHistoryTest
+  })
 )
 
-router.post('/employment-api', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'production') {
-    verifyJWT(req, res, () => {
-      EmploymentHistoryAdvanceController.verifyEmploymentHistory(req, res, next)
-    })
-  }
-})
+// Employment API
+router.post(
+  '/employment-api',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: EmploymentHistoryAdvanceController.verifyEmploymentHistory,
+    mock: EmploymentHistoryAdvanceController.verifyEmploymentHistoryTest
+  })
+)
 
-router.post('/ccrv-generate-request', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return ccrvController.ccrvUnifiedRequestTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      ccrvController.ccrvUnifiedRequest(req, res, next)
-    })
-  }
-})
+// CCRV Generate Request
+router.post(
+  '/ccrv-generate-request',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: ccrvController.ccrvUnifiedRequest,
+    mock: ccrvController.ccrvUnifiedRequestTest
+  })
+)
 
+// CCRV Verification Status
 router.get(
   '/ccrv/verification/:transactionId',
   verifyJWT,
   trimRequest.all,
   ccrvController.getVerificationStatus
 )
+
+// CCRV Get All
 router.get('/ccrv', verifyJWT, trimRequest.all, ccrvController.getAllCcrv)
 
+// CCRV Callback
 router.get(
   '/ccrv/callback',
   trimRequest.all,
   ccrvController.verificationCallback
 )
 
-router.post('/ccrv-verify-request', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return ccrvController.fecthCCRVRequestTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      ccrvController.ccrvFetchRequest(req, res, next)
-    })
-  }
-})
+// CCRV Verify Request
+router.post(
+  '/ccrv-verify-request',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: ccrvController.ccrvFetchRequest,
+    mock: ccrvController.fecthCCRVRequestTest
+  })
+)
 
-// router.post(
-//   '/fastag-rc',
-//   trimRequest.all,
-//   verifyJWT,
-//   FastagRCController.verifyFastagRCDetails
-// )
+// Fastag RC
+router.post(
+  '/fastag-rc',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: FastagRCController.verifyFastagRCDetails,
+    mock: FastagRCController.verifyFastagRCDetailsTest
+  })
+)
 
-// router.post(
-//   '/test/fastag-rc',
-//   trimRequest.all,
-//   FastagRCController.verifyFastagRCDetailsTest
-// )
+// Fastag Details
+router.post(
+  '/fastag-details',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: FastagVerificationController.verifyFastagDetails,
+    mock: FastagVerificationController.verifyFastagDetailsTest
+  })
+)
 
-router.post('/fastag-rc', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return FastagRCController.verifyFastagRCDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      FastagRCController.verifyFastagRCDetails(req, res, next)
-    })
-  }
-})
+// Fetch UPI Details
+router.post(
+  '/fetch-upi-details',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: FetchUPIDetailsController.verifyUPIDetails,
+    mock: FetchUPIDetailsController.verifyUPIDetailsTest
+  })
+)
 
-// router.post(
-//   '/fastag-details',
-//   trimRequest.all,
-//   verifyJWT,
-//   FastagVerificationController.verifyFastagDetails
-// )
+// Mobile to RC
+router.post(
+  '/mobile-to-rc',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: VerifyRCWithMobileController.verifyRC,
+    mock: VerifyRCWithMobileController.verifyRCTest
+  })
+)
 
-// router.post(
-//   '/test/fastag-details',
-//   trimRequest.all,
-//   FastagVerificationController.verifyFastagDetailsTest
-// )
+// Mobile to Bank
+router.post(
+  '/mobile-to-bank',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: VerifyBankWithMobileController.verifyBankDetails,
+    mock: VerifyBankWithMobileController.verifyBankDetailsTest
+  })
+)
 
-router.post('/fastag-details', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return FastagVerificationController.verifyFastagDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      FastagVerificationController.verifyFastagDetails(req, res, next)
-    })
-  }
-})
+// PAN to UAN
+router.post(
+  '/pan-to-uan',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: PANToUANController.verifyUANWithPAN,
+    mock: PANToUANController.verifyUANWithPANTest
+  })
+)
 
-// router.post(
-//   '/fetch-upi-details',
-//   trimRequest.all,
-//   verifyJWT,
-//   FetchUPIDetailsController.verifyUPIDetails
-// )
+// PAN Advance Verification
+router.post(
+  '/pan-advance-verification',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: PANAdvanceController.verifyPanCard,
+    mock: PANAdvanceController.verifyPanCardTest
+  })
+)
 
-// router.post(
-//   '/test/fetch-upi-details',
-//   trimRequest.all,
-//   FetchUPIDetailsController.verifyUPIDetailsTest
-// )
+// PAN UDYAM MSME Status
+router.post(
+  '/pan-udyam-msme-status',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: PANUDYAMMSMEController.verifyPANUDYAMMSMEStatus,
+    mock: PANUDYAMMSMEController.verifyPANUDYAMMSMEStatusTest
+  })
+)
 
-router.post('/fetch-upi-details', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return FetchUPIDetailsController.verifyUPIDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      FetchUPIDetailsController.verifyUPIDetails(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/mobile-to-rc',
-//   trimRequest.all,
-//   verifyJWT,
-//   VerifyRCWithMobileController.verifyRC
-// )
-
-// router.post(
-//   '/test/mobile-to-rc',
-//   trimRequest.all,
-//   VerifyRCWithMobileController.verifyRCTest
-// )
-
-router.post('/mobile-to-rc', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return VerifyRCWithMobileController.verifyRCTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      VerifyRCWithMobileController.verifyRC(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/mobile-to-bank',
-//   verifyJWT,
-//   trimRequest.all,
-//   VerifyBankWithMobileController.verifyBankDetails
-// )
-
-// router.post(
-//   '/test/mobile-to-bank',
-//   trimRequest.all,
-//   VerifyBankWithMobileController.verifyBankDetailsTest
-// )
-router.post('/mobile-to-bank', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return VerifyBankWithMobileController.verifyBankDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      VerifyBankWithMobileController.verifyBankDetails(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/pan-to-uan',
-//   trimRequest.all,
-//   verifyJWT,
-//   PANToUANController.verifyUANWithPAN
-// )
-router.post('/pan-to-uan', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return PANToUANController.verifyUANWithPANTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      PANToUANController.verifyUANWithPAN(req, res, next)
-    })
-  }
-})
-
-router.post('/pan-advance-verification', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return PANAdvanceController.verifyPanCardTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      PANAdvanceController.verifyPanCard(req, res, next)
-    })
-  }
-})
-router.post('/pan-udyam-msme-status', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return PANUDYAMMSMEController.verifyPANUDYAMMSMEStatusTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      PANUDYAMMSMEController.verifyPANUDYAMMSMEStatus(req, res, next)
-    })
-  }
-})
-
+// Mobile to UAN
 router.post(
   '/mobile-to-uan',
   trimRequest.all,
   verifyJWT,
-  MobileToUANController.verifyUANWithMobile
+  controllerSelector({
+    real: MobileToUANController.verifyUANWithMobile,
+    mock: MobileToUANController.verifyUANWithMobile // Ensure there's a test version if needed
+  })
 )
 
-router.post('/mobile-to-uan', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return MobileToUANController.verifyUANWithMobile(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      MobileToUANController.verifyUANWithMobile(req, res, next)
-    })
-  }
-})
+// Passport
+router.post(
+  '/passport',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: verifyPassportController.verifPassport,
+    mock: verifyPassportController.verifyPassportTest
+  })
+)
 
-// router.post(
-//   '/passport',
-//   trimRequest.all,
-//   verifyJWT,
-//   verifyPassportController.verifPassport
-// )
+// RC to Mobile
+router.post(
+  '/rc-to-mobile',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: VerifyMobileWithRCController.verifyMobile,
+    mock: VerifyMobileWithRCController.verifyMobileTest
+  })
+)
 
-// router.post(
-//   '/test/passport',
-//   trimRequest.all,
-//   verifyPassportController.verifyPassportTest
-// )
+// Ration Card
+router.post(
+  '/ration-card',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: rationCardVerificationController.verifyRationCard,
+    mock: rationCardVerificationController.verifyRationCardTest
+  })
+)
 
-router.post('/passport', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return verifyPassportController.verifyPassportTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      verifyPassportController.verifPassport(req, res, next)
-    })
-  }
-})
+// TAN Verification
+router.post(
+  '/tan',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: TanVerifcationController.verifyTANDetails,
+    mock: TanVerifcationController.verifyTANDetailsTest
+  })
+)
 
-// router.post(
-//   '/rc-to-mobile',
-//   trimRequest.all,
-//   verifyJWT,
-//   VerifyMobileWithRCController.verifyMobile
-// )
+// TAN Company Search
+router.post(
+  '/tan-company-search',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: TanCompanySearchController.searchCompanyTan,
+    mock: TanCompanySearchController.searchCompanyTanTest
+  })
+)
 
-// router.post(
-//   '/test/rc-to-mobile',
-//   trimRequest.all,
-//   VerifyMobileWithRCController.verifyMobileTest
-// )
+// Telecom Verification
+router.post(
+  '/telecom-verification',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: TelecomVerifcationController.verifyTelecomDetails,
+    mock: TelecomVerifcationController.verifyTelecomDetailsTest
+  })
+)
 
-router.post('/rc-to-mobile', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return VerifyMobileWithRCController.verifyMobileTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      VerifyMobileWithRCController.verifyMobile(req, res, next)
-    })
-  }
-})
+// TIN Verification
+router.post(
+  '/tin-verification',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: TINVerifcationController.verifyTINDetails,
+    mock: TINVerifcationController.verifyTINDetailsTest
+  })
+)
 
-// router.post(
-//   '/ration-card',
-//   trimRequest.all,
-//   verifyJWT,
-//   rationCardVerificationController.verifyRationCard
-// )
+// Udyog Aadhaar
+router.post(
+  '/udyog-aadhaar',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: UdyogAadhaarVerifcationController.verifyUdyogAadhaar,
+    mock: UdyogAadhaarVerifcationController.verifyUdyogAadhaarTest
+  })
+)
 
-// router.post(
-//   '/test/ration-card',
-//   trimRequest.all,
-//   rationCardVerificationController.verifyRationCardTest
-// )
+// Echallan
+router.post(
+  '/echallan',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: EchallanController.verifyEchallan,
+    mock: EchallanController.verifyEchallanTest
+  })
+)
 
-router.post('/ration-card', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return rationCardVerificationController.verifyRationCardTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      rationCardVerificationController.verifyRationCard(req, res, next)
-    })
-  }
-})
+// Aadhaar PAN Link
+router.post(
+  '/aadhaar-pan-link',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: VerifyPanWithAadhaarController.VerifyPanWithAadhaar,
+    mock: VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest
+  })
+)
 
-// router.post(
-//   '/tan',
-//   trimRequest.all,
-//   verifyJWT,
-//   TanVerifcationController.verifyTANDetails
-// )
+// Aadhaar UAN Link
+router.post(
+  '/aadhaar-uan-link',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: VerifyUANWithAadhaarController.VerifyUANWithAadhaar,
+    mock: VerifyUANWithAadhaarController.VerifyUANWithAadhaarTest
+  })
+)
 
-// router.post(
-//   '/test/tan',
-//   trimRequest.all,
-//   TanVerifcationController.verifyTANDetailsTest
-// )
+// DIN Verification
+router.post(
+  '/din-verification',
+  trimRequest.all,
+  verifyJWT,
+  controllerSelector({
+    real: DirectorVerification.verifyDIN,
+    mock: DirectorVerification.verifyDINTest
+  })
+)
 
-router.post('/tan', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return TanVerifcationController.verifyTANDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      TanVerifcationController.verifyTANDetails(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/tan-company-search',
-//   trimRequest.all,
-//   verifyJWT,
-//   TanCompanySearchController.searchCompanyTan
-// )
-
-// router.post(
-//   '/test/tan-company-search',
-//   trimRequest.all,
-//   TanCompanySearchController.searchCompanyTanTest
-// )
-
-router.post('/tan-company-search', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return TanCompanySearchController.searchCompanyTanTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      TanCompanySearchController.searchCompanyTan(req, res, next)
-    })
-  }
-})
-// router.post(
-//   '/telecom-verification',
-//   trimRequest.all,
-//   verifyJWT,
-//   TelecomVerifcationController.verifyTelecomDetails
-// )
-
-// router.post(
-//   '/test/telecom-verification',
-//   trimRequest.all,
-//   TelecomVerifcationController.verifyTelecomDetailsTest
-// )
-
-router.post('/telecom-verification', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return TelecomVerifcationController.verifyTelecomDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      TelecomVerifcationController.verifyTelecomDetails(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/tin-verification',
-//   trimRequest.all,
-//   verifyJWT,
-//   TINVerifcationController.verifyTINDetails
-// )
-
-// router.post(
-//   '/test/tin-verification',
-//   trimRequest.all,
-//   TINVerifcationController.verifyTINDetailsTest
-// )
-
-router.post('/tin-verification', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return TINVerifcationController.verifyTINDetailsTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      TINVerifcationController.verifyTINDetails(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/udyog-aadhaar',
-//   trimRequest.all,
-//   verifyJWT,
-//   UdyogAadhaarVerifcationController.verifyUdyogAadhaar
-// )
-
-// router.post(
-//   '/test/udyog-aadhaar',
-//   trimRequest.all,
-//   UdyogAadhaarVerifcationController.verifyUdyogAadhaarTest
-// )
-
-router.post('/udyog-aadhaar', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return UdyogAadhaarVerifcationController.verifyUdyogAadhaarTest(
-      req,
-      res,
-      next
-    )
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      UdyogAadhaarVerifcationController.verifyUdyogAadhaar(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/echallan',
-//   trimRequest.all,
-//   verifyJWT,
-//   EchallanController.verifyEchallan
-// )
-
-// router.post(
-//   '/test/echallan',
-//   trimRequest.all,
-//   EchallanController.verifyEchallanTest
-// )
-
-router.post('/echallan', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return EchallanController.verifyEchallanTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      EchallanController.verifyEchallan(req, res, next)
-    })
-  }
-})
-
-// router.post(
-//   '/aadhaar-pan-link',
-//   trimRequest.all,
-//   verifyJWT,
-//   VerifyPanWithAadhaarController.VerifyPanWithAadhaar
-// )
-
-// router.post(
-//   '/test/aadhaar-pan-link',
-//   trimRequest.all,
-//   VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest
-// )
-
-router.post('/aadhaar-pan-link', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return VerifyPanWithAadhaarController.VerifyPanWithAadhaarTest(
-      req,
-      res,
-      next
-    )
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      VerifyPanWithAadhaarController.VerifyPanWithAadhaar(req, res, next)
-    })
-  }
-})
-// router.post(
-//   '/aadhaar-uan-link',
-//   trimRequest.all,
-//   verifyJWT,
-//   VerifyUANWithAadhaarController.VerifyUANWithAadhaar
-// )
-
-// router.post(
-//   '/test/aadhaar-uan-link',
-//   trimRequest.all,
-//   VerifyUANWithAadhaarController.VerifyUANWithAadhaarTest
-// )
-router.post('/aadhaar-uan-link', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return VerifyUANWithAadhaarController.VerifyUANWithAadhaarTest(
-      req,
-      res,
-      next
-    )
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      VerifyUANWithAadhaarController.VerifyUANWithAadhaar(req, res, next)
-    })
-  }
-})
-router.post('/din-verification', trimRequest.all, (req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    // Skip JWT verification and go directly to test controller
-    return DirectorVerification.verifyDINTest(req, res, next)
-  } else {
-    // Verify JWT and continue to the real controller
-    verifyJWT(req, res, () => {
-      DirectorVerification.verifyDIN(req, res, next)
-    })
-  }
-})
-
+// Dynamic
 router.post(
   '/dynamic',
   trimRequest.all,
@@ -1126,6 +616,8 @@ router.post(
     ? DynamicController.verifyDocumentTest
     : DynamicController.verifyDocument
 )
+
+// Dashboard Analytics
 router.post('/dashboard-analytics', trimRequest.all, getDashboardAnalytics)
 
 module.exports = router
