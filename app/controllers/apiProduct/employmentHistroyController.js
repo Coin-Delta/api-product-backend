@@ -29,18 +29,22 @@ class EmploymentHistoryController {
       })
 
       console.log('apiResponse controller:', apiResponse)
+      const referenceApiId = '6818b79caf033a39cd7c704b'
 
-      return ResponseHelper.success(
+      return ResponseHelper.employmentCompositeAPIsuccess(
         res,
         apiResponse,
         responseMessage || `${documentType} Verification successful`,
         statusCode,
         remark,
         referenceId,
-        messageCode
+        messageCode,
+        referenceApiId
       )
     } catch (error) {
       if (error instanceof BaseError) {
+        const referenceApiId = '6818b79caf033a39cd7c704b'
+
         console.log('error details:', {
           message: error.message,
           statusCode: error.statusCode,
@@ -63,10 +67,11 @@ class EmploymentHistoryController {
             },
             error.remark,
             null,
-            error.messageCode
+            error.messageCode,
+            referenceApiId
           )
         }
-        return ResponseHelper.error(
+        return ResponseHelper.employmentCompositeAPIError(
           res,
           error.message,
           error.statusCode,
@@ -79,7 +84,8 @@ class EmploymentHistoryController {
           },
           error.remark,
           null,
-          error.messageCode
+          error.messageCode,
+          referenceApiId
         )
       }
 
@@ -104,19 +110,28 @@ class EmploymentHistoryController {
       const mockResponse = documentData
         ? MOCK_RESPONSES.employment_history_uan.success.data
         : MOCK_RESPONSES.employment_history_uan.failure.data
+      const referenceApiId = '6818b79caf033a39cd7c704b'
 
       return mockResponse.success
-        ? ResponseHelper.success(
+        ? ResponseHelper.employmentCompositeAPIsuccess(
             res,
             mockResponse.data,
             mockResponse.message,
-            mockResponse.status_code
+            mockResponse.status_code,
+            null,
+            null,
+            null,
+            referenceApiId
           )
-        : ResponseHelper.error(
+        : ResponseHelper.employmentCompositeAPIError(
             res,
             mockResponse.message,
             mockResponse.status_code,
-            mockResponse.data
+            mockResponse.data,
+            null,
+            null,
+            null,
+            referenceApiId
           )
     } catch (error) {
       console.log(error)
