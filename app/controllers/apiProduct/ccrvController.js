@@ -172,13 +172,14 @@ class ccrvController {
           console.log(
             `Payment processed for transaction ID: ${apiResponse.transaction_id}`
           )
-
+          const apiId = fetchApiDetails._id
           // Return the complete response
-          return ResponseHelper.success(
+          return ResponseHelper.customSuccess(
             res,
             finalResult.apiResponse,
             `${documentType} Verification successful`,
-            finalResult.statusCode
+            finalResult.statusCode,
+            apiId
           )
         } catch (txError) {
           await session.abortTransaction()
@@ -194,7 +195,7 @@ class ccrvController {
           : `${documentType} Verification in progress - please check status later`
 
         // In case of timeout, we'll return the original apiResponse with proper status
-        return ResponseHelper.success(
+        return ResponseHelper.customSuccess(
           res,
           {
             ...apiResponse,
@@ -202,7 +203,8 @@ class ccrvController {
             _statusMessage: statusMessage
           },
           statusMessage,
-          isCompleted ? 200 : 202 // Use 202 Accepted for in-progress
+          isCompleted ? 200 : 202, // Use 202 Accepted for in-progress,
+          apiId
         )
       }
     } catch (error) {
@@ -210,14 +212,21 @@ class ccrvController {
         console.log('error msg:', error.message)
         console.log('full err:', error)
         if (documentType) {
-          return ResponseHelper.error(
+          return ResponseHelper.customError(
             res,
             `${documentType} Verification failed`,
             error.statusCode,
-            error
+            error,
+            apiId
           )
         }
-        return ResponseHelper.error(res, error.message, error.statusCode, error)
+        return ResponseHelper.customError(
+          res,
+          error.message,
+          error.statusCode,
+          error,
+          apiId
+        )
       }
       return ResponseHelper.serverError(res, error)
     }
@@ -232,19 +241,21 @@ class ccrvController {
       const mockResponse = documentData
         ? MOCK_RESPONSES.verify_ccrv_request.success.data
         : MOCK_RESPONSES.verify_ccrv_request.failure.data
-
+      const apiId = req.body.apiId
       return mockResponse.success
-        ? ResponseHelper.success(
+        ? ResponseHelper.customSuccess(
             res,
             mockResponse.data,
             mockResponse.message,
-            mockResponse.status_code
+            mockResponse.status_code,
+            apiId
           )
-        : ResponseHelper.error(
+        : ResponseHelper.customError(
             res,
             mockResponse.message,
             mockResponse.status_code,
-            mockResponse.data
+            mockResponse.data,
+            apiId
           )
     } catch (error) {
       console.log(error)
