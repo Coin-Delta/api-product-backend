@@ -120,6 +120,7 @@ class EmploymentHistoryController {
             mockResponse.status_code,
             null,
             null,
+            null,
             referenceApiId
           )
         : ResponseHelper.employmentCompositeAPIError(
@@ -127,6 +128,7 @@ class EmploymentHistoryController {
             mockResponse.message,
             mockResponse.status_code,
             mockResponse.data,
+            null,
             null,
             null,
             referenceApiId
