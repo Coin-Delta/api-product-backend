@@ -21,6 +21,43 @@ class ResponseHelper {
       timestamp: new Date().toISOString()
     })
   }
+  static employmentCompositeAPIsuccess(
+    res,
+    data = null,
+    message = 'Success',
+    statusCode = 200,
+    remark = null,
+    referenceId = null,
+    messageCode,
+    apiId
+  ) {
+    return res.status(statusCode).json({
+      success: true,
+      message,
+      data,
+      remark,
+      referenceId,
+      message,
+      messageCode,
+      apiId,
+      timestamp: new Date().toISOString()
+    })
+  }
+  static customSuccess(
+    res,
+    data = null,
+    message = 'Success',
+    statusCode = 200,
+    apiId = null
+  ) {
+    return res.status(statusCode).json({
+      success: true,
+      message,
+      data,
+      apiId,
+      timestamp: new Date().toISOString()
+    })
+  }
 
   static error(
     res,
@@ -46,6 +83,59 @@ class ResponseHelper {
       messageCode: finalMessageCode,
       remark: finalRemark,
       referenceId,
+      timestamp: new Date().toISOString()
+    })
+  }
+  static employmentCompositeAPIError(
+    res,
+    message = 'Error occurred',
+    statusCode = 400,
+    errorDetails = null,
+    remark = null,
+    referenceId = null,
+    messageCode = null,
+    apiId
+  ) {
+    console.log('API Error:', { message, statusCode, errorDetails })
+
+    // Handle case where errorDetails is an object with additional info
+    const errors = errorDetails?.error || errorDetails
+    const errMsg = errorDetails?.error || message
+    const finalMessageCode = errorDetails?.messageCode || messageCode
+    const finalRemark = errorDetails?.remark || remark
+
+    return res.status(statusCode).json({
+      success: false,
+      message: errMsg,
+      error: errors,
+      messageCode: finalMessageCode,
+      remark: finalRemark,
+      referenceId,
+      apiId,
+      timestamp: new Date().toISOString()
+    })
+  }
+
+  static customError(
+    res,
+    message = 'Error occurred',
+    statusCode = 400,
+    errorDetails = null,
+    apiId = null
+  ) {
+    console.log('API Error:', { message, statusCode, errorDetails })
+
+    // Handle case where errorDetails is an object with additional info
+    const errors = errorDetails?.error || errorDetails
+    const errMsg = errorDetails?.error || message
+    const finalMessageCode = errorDetails?.messageCode || messageCode
+
+    return res.status(statusCode).json({
+      success: false,
+      message: errMsg,
+      error: errors,
+      messageCode: finalMessageCode,
+      apiId,
       timestamp: new Date().toISOString()
     })
   }
