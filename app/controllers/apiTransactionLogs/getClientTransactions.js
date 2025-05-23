@@ -1,4 +1,5 @@
 const APITransaction = require('../../models/apiTransaction')
+const API = require('../../models/api') // Add this import
 const mongoose = require('mongoose')
 
 /**
@@ -84,15 +85,23 @@ const getClientTransactions = async (req, res) => {
     const skip = (parsedPage - 1) * parsedLimit
 
     // Execute the main query
-    const transactions = await APITransaction.find(query, projection)
+    let transactions = await APITransaction.find(query, projection)
       .sort(sortOption)
       .skip(skip)
       .limit(parsedLimit)
       .populate([
-        { path: 'initiatedBy', select: 'name email' },
-        { path: 'initiatedByRoleId', select: 'name' }
+        { path: 'apiId', select: 'name' } // Add this populate
       ])
       .lean()
+
+    // Map through transactions to add apiName
+    transactions = transactions.map((transaction) => {
+      return {
+        ...transaction,
+        apiName: transaction.apiId?.name || null,
+        apiId: transaction.apiId?._id || null
+      }
+    })
 
     // Calculate pagination metadata
     const totalPages = Math.ceil(totalDocuments / parsedLimit)
