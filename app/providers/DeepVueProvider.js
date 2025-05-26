@@ -78,7 +78,7 @@ class DeepVueProvider extends BaseProvider {
         authType: AUTH_TYPES.TOKEN_API_KEY
       },
       [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]: {
-        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
+        baseUrl: process.env.DEEPVUE_BASE_URL_V2,
         authType: AUTH_TYPES.TOKEN_API_KEY
       }
     }
