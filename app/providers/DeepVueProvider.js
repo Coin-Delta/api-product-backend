@@ -36,6 +36,7 @@ class DeepVueProvider extends BaseProvider {
         '/financial-services/credit-bureau/credit-report',
       [DOCUMENT_TYPES.AADHAAR_TO_UAN]: '/verification/epfo/aadhaar-to-uan',
       [DOCUMENT_TYPES.PAN_TO_UAN]: '/verification/epfo/pan-to-uan',
+      [DOCUMENT_TYPES.PASSPORT]: '/verification/passport',
       [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]:
         '/verification/epfo/uan-to-employment-history'
       // Add other document types as needed by DeepVue
@@ -79,6 +80,10 @@ class DeepVueProvider extends BaseProvider {
       },
       [DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN]: {
         baseUrl: process.env.DEEPVUE_BASE_URL_V2,
+        authType: AUTH_TYPES.TOKEN_API_KEY
+      },
+      [DOCUMENT_TYPES.PASSPORT]: {
+        baseUrl: process.env.DEEPVUE_BASE_URL_V1,
         authType: AUTH_TYPES.TOKEN_API_KEY
       }
     }
@@ -229,6 +234,14 @@ class DeepVueProvider extends BaseProvider {
         break
       case DOCUMENT_TYPES.EMPLOYMENT_HISTORY_UAN:
         url = `${url}?uan_number=${data.id_number}`
+        method = 'GET'
+        requestData = null
+        break
+      case DOCUMENT_TYPES.PASSPORT:
+        const [day, month, year] = data.dob.split('-')
+        // Convert to YYYY-MM-DD
+        const formattedDob = `${year}-${month}-${day}`
+        url = `${url}?file_number=${data.fileNumber}&dob=${formattedDob}`
         method = 'GET'
         requestData = null
         break
