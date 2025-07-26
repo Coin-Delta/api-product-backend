@@ -79,9 +79,16 @@ class APIController {
       if (fetchAll) {
         // Fetch all matching APIs without pagination
         const apis = await API.find(query).populate('vendor').lean()
-        const totalDocs = apis.length
+
+        // Add id field to each API document
+        const apisWithId = apis.map((api) => ({
+          ...api,
+          id: api._id
+        }))
+
+        const totalDocs = apisWithId.length
         const paginatedResult = {
-          docs: apis,
+          docs: apisWithId,
           totalDocs,
           page: 1,
           limit: totalDocs,
