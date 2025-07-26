@@ -40,6 +40,9 @@ class APIController {
       const allowedApis = user?.configurations?.apiCatalog?.allowedApis || []
       console.log(allowedApis.length)
 
+      // Check if 'all' query param is set to 'true'
+      const fetchAll = req.query.all === 'true'
+
       // Ensure limit is a number and between 1-100
       let limit = parseInt(req.query.limit) || 10
       limit = Math.min(Math.max(limit, 1), 100)
@@ -53,13 +56,6 @@ class APIController {
         return ResponseHelper.success(res, [], 'APIs are not allowed to access')
       }
 
-      const options = {
-        page,
-        limit,
-        populate: 'vendor',
-        lean: true // For better performance
-      }
-
       // Build the query object
       let query = {}
 
@@ -68,13 +64,8 @@ class APIController {
         query.category = req.query.category
       }
 
-      let result
-      // If user has access to all APIs
-      if (isUserHavingAccessToAllApis) {
-        // Apply only the category filter if it exists
-        result = await API.paginate(query, options)
-      } else {
-        // If user has access to specific APIs only
+      // If user does not have access to all APIs, restrict to allowedApis
+      if (!isUserHavingAccessToAllApis) {
         if (!allowedApis.length) {
           return ResponseHelper.success(
             res,
@@ -82,10 +73,46 @@ class APIController {
             'No APIs are configured for access'
           )
         }
-        // Combine the category filter with the allowedApis filter
         query._id = { $in: allowedApis }
-        result = await API.paginate(query, options)
       }
+
+      if (fetchAll) {
+        // Fetch all matching APIs without pagination
+        const apis = await API.find(query).populate('vendor').lean()
+
+        // Add id field to each API document
+        const apisWithId = apis.map((api) => ({
+          ...api,
+          id: api._id
+        }))
+
+        const totalDocs = apisWithId.length
+        const paginatedResult = {
+          docs: apisWithId,
+          totalDocs,
+          page: 1,
+          limit: totalDocs,
+          totalPages: 1,
+          nextPage: null,
+          prevPage: null,
+          hasNextPage: false,
+          hasPrevPage: false
+        }
+        return ResponseHelper.success(
+          res,
+          paginatedResult,
+          'All matching APIs retrieved successfully'
+        )
+      }
+
+      const options = {
+        page,
+        limit,
+        populate: 'vendor',
+        lean: true // For better performance
+      }
+
+      const result = await API.paginate(query, options)
 
       const paginatedResult = {
         docs: result.docs,
