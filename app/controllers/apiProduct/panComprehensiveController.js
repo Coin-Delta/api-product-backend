@@ -25,32 +25,46 @@ class PANComprehensiveController {
       // console.log('req:', req)
       console.log('apiResponse controller:', apiResponse)
 
-      return ResponseHelper.success(
+      return ResponseHelper.customSuccess(
         res,
         apiResponse,
         `${documentType} Verification successfull`,
-        statusCode
+        statusCode,
+        apiId
       )
     } catch (error) {
       if (error instanceof BaseError) {
         console.log('error msg:', error.message)
         console.log('full err:', error)
         if (documentType) {
-          return ResponseHelper.error(
+          return ResponseHelper.customError(
             res,
             `${documentType} Verification failed`,
             error.statusCode,
-            error
+            error,
+            apiId
           )
         }
-        return ResponseHelper.error(res, error.message, error.statusCode, error)
+        return ResponseHelper.customError(
+          res,
+          error.message,
+          error.statusCode,
+          error,
+          apiId
+        )
       }
-      return ResponseHelper.serverError(res, error)
+      return ResponseHelper.customError(
+        res,
+        'Internal server error',
+        500,
+        error,
+        apiId
+      )
     }
   }
   static async verifyPanCardTest(req, res) {
     try {
-      const { documentData } = req.body
+      const { documentData, apiId } = req.body
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
@@ -58,21 +72,29 @@ class PANComprehensiveController {
         : MOCK_RESPONSES.pan_comprehensive.failure.data
 
       return mockResponse.success
-        ? ResponseHelper.success(
+        ? ResponseHelper.customSuccess(
             res,
             mockResponse.data,
             mockResponse.message,
-            mockResponse.status_code
+            mockResponse.status_code,
+            apiId
           )
-        : ResponseHelper.error(
+        : ResponseHelper.customError(
             res,
             mockResponse.message,
             mockResponse.status_code,
-            mockResponse.data
+            mockResponse.data,
+            apiId
           )
     } catch (error) {
       console.log(error)
-      return ResponseHelper.serverError(res, error)
+      return ResponseHelper.customError(
+        res,
+        'Internal server error',
+        500,
+        error,
+        apiId
+      )
     }
   }
 }

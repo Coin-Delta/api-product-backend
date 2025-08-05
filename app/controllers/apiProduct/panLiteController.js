@@ -6,8 +6,10 @@ const MOCK_RESPONSES = require('../../utils/mockData')
 class PANLiteController {
   static async verifyPANLite(req, res) {
     let documentType
+    let apiId
     try {
-      const { apiId, documentData } = req.body
+      const { apiId: reqApiId, documentData } = req.body
+      apiId = reqApiId
       const { bcaId: clientId } = req.user
 
       const apiDetails = await APIService.getAPIDetails(apiId)
@@ -30,14 +32,12 @@ class PANLiteController {
 
       console.log('apiResponse controller:', apiResponse)
 
-      return ResponseHelper.success(
+      return ResponseHelper.customSuccess(
         res,
         apiResponse,
         responseMessage || `${documentType} Verification successful`,
         statusCode,
-        remark,
-        referenceId,
-        messageCode
+        apiId
       )
     } catch (error) {
       if (error instanceof BaseError) {
@@ -50,7 +50,7 @@ class PANLiteController {
         })
 
         if (documentType) {
-          return ResponseHelper.error(
+          return ResponseHelper.customError(
             res,
             error.message || `${documentType} Verification failed`,
             error.statusCode,
@@ -61,12 +61,10 @@ class PANLiteController {
               stack:
                 process.env.NODE_ENV === 'development' ? error.stack : undefined
             },
-            error.remark,
-            null,
-            error.messageCode
+            apiId
           )
         }
-        return ResponseHelper.error(
+        return ResponseHelper.customError(
           res,
           error.message,
           error.statusCode,
@@ -77,14 +75,12 @@ class PANLiteController {
             stack:
               process.env.NODE_ENV === 'development' ? error.stack : undefined
           },
-          error.remark,
-          null,
-          error.messageCode
+          apiId
         )
       }
 
       // For non-BaseError errors
-      return ResponseHelper.serverError(
+      return ResponseHelper.customError(
         res,
         error.message,
         error.status || 500,
@@ -92,13 +88,16 @@ class PANLiteController {
           error: error.message,
           stack:
             process.env.NODE_ENV === 'development' ? error.stack : undefined
-        }
+        },
+        apiId
       )
     }
   }
   static async verifyPanLiteTest(req, res) {
+    let apiId
     try {
-      const { documentData } = req.body
+      const { documentData, apiId: reqApiId } = req.body
+      apiId = reqApiId
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
@@ -106,21 +105,29 @@ class PANLiteController {
         : MOCK_RESPONSES.pan_lite.failure.data
 
       return mockResponse.success
-        ? ResponseHelper.success(
+        ? ResponseHelper.customSuccess(
             res,
             mockResponse.data,
             mockResponse.message,
-            mockResponse.status_code
+            mockResponse.status_code,
+            apiId
           )
-        : ResponseHelper.error(
+        : ResponseHelper.customError(
             res,
             mockResponse.message,
             mockResponse.status_code,
-            mockResponse.data
+            mockResponse.data,
+            apiId
           )
     } catch (error) {
       console.log(error)
-      return ResponseHelper.serverError(res, error)
+      return ResponseHelper.customError(
+        res,
+        'Internal server error',
+        500,
+        error,
+        apiId
+      )
     }
   }
 }
