@@ -6,8 +6,10 @@ const MOCK_RESPONSES = require('../../utils/mockData')
 class BankVerificationPennylessController {
   static async verifyBankDetails(req, res) {
     let documentType
+    let apiId
     try {
-      const { apiId, documentData } = req.body
+      const { apiId: reqApiId, documentData } = req.body
+      apiId = reqApiId
       const { bcaId: clientId } = req.user
 
       const apiDetails = await APIService.getAPIDetails(apiId)
@@ -31,14 +33,18 @@ class BankVerificationPennylessController {
 
       console.log('apiResponse controller:', apiResponse)
 
-      return ResponseHelper.success(
+      // Add account_no to the response data
+      const modifiedApiResponse = {
+        ...apiResponse,
+        account_no: documentData.id_number
+      }
+
+      return ResponseHelper.customSuccess(
         res,
-        apiResponse,
+        modifiedApiResponse,
         responseMessage || `${documentType} Verification successful`,
         statusCode,
-        remark,
-        referenceId,
-        messageCode
+        apiId
       )
     } catch (error) {
       if (error instanceof BaseError) {
@@ -99,19 +105,26 @@ class BankVerificationPennylessController {
   }
   static async verifyBankDetailsTest(req, res) {
     try {
-      const { documentData } = req.body
+      const { apiId, documentData } = req.body
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
         ? MOCK_RESPONSES.bank_verification_pennyless.success.data
         : MOCK_RESPONSES.bank_verification_pennyless.failure.data
 
+      // Add account_no to the mock response data
+      const modifiedMockData = {
+        ...mockResponse.data,
+        account_no: documentData?.id_number || null
+      }
+
       return mockResponse.success
-        ? ResponseHelper.success(
+        ? ResponseHelper.customSuccess(
             res,
-            mockResponse.data,
+            modifiedMockData,
             mockResponse.message,
-            mockResponse.status_code
+            mockResponse.status_code,
+            apiId
           )
         : ResponseHelper.error(
             res,
