@@ -6,8 +6,10 @@ const MOCK_RESPONSES = require('../../utils/mockData')
 class PANAdvanceController {
   static async verifyPanCard(req, res) {
     let documentType
+    let apiId
     try {
-      const { apiId, documentData } = req.body
+      const { apiId: reqApiId, documentData } = req.body
+      apiId = reqApiId
       const { bcaId: clientId } = req.user
 
       const apiDetails = await APIService.getAPIDetails(apiId)
@@ -98,8 +100,8 @@ class PANAdvanceController {
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
-        ? MOCK_RESPONSES.pan_advance_verification.success.data
-        : MOCK_RESPONSES.pan_advance_verification.failure.data
+        ? MOCK_RESPONSES.pan_advance.success.data
+        : MOCK_RESPONSES.pan_advance.failure.data
 
       return mockResponse.success
         ? ResponseHelper.customSuccess(
@@ -118,13 +120,7 @@ class PANAdvanceController {
           )
     } catch (error) {
       console.log(error)
-      return ResponseHelper.customError(
-        res,
-        'Internal server error',
-        500,
-        error,
-        apiId
-      )
+      return ResponseHelper.serverError(res, error)
     }
   }
 }
