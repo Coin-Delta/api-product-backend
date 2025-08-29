@@ -12,8 +12,8 @@ class SurepassProvider extends BaseProvider {
       [DOCUMENT_TYPES.RCTEXT]: '/rc/rc-full',
       [DOCUMENT_TYPES.PAN_LITE]: '/pan/pan',
       [DOCUMENT_TYPES.PAN_COMPREHENSIVE]: '/pan/pan-comprehensive',
-      [DOCUMENT_TYPES.BANK_VERIFICACTION]: '/bank-verification',
-      [DOCUMENT_TYPES.BANK_VERIFICACTION_PENNYLESS]:
+      [DOCUMENT_TYPES.BANK_VERIFICATION]: '/bank-verification',
+      [DOCUMENT_TYPES.BANK_VERIFICATION_PENNYLESS]:
         '/bank-verification/pennyless',
       [DOCUMENT_TYPES.CORPORATE_CIN]: '/corporate/company-details',
       [DOCUMENT_TYPES.CORPORATE_GSTIN]: '/corporate/gstin',

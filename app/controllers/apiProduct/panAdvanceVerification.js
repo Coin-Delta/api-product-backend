@@ -31,14 +31,12 @@ class PANAdvanceController {
 
       console.log('apiResponse controller:', apiResponse)
 
-      return ResponseHelper.success(
+      return ResponseHelper.customSuccess(
         res,
         apiResponse,
         responseMessage || `${documentType} Verification successful`,
         statusCode,
-        remark,
-        referenceId,
-        messageCode
+        apiId
       )
     } catch (error) {
       if (error instanceof BaseError) {
@@ -51,7 +49,7 @@ class PANAdvanceController {
         })
 
         if (documentType) {
-          return ResponseHelper.error(
+          return ResponseHelper.customError(
             res,
             error.message || `${documentType} Verification failed`,
             error.statusCode,
@@ -62,12 +60,10 @@ class PANAdvanceController {
               stack:
                 process.env.NODE_ENV === 'development' ? error.stack : undefined
             },
-            error.remark,
-            null,
-            error.messageCode
+            apiId
           )
         }
-        return ResponseHelper.error(
+        return ResponseHelper.customError(
           res,
           error.message,
           error.statusCode,
@@ -78,14 +74,12 @@ class PANAdvanceController {
             stack:
               process.env.NODE_ENV === 'development' ? error.stack : undefined
           },
-          error.remark,
-          null,
-          error.messageCode
+          apiId
         )
       }
 
       // For non-BaseError errors
-      return ResponseHelper.serverError(
+      return ResponseHelper.customError(
         res,
         error.message,
         error.status || 500,
@@ -93,13 +87,14 @@ class PANAdvanceController {
           error: error.message,
           stack:
             process.env.NODE_ENV === 'development' ? error.stack : undefined
-        }
+        },
+        apiId
       )
     }
   }
   static async verifyPanCardTest(req, res) {
     try {
-      const { documentData } = req.body
+      const { documentData, apiId } = req.body
 
       // Return success or failure mock response based on whether documentData is provided
       const mockResponse = documentData
@@ -107,21 +102,29 @@ class PANAdvanceController {
         : MOCK_RESPONSES.pan_advance_verification.failure.data
 
       return mockResponse.success
-        ? ResponseHelper.success(
+        ? ResponseHelper.customSuccess(
             res,
             mockResponse.data,
             mockResponse.message,
-            mockResponse.status_code
+            mockResponse.status_code,
+            apiId
           )
-        : ResponseHelper.error(
+        : ResponseHelper.customError(
             res,
             mockResponse.message,
             mockResponse.status_code,
-            mockResponse.data
+            mockResponse.data,
+            apiId
           )
     } catch (error) {
       console.log(error)
-      return ResponseHelper.serverError(res, error)
+      return ResponseHelper.customError(
+        res,
+        'Internal server error',
+        500,
+        error,
+        apiId
+      )
     }
   }
 }

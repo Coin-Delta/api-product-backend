@@ -128,7 +128,7 @@ class ResponseHelper {
     // Handle case where errorDetails is an object with additional info
     const errors = errorDetails?.error || errorDetails
     const errMsg = errorDetails?.error || message
-    const finalMessageCode = errorDetails?.messageCode || messageCode
+    const finalMessageCode = errorDetails?.messageCode || null
 
     return res.status(statusCode).json({
       success: false,
